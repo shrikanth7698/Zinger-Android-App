@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+
+	</data>
+
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="4dp"
+		app:cardElevation="0dp"
+		app:cardBackgroundColor="#F8F8F8"
+		android:orientation="horizontal">
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:animateLayoutChanges="true"
+			android:id="@+id/root"
+			android:background="@drawable/bg_rounded_stroke"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/image_sub"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_gravity="center"
+				android:padding="8dp"
+				android:clickable="true"
+				android:focusable="true"
+				android:src="@drawable/ic_minus"
+				android:foreground="?android:selectableItemBackground"
+				android:visibility="gone" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:background="#40FF6238"
+				android:id="@+id/text_quantity"
+				android:fontFamily="@font/open_sans_semibold"
+				android:paddingStart="8dp"
+				android:paddingTop="4dp"
+				android:paddingEnd="8dp"
+				android:paddingBottom="4dp"
+				android:text="Add"
+				android:textColor="@android:color/black"
+				android:textSize="12dp" />
+
+			<ImageView
+				android:id="@+id/image_add"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:clickable="true"
+				android:focusable="true"
+				android:foreground="?android:selectableItemBackground"
+				android:layout_gravity="center"
+				android:padding="8dp"
+				android:src="@drawable/ic_add" />
+		</LinearLayout>
+
+	</com.google.android.material.card.MaterialCardView>
+</layout>

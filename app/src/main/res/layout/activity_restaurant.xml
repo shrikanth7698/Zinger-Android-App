@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.drawerlayout.widget.DrawerLayout
+		android:id="@+id/drawer_layout"
+		style="MaterialDrawerTheme.Light.ActionBar.TranslucentStatus"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:openDrawer="start">
+
+		<androidx.coordinatorlayout.widget.CoordinatorLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<com.google.android.material.appbar.AppBarLayout
+				android:id="@+id/app_bar"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fitsSystemWindows="true">
+
+
+				<com.google.android.material.appbar.CollapsingToolbarLayout
+					android:id="@+id/toolbar_layout"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:fitsSystemWindows="true"
+					app:collapsedTitleTextAppearance="@style/AppbarTitle2"
+					app:contentScrim="?attr/colorPrimary"
+					app:expandedTitleMarginStart="16dp"
+					app:expandedTitleTextAppearance="@style/AppbarTitle1"
+					app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+					app:title="Sathyas Main Canteen">
+
+
+					<ImageView
+						android:id="@+id/image_expanded"
+						android:layout_width="match_parent"
+						android:layout_height="200dp"
+						android:scaleType="centerCrop"
+						app:layout_collapseMode="parallax"
+						app:layout_collapseParallaxMultiplier="0.7" />
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="200dp"
+						android:background="#BFFF6238" />
+
+					<com.google.android.material.appbar.MaterialToolbar
+						android:id="@+id/toolbar"
+						android:layout_width="match_parent"
+						android:layout_height="?attr/actionBarSize"
+						app:contentInsetStartWithNavigation="0dp"
+						app:layout_collapseMode="pin" >
+
+						<TextView
+							android:id="@+id/text_shop_rating"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="right|center"
+							android:layout_marginStart="16dp"
+							android:layout_marginEnd="16dp"
+							android:drawableStart="@drawable/ic_star_black"
+							android:drawablePadding="4dp"
+							android:fontFamily="@font/open_sans_bold"
+							android:gravity="right"
+							android:text=" 4.5"
+							android:textColor="@android:color/white"
+							android:textStyle="bold" />
+
+					</com.google.android.material.appbar.MaterialToolbar>
+
+
+
+				</com.google.android.material.appbar.CollapsingToolbarLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:paddingStart="16dp"
+					android:paddingTop="8dp"
+					android:paddingBottom="8dp"
+					android:paddingEnd="16dp">
+
+					<!--
+										<TextView
+											android:layout_width="wrap_content"
+											android:layout_height="wrap_content"
+											android:layout_gravity="center"
+											android:fontFamily="@font/poppins_semibold"
+											android:gravity="center|start"
+											android:text="Menu"
+											android:layout_marginEnd="16dp"
+											android:layout_weight="1"
+											android:textColor="@android:color/black"
+											android:textSize="16sp"
+											android:textStyle="bold" />
+					-->
+
+					<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:layout_weight="1"
+						android:background="@drawable/bg_rounded"
+						android:drawableEnd="@drawable/ic_drawer_search_small"
+						android:drawablePadding="8dp"
+						android:fontFamily="@font/open_sans_semibold"
+						android:paddingStart="12dp"
+						android:paddingTop="8dp"
+						android:paddingEnd="12dp"
+						android:paddingBottom="8dp"
+						android:text="Search Menu"
+						android:textSize="12sp" />
+
+					<com.google.android.material.switchmaterial.SwitchMaterial
+						android:layout_width="wrap_content"
+						android:layout_height="40dp"
+						android:layout_gravity="center"
+						android:layout_marginStart="16dp"
+						android:fontFamily="@font/open_sans_semibold"
+						android:gravity="center"
+						android:text="Veg only"
+						android:textStyle="bold"
+						app:switchPadding="8dp"
+						app:thumbTint="@android:color/holo_green_dark"
+						app:trackTint="#CCCCCC" />
+				</LinearLayout>
+
+
+			</com.google.android.material.appbar.AppBarLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recycler_food_items"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clipToPadding="false"
+					tools:listitem="@layout/item_food">
+
+				</androidx.recyclerview.widget.RecyclerView>
+			</LinearLayout>
+
+
+			<!--
+						<com.google.android.material.floatingactionbutton.FloatingActionButton
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							app:layout_anchor="@id/app_bar"
+							android:layout_margin="16dp"
+							app:backgroundTint="@color/colorAccent"
+							android:src="@drawable/ic_drawer_phone_call"
+							android:tint="@android:color/white"
+							app:layout_anchorGravity="bottom|end"/>
+			-->
+
+		</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+	</androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

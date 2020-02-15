@@ -15,6 +15,38 @@
 		<item name="android:textSize">24sp</item>
 	</style>
 
+	<style name="AppbarTitle1" parent="TextAppearance.MaterialComponents.Headline6">
+		<item name="fontFamily">@font/poppins_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:color">#ffffff</item>
+		<item name="android:textSize">24sp</item>
+	</style>
+
+	<style name="AppbarTitle2" parent="TextAppearance.MaterialComponents.Headline6">
+		<item name="fontFamily">@font/poppins_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:color">#000000</item>
+		<item name="android:textSize">20sp</item>
+	</style>
+
+	<style name="SubTitleCollapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+		<item name="fontFamily">@font/open_sans_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:color">#ffffff</item>
+		<item name="android:textSize">11sp</item>
+		<item name="android:drawableStart">@drawable/ic_star_black</item>
+	</style>
+
+	<style name="SubTitleExpanded" parent="TextAppearance.AppCompat.Headline">
+		<item name="fontFamily">@font/open_sans_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:color">#000000</item>
+		<item name="android:textSize">13sp</item>
+		<item name="android:drawableStart">@drawable/ic_star</item>
+	</style>
+
+
+
 	<style name="H6">
 		<item name="fontFamily">@font/poppins_bold</item>
 	</style>

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.food.ordering.swaggy.data.local.Resource;
 import com.food.ordering.swaggy.data.model.Shop;
 import com.food.ordering.swaggy.databinding.ActivityMainBinding;
 import com.food.ordering.swaggy.databinding.HeaderLayoutBinding;
+import com.food.ordering.swaggy.ui.restaurant.RestaurantActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -195,7 +197,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupShopRecyclerView() {
-        shopAdapter = new ShopAdapter(getApplicationContext(), shopList);
+        shopAdapter = new ShopAdapter(getApplicationContext(), shopList, new ShopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Shop item, int position) {
+                Intent intent = new Intent(getApplicationContext(),RestaurantActivity.class);
+                intent.putExtra("shop",item);
+                startActivity(intent);
+            }
+        });
         binding.recyclerShops.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
         binding.recyclerShops.setAdapter(shopAdapter);
     }

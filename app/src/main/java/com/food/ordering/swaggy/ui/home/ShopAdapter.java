@@ -19,10 +19,12 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
 
     private List<Shop> shopList;
     private Context context;
+    private final OnItemClickListener listener;
 
-    public ShopAdapter(Context context, List<Shop> shops) {
+    public ShopAdapter(Context context, List<Shop> shops, OnItemClickListener listener) {
         shopList = shops;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
 
     @Override
     public void onBindViewHolder(ShopViewHolder holder, int position) {
-        holder.bind(shopList.get(position), position);
+        holder.bind(shopList.get(position), position, listener);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
             this.binding = binding;
         }
 
-        public void bind(Shop shop, int position) {
+        public void bind(final Shop shop, final int position, final OnItemClickListener listener) {
             Picasso.get().load(shop.getImageUrl()).into(binding.imageShop);
             binding.textShopName.setText(shop.getName());
             binding.textShopDesc.setText(shop.getDesc());
@@ -58,9 +60,14 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
             binding.layoutRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    listener.onItemClick(shop, position);
                 }
             });
         }
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Shop item, int position);
     }
 }

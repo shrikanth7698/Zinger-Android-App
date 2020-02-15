@@ -56,6 +56,6 @@ public class MainViewModel extends ViewModel {
                 shops.add(shop);
                 _shopsStatus.setValue(new Resource<List<Shop>>().success(shops));
             }
-        },2000);
+        },1000);
     }
 }
