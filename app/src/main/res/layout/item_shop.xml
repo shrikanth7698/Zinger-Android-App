@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<com.google.android.material.card.MaterialCardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="0dp"
+		android:clickable="true"
+		android:focusable="true"
+		android:id="@+id/layout_root"
+		app:cardElevation="0dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/image_shop"
+				android:layout_width="80dp"
+				android:layout_height="80dp"
+				android:layout_margin="16dp"
+				android:scaleType="centerCrop"
+				android:background="#f2f2f2" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginTop="16dp"
+				android:layout_marginBottom="16dp"
+				android:orientation="vertical">
+
+				<TextView
+					android:id="@+id/text_shop_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/poppins_semibold"
+					tools:text="Sathyas Main Canteen"
+					android:textColor="@android:color/black"
+					android:textSize="16sp"
+					android:textStyle="bold" />
+
+				<TextView
+					android:id="@+id/text_shop_desc"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:fontFamily="@font/poppins_medium"
+					tools:text="Opens at 7AM"
+					android:textColor="@android:color/tab_indicator_text"
+					android:textSize="12sp" />
+
+				<TextView
+					android:id="@+id/text_shop_rating"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:drawableStart="@drawable/ic_star"
+					android:drawablePadding="4dp"
+					android:fontFamily="@font/open_sans_semibold"
+					android:gravity="center"
+					android:text=" 4.5"
+					android:textColor="@android:color/tab_indicator_text"
+					android:textSize="11dp"
+					android:textStyle="bold" />
+
+			</LinearLayout>
+		</LinearLayout>
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="#f2f2f2"
+			android:layout_gravity="top"/>
+	</com.google.android.material.card.MaterialCardView>
+</layout>

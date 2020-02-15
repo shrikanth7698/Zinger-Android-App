@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#ffffff</color>
+	<color name="colorPrimaryDark">#000000</color>
+	<color name="colorAccent">#FF6238</color>
+	<color name="drawer_icon_color">#000000</color>
+	<color name="material_drawer_selected">#40FF7900</color>
+	<color name="material_drawer_selected_text">#FF6238</color>
+</resources>

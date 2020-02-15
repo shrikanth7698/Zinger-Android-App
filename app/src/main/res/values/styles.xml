@@ -1,0 +1,23 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+	</style>
+
+	<style name="AppbarTitle">
+		<item name="fontFamily">@font/poppins_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:color">#000000</item>
+		<item name="android:textSize">24sp</item>
+	</style>
+
+	<style name="H6">
+		<item name="fontFamily">@font/poppins_bold</item>
+	</style>
+
+
+</resources>
