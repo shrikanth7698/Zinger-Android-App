@@ -14,7 +14,8 @@
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
-		<activity android:name=".ui.restaurant.RestaurantActivity"></activity>
+		<activity android:name=".ui.cart.CartActivity"></activity>
+		<activity android:name=".ui.restaurant.RestaurantActivity" />
 		<activity android:name=".ui.home.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

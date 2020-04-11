@@ -23,17 +23,24 @@ import android.view.Window;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.food.ordering.swaggy.R;
 import com.food.ordering.swaggy.data.local.Resource;
+import com.food.ordering.swaggy.data.model.FoodItem;
 import com.food.ordering.swaggy.data.model.Shop;
 import com.food.ordering.swaggy.databinding.ActivityMainBinding;
 import com.food.ordering.swaggy.databinding.HeaderLayoutBinding;
+import com.food.ordering.swaggy.ui.cart.CartActivity;
 import com.food.ordering.swaggy.ui.restaurant.RestaurantActivity;
+import com.food.ordering.swaggy.utils.SharedPreferenceHelper;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ShopAdapter shopAdapter;
     ProgressDialog progressDialog;
     List<Shop> shopList = new ArrayList<>();
-
+    List<FoodItem> cartList = new ArrayList<>();
+    Snackbar cartSnackBar;
     MainViewModel viewModel;
 
     @Override
@@ -56,12 +64,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupMaterialDrawer();
         setObservers();
         viewModel.getShops();
+        cartSnackBar.setAction("View Cart", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CartActivity.class));
+            }
+        });
     }
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         headerLayout = DataBindingUtil.inflate(LayoutInflater.from(getApplicationContext()), R.layout.header_layout, null, false);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        cartSnackBar = Snackbar.make(binding.getRoot(), "", Snackbar.LENGTH_INDEFINITE);
+        cartSnackBar.setBackgroundTint(ContextCompat.getColor(getApplicationContext(),R.color.green));
         binding.imageMenu.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         setStatusBarHeight();
@@ -217,5 +233,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cartList.clear();
+        cartList.addAll(getCart());
+        updateCartUI();
+    }
+
+    private void updateCartUI(){
+        int total = 0;
+        int totalItems = 0;
+        if(cartList.size()>0) {
+            for (int i = 0; i < cartList.size(); i++) {
+                total+= cartList.get(i).getPrice() * cartList.get(i).getQuantity();
+                totalItems+= cartList.get(i).getQuantity();
+            }
+            if(totalItems==1){
+                cartSnackBar.setText("₹"+total+" | "+totalItems+" item");
+            }else{
+                cartSnackBar.setText("₹"+total+" | "+totalItems+" items");
+            }
+            cartSnackBar.show();
+        }else{
+            cartSnackBar.dismiss();
+        }
+    }
+
+    public List<FoodItem> getCart(){
+        List<FoodItem> items = new ArrayList<>();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type listType = new TypeToken<List<FoodItem>>() {}.getType();
+        String json = SharedPreferenceHelper.getSharedPreferenceString(this,"cart","");
+        List<FoodItem> temp = gson.fromJson(json,listType);
+        if(temp!=null){
+            items.addAll(temp);
+        }
+        return items;
     }
 }

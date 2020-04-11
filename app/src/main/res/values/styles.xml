@@ -6,6 +6,10 @@
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
+		<item name="snackbarStyle">@style/snackbar_style</item>
+		<item name="snackbarButtonStyle">@style/snackbar_button</item>
+		<item name="snackbarTextViewStyle">@style/snackbar_text</item>
+		<item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
 	</style>
 
 	<style name="AppbarTitle">
@@ -34,7 +38,7 @@
 		<item name="android:textStyle">bold</item>
 		<item name="android:color">#ffffff</item>
 		<item name="android:textSize">11sp</item>
-		<item name="android:drawableStart">@drawable/ic_star_black</item>
+		<item name="android:drawableStart">@drawable/ic_star_white</item>
 	</style>
 
 	<style name="SubTitleExpanded" parent="TextAppearance.AppCompat.Headline">
@@ -44,6 +48,55 @@
 		<item name="android:textSize">13sp</item>
 		<item name="android:drawableStart">@drawable/ic_star</item>
 	</style>
+
+	<style name="snackbar_style" parent="@style/Widget.MaterialComponents.Snackbar">
+		<item name="android:layout_margin">16dp</item>
+	</style>
+
+	<style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+		<item name="android:fontFamily">@font/open_sans_bold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@android:color/white</item>
+		<item name="backgroundTint">@color/green</item>
+		<item name="android:drawableEnd">@drawable/ic_cart</item>
+	</style>
+
+	<style name="snackbar_text" parent="@style/Widget.MaterialComponents.Snackbar.TextView">
+		<item name="android:fontFamily">@font/open_sans_bold</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+		<item name="buttonBarPositiveButtonStyle">@style/PositiveButton</item>
+		<item name="buttonBarNegativeButtonStyle">@style/NegativeButton</item>
+		<item name="materialAlertDialogBodyTextStyle">@style/AlertDialogBodyText</item>
+		<item name="materialAlertDialogTitleTextStyle">@style/AlertDialogTitleText</item>
+	</style>
+
+	<style name="PositiveButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+		<item name="android:fontFamily">@font/poppins_bold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@color/colorAccent</item>
+	</style>
+
+	<style name="NegativeButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+		<item name="android:fontFamily">@font/poppins_semibold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@android:color/tab_indicator_text</item>
+	</style>
+
+	<style name="AlertDialogTitleText" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+		<item name="android:fontFamily">@font/poppins_bold</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@android:color/black</item>
+		<item name="android:textSize">16sp</item>
+	</style>
+
+	<style name="AlertDialogBodyText" parent="TextAppearance.MaterialComponents.Body1">
+		<item name="android:fontFamily">@font/poppins</item>
+		<item name="android:textSize">14sp</item>
+	</style>
+
 
 
 
