@@ -38,7 +38,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
-				android:background="#40FF6238"
+				android:background="#40FF4141"
 				android:id="@+id/text_quantity"
 				android:fontFamily="@font/open_sans_semibold"
 				android:paddingStart="8dp"

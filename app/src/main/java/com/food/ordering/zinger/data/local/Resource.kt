@@ -1,51 +1,30 @@
 package com.food.ordering.zinger.data.local
 
-class Resource<T> {
-    @JvmField
-    var status = 0
-    @JvmField
-    var data: T? = null
-    var message = ""
-    fun loading(): Resource<T> {
-        val resource = Resource<T>()
-        resource.status = LOADING
-        resource.message = "Loading"
-        return resource
+data class Resource<out T>(
+    val status: Status, val data: T?, val message: String? = null, val error: Exception? = null
+) {
+    enum class Status {
+        SUCCESS,
+        OFFLINE_ERROR,
+        ERROR,
+        EMPTY,
+        LOADING
     }
-
-    fun success(value: T): Resource<T> {
-        val resource = Resource<T>()
-        resource.status = SUCCESS
-        resource.message = "Success"
-        resource.data = value
-        return resource
-    }
-
-    fun error(message: String): Resource<T> {
-        val resource = Resource<T>()
-        resource.status = ERROR
-        resource.message = message
-        return resource
-    }
-
-    fun offline(): Resource<T> {
-        val resource = Resource<T>()
-        resource.status = NO_INTERNET
-        resource.message = "No Internet Connection"
-        return resource
-    }
-
-    fun empty(): Resource<*> {
-        val resource = Resource<T>()
-        resource.status = EMPTY
-        return resource
-    }
-
     companion object {
-        const val SUCCESS = 0
-        const val ERROR = 1
-        const val NO_INTERNET = 2
-        const val EMPTY = 3
-        const val LOADING = 4
+        fun <T> loading(data: T? = null): Resource<T> {
+            return Resource(Status.LOADING, data, null)
+        }
+        fun <T> empty(): Resource<T> {
+            return Resource(Status.EMPTY, null)
+        }
+        fun <T> success(data: T): Resource<T> {
+            return Resource(Status.SUCCESS, data, null)
+        }
+        fun <T> error(error: Exception? = null, message: String? = null, data: T? = null): Resource<T> {
+            return Resource(Status.ERROR, data, message, error = error)
+        }
+        fun <T> offlineError(message: String? = null, data: T? = null): Resource<T> {
+            return Resource(Status.OFFLINE_ERROR, data, message)
+        }
     }
 }

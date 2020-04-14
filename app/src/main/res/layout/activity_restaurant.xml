@@ -49,7 +49,7 @@
 					<View
 						android:layout_width="match_parent"
 						android:layout_height="200dp"
-						android:background="#BFFF6238" />
+						android:background="#80FF4141" />
 
 					<com.google.android.material.appbar.MaterialToolbar
 						android:id="@+id/toolbar"

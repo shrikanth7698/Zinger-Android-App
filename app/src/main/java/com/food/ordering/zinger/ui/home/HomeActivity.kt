@@ -1,0 +1,231 @@
+package com.food.ordering.zinger.ui.home
+
+import android.app.ProgressDialog
+import android.content.Intent
+import android.graphics.Rect
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amulyakhare.textdrawable.TextDrawable
+import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.databinding.ActivityHomeBinding
+import com.food.ordering.zinger.databinding.HeaderLayoutBinding
+import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
+import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import org.koin.android.viewmodel.ext.android.viewModel
+
+class HomeActivity : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var binding: ActivityHomeBinding
+    private val viewModel: HomeViewModel by viewModel()
+    lateinit var headerLayout: HeaderLayoutBinding
+    lateinit var drawer: Drawer
+    lateinit var shopAdapter: ShopAdapter
+    lateinit var progressDialog: ProgressDialog
+    var shopList: ArrayList<Shop> = ArrayList()
+    var cartList: ArrayList<FoodItem> = ArrayList()
+    var cartSnackBar: Snackbar? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        setupMaterialDrawer()
+        setObservers()
+        viewModel.getShops()
+        cartSnackBar!!.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
+    }
+
+    private fun initView(){
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        headerLayout = DataBindingUtil.inflate(LayoutInflater.from(applicationContext), R.layout.header_layout, null, false)
+        cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        cartSnackBar!!.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
+        binding.imageMenu.setOnClickListener(this)
+        progressDialog = ProgressDialog(this)
+        setStatusBarHeight()
+        updateHeaderLayoutUI()
+        setupShopRecyclerView()
+    }
+
+    private fun setStatusBarHeight() {
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val rectangle = Rect()
+                val window = window
+                window.decorView.getWindowVisibleDisplayFrame(rectangle)
+                val statusBarHeight = rectangle.top
+                val layoutParams = headerLayout!!.statusbarSpaceView.layoutParams
+                layoutParams.height = statusBarHeight
+                headerLayout!!.statusbarSpaceView.layoutParams = layoutParams
+                Log.d("Home", "status bar height \$statusBarHeight")
+                binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
+    private fun updateHeaderLayoutUI() {
+        headerLayout!!.textCustomerName.text = "Shrikanth Ravi"
+        headerLayout!!.textEmail.text = "shrikanthravi.me@gmail.com"
+        val textDrawable = TextDrawable.builder()
+                .buildRound("S", ContextCompat.getColor(this, R.color.accent))
+        headerLayout!!.imageProfilePic.setImageDrawable(textDrawable)
+        //binding.imageMenu.setImageDrawable(textDrawable);
+    }
+
+    private fun setupMaterialDrawer() {
+        headerLayout!!.layoutHeader.setOnClickListener {
+            //TODO open profile activity
+        }
+        var identifier = 0L
+        val profileItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("My Profile")
+                .withIcon(R.drawable.ic_drawer_user)
+        val ordersItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("Your Orders")
+                .withIcon(R.drawable.ic_drawer_past_rides)
+        val contactUsItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("Contact Us")
+                .withIcon(R.drawable.ic_drawer_mail)
+        val signOutItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("Sign out")
+                .withIcon(R.drawable.ic_drawer_log_out)
+        val helpcenter = PrimaryDrawerItem().withIdentifier(++identifier).withName("Help Center")
+                .withIcon(R.drawable.ic_drawer_info)
+        drawer = DrawerBuilder()
+                .withActivity(this)
+                .withDisplayBelowStatusBar(false)
+                .withHeader(headerLayout!!.root)
+                .withTranslucentStatusBar(true)
+                .withCloseOnClick(true)
+                .withSelectedItem(-1)
+                .addDrawerItems(
+                        profileItem,
+                        ordersItem,
+                        helpcenter,
+                        contactUsItem,
+                        DividerDrawerItem(),
+                        signOutItem
+                )
+                .withOnDrawerItemClickListener { view, position, drawerItem ->
+                    if (profileItem.identifier == drawerItem.identifier) { //TODO open profile activity
+                    }
+                    if (ordersItem.identifier == drawerItem.identifier) { //TODO open orders activity
+                    }
+                    if (helpcenter.identifier == drawerItem.identifier) { //TODO open help activity
+                    }
+                    if (contactUsItem.identifier == drawerItem.identifier) { //TODO open contact us activity
+                    }
+                    if (signOutItem.identifier == drawerItem.identifier) { //TODO show sign out dialog
+                    }
+                    true
+                }
+                .build()
+    }
+
+    private fun setObservers(){
+        viewModel.performFetchShopsStatus.observe(this, Observer {
+                if(it!=null){
+                    when(it.status){
+                        Resource.Status.LOADING -> {
+                            progressDialog.setMessage("Getting Outlets")
+                            progressDialog.show()
+                        }
+                        Resource.Status.EMPTY -> {
+                            progressDialog.dismiss()
+                            val snackbar = Snackbar.make(binding.root, "No Outlets in this college", Snackbar.LENGTH_LONG)
+                            snackbar.show()
+                        }
+                        Resource.Status.SUCCESS -> {
+                            progressDialog.dismiss()
+                            shopList.clear()
+                            it.data?.let { it1 -> shopList.addAll(it1) }
+                            shopAdapter.notifyDataSetChanged()
+                        }
+                        Resource.Status.OFFLINE_ERROR -> {
+                            progressDialog.dismiss()
+                            val snackbar = Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_LONG)
+                            snackbar.show()
+                        }
+                        Resource.Status.ERROR -> {
+                            progressDialog.dismiss()
+                            val snackbar = Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_LONG)
+                            snackbar.show()
+                        }
+                    }
+                }
+        })
+    }
+
+    private fun setupShopRecyclerView() {
+        shopAdapter = ShopAdapter(applicationContext, shopList, object : ShopAdapter.OnItemClickListener {
+            override fun onItemClick(item: Shop?, position: Int) {
+                val intent = Intent(applicationContext, RestaurantActivity::class.java)
+                intent.putExtra("shop", item)
+                startActivity(intent)
+            }
+        })
+        binding.recyclerShops.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerShops.adapter = shopAdapter
+    }
+
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.image_menu -> {
+                drawer!!.openDrawer()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cartList.clear()
+        cartList.addAll(getCart())
+        updateCartUI()
+    }
+
+    private fun updateCartUI() {
+        var total = 0
+        var totalItems = 0
+        if (cartList.size > 0) {
+            for (i in cartList.indices) {
+                total += cartList[i].price * cartList[i].quantity
+                totalItems += cartList[i].quantity
+            }
+            if (totalItems == 1) {
+                cartSnackBar!!.setText("₹$total | $totalItems item")
+            } else {
+                cartSnackBar!!.setText("₹$total | $totalItems items")
+            }
+            cartSnackBar!!.show()
+        } else {
+            cartSnackBar!!.dismiss()
+        }
+    }
+
+    fun getCart(): ArrayList<FoodItem> {
+        val items: ArrayList<FoodItem> = ArrayList()
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val listType = object : TypeToken<List<FoodItem?>?>() {}.type
+        val json = getSharedPreferenceString(this, "cart", "")
+        val temp = gson.fromJson<List<FoodItem>>(json, listType)
+        if (temp != null) {
+            items.addAll(temp)
+        }
+        return items
+    }
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context="com.food.ordering.zinger.ui.login.LoginActivity">
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="16dp"
+			android:layout_above="@id/layout_login">
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top"
+				android:gravity="center|start"
+				android:paddingTop="3dp"
+				android:textSize="28sp"
+				android:text="Welcome to\nZinger App"
+				android:textColor="@android:color/black"
+				android:fontFamily="@font/poppins_bold"
+				android:textAppearance="@style/AppbarTitle" />
+
+		</RelativeLayout>
+
+		<LinearLayout
+			android:id="@+id/layout_login"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:background="@color/colorAccent"
+			android:orientation="vertical"
+			android:padding="16dp">
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top"
+				android:fontFamily="@font/poppins_bold"
+				android:gravity="center|start"
+				android:paddingTop="3dp"
+				android:text="@string/label_phone_number"
+				android:textColor="@android:color/white"
+				android:textStyle="bold" />
+
+			<EditText
+				android:id="@+id/edit_phone"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@null"
+				android:fontFamily="@font/poppins_semibold"
+				android:hint="@string/hint_enter_phone_number"
+				android:inputType="phone"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:singleLine="true"
+				android:textColor="@android:color/black"
+				android:textColorHint="#000000"
+				android:textCursorDrawable="@drawable/color_cursor"
+				android:textSize="20sp"
+				android:textStyle="bold" />
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/button_login"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:fontFamily="@font/poppins_semibold"
+				android:text="@string/label_login"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				app:backgroundTint="@android:color/black" />
+		</LinearLayout>
+	</RelativeLayout>
+</layout>

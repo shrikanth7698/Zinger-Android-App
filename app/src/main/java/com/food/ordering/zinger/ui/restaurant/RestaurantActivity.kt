@@ -15,6 +15,7 @@ import com.food.ordering.zinger.data.model.FoodItem
 import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.home.HomeViewModel
 import com.food.ordering.zinger.utils.SharedPreferenceHelper
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -22,33 +23,34 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
+import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.collections.ArrayList
 
 class RestaurantActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRestaurantBinding
-    var foodAdapter: FoodAdapter? = null
-    var progressDialog: ProgressDialog? = null
+    private val viewModel: RestaurantViewModel by viewModel()
+    lateinit var foodAdapter: FoodAdapter
+    lateinit var progressDialog: ProgressDialog
     var foodItemList: ArrayList<FoodItem> = ArrayList()
     var cartList: ArrayList<FoodItem> = ArrayList()
     var shop: Shop? = null
-    var viewModel: RestaurantViewModel? = null
-    var snackbar: Snackbar? = null
+    lateinit var snackbar: Snackbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        args
+        getArgs()
         initView()
         setObservers()
+        shop?.let { viewModel.getMenu(it) }
         snackbar!!.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
     }
 
-    private val args: Unit
-        private get() {
-            shop = intent.getParcelableExtra("shop")
-        }
+
+    private fun getArgs() {
+        shop = intent.getParcelableExtra("shop")
+    }
 
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant)
-        viewModel = ViewModelProvider(this).get(RestaurantViewModel::class.java)
         snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         snackbar!!.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
         progressDialog = ProgressDialog(this)
@@ -79,14 +81,13 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        shop?.let {
-            viewModel!!.getMenu(it).observe(this, Observer { resource ->
+        viewModel.performFetchShopsStatus.observe(this, Observer { resource ->
             when (resource.status) {
-                Resource.LOADING -> {
+                Resource.Status.LOADING -> {
                     progressDialog!!.setMessage("Getting menu")
                     progressDialog!!.show()
                 }
-                Resource.SUCCESS -> {
+                Resource.Status.SUCCESS -> {
                     cartList.clear()
                     cartList.addAll(cart)
                     updateCartUI()
@@ -110,17 +111,17 @@ class RestaurantActivity : AppCompatActivity() {
                     }
                     foodAdapter!!.notifyDataSetChanged()
                 }
-                Resource.EMPTY -> {
+                Resource.Status.EMPTY -> {
                     progressDialog!!.dismiss()
-                    val snackbar = Snackbar.make(binding!!.root, "No Outlets in this college", Snackbar.LENGTH_LONG)
+                    val snackbar = Snackbar.make(binding!!.root, "No food items available in this shop", Snackbar.LENGTH_LONG)
                     snackbar.show()
                 }
-                Resource.NO_INTERNET -> {
+                Resource.Status.OFFLINE_ERROR -> {
                     progressDialog!!.dismiss()
                     val snackbar = Snackbar.make(binding!!.root, "No Internet Connection", Snackbar.LENGTH_LONG)
                     snackbar.show()
                 }
-                Resource.ERROR -> {
+                Resource.Status.ERROR -> {
                     progressDialog!!.dismiss()
                     val snackbar = Snackbar.make(binding!!.root, "Something went wrong", Snackbar.LENGTH_LONG)
                     snackbar.show()
@@ -129,7 +130,6 @@ class RestaurantActivity : AppCompatActivity() {
                 }
             }
         })
-        }
     }
 
     private fun setupMenuRecyclerView() {

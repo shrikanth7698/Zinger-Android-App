@@ -27,7 +27,7 @@ android {
                 preDexLibraries = true
             }
             ext.alwaysUpdateBuildId = false
-            //buildConfigField "String", "CUSTOM_BASE_URL", '"https://api.covid19india.org/"'
+            buildConfigField "String", "CUSTOM_BASE_URL", '"https://api.covid19india.org/"'
         }
         release {
             minifyEnabled false

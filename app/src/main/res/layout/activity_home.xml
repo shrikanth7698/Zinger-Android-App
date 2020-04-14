@@ -57,6 +57,7 @@
 							<ImageView
 								android:layout_width="60dp"
 								android:layout_height="40dp"
+								android:tint="@android:color/white"
 								android:src="@drawable/ic_ssn_logo"/>
 						</LinearLayout>
 
