@@ -16,6 +16,9 @@
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
 		<activity
+			android:name=".ui.profile.ProfileActivity"
+			android:windowSoftInputMode="adjustResize" />
+		<activity
 			android:name=".ui.signup.SignUpActivity"
 			android:windowSoftInputMode="adjustResize" />
 		<activity

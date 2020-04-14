@@ -21,6 +21,7 @@ import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -54,7 +55,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         cartSnackBar!!.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
     }
 
-    private fun initView(){
+    private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         headerLayout = DataBindingUtil.inflate(LayoutInflater.from(applicationContext), R.layout.header_layout, null, false)
         cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
@@ -73,9 +74,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 val window = window
                 window.decorView.getWindowVisibleDisplayFrame(rectangle)
                 val statusBarHeight = rectangle.top
-                val layoutParams = headerLayout!!.statusbarSpaceView.layoutParams
+                val layoutParams = headerLayout.statusbarSpaceView.layoutParams
                 layoutParams.height = statusBarHeight
-                headerLayout!!.statusbarSpaceView.layoutParams = layoutParams
+                headerLayout.statusbarSpaceView.layoutParams = layoutParams
                 Log.d("Home", "status bar height \$statusBarHeight")
                 binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
@@ -83,17 +84,17 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateHeaderLayoutUI() {
-        headerLayout!!.textCustomerName.text = "Shrikanth Ravi"
-        headerLayout!!.textEmail.text = "shrikanthravi.me@gmail.com"
+        headerLayout.textCustomerName.text = "Shrikanth Ravi"
+        headerLayout.textEmail.text = "shrikanthravi.me@gmail.com"
         val textDrawable = TextDrawable.builder()
                 .buildRound("S", ContextCompat.getColor(this, R.color.accent))
-        headerLayout!!.imageProfilePic.setImageDrawable(textDrawable)
+        headerLayout.imageProfilePic.setImageDrawable(textDrawable)
         //binding.imageMenu.setImageDrawable(textDrawable);
     }
 
     private fun setupMaterialDrawer() {
-        headerLayout!!.layoutHeader.setOnClickListener {
-            //TODO open profile activity
+        headerLayout.layoutHeader.setOnClickListener {
+            startActivity(Intent(applicationContext, ProfileActivity::class.java))
         }
         var identifier = 0L
         val profileItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("My Profile")
@@ -109,7 +110,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         drawer = DrawerBuilder()
                 .withActivity(this)
                 .withDisplayBelowStatusBar(false)
-                .withHeader(headerLayout!!.root)
+                .withHeader(headerLayout.root)
                 .withTranslucentStatusBar(true)
                 .withCloseOnClick(true)
                 .withSelectedItem(-1)
@@ -122,7 +123,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         signOutItem
                 )
                 .withOnDrawerItemClickListener { view, position, drawerItem ->
-                    if (profileItem.identifier == drawerItem.identifier) { //TODO open profile activity
+                    if (profileItem.identifier == drawerItem.identifier) {
+                        startActivity(Intent(applicationContext, ProfileActivity::class.java))
                     }
                     if (ordersItem.identifier == drawerItem.identifier) { //TODO open orders activity
                     }
@@ -137,37 +139,37 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 .build()
     }
 
-    private fun setObservers(){
+    private fun setObservers() {
         viewModel.performFetchShopsStatus.observe(this, Observer {
-                if(it!=null){
-                    when(it.status){
-                        Resource.Status.LOADING -> {
-                            progressDialog.setMessage("Getting Outlets")
-                            progressDialog.show()
-                        }
-                        Resource.Status.EMPTY -> {
-                            progressDialog.dismiss()
-                            val snackbar = Snackbar.make(binding.root, "No Outlets in this college", Snackbar.LENGTH_LONG)
-                            snackbar.show()
-                        }
-                        Resource.Status.SUCCESS -> {
-                            progressDialog.dismiss()
-                            shopList.clear()
-                            it.data?.let { it1 -> shopList.addAll(it1) }
-                            shopAdapter.notifyDataSetChanged()
-                        }
-                        Resource.Status.OFFLINE_ERROR -> {
-                            progressDialog.dismiss()
-                            val snackbar = Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_LONG)
-                            snackbar.show()
-                        }
-                        Resource.Status.ERROR -> {
-                            progressDialog.dismiss()
-                            val snackbar = Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_LONG)
-                            snackbar.show()
-                        }
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        progressDialog.setMessage("Getting Outlets")
+                        progressDialog.show()
+                    }
+                    Resource.Status.EMPTY -> {
+                        progressDialog.dismiss()
+                        val snackbar = Snackbar.make(binding.root, "No Outlets in this college", Snackbar.LENGTH_LONG)
+                        snackbar.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        progressDialog.dismiss()
+                        shopList.clear()
+                        it.data?.let { it1 -> shopList.addAll(it1) }
+                        shopAdapter.notifyDataSetChanged()
+                    }
+                    Resource.Status.OFFLINE_ERROR -> {
+                        progressDialog.dismiss()
+                        val snackbar = Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_LONG)
+                        snackbar.show()
+                    }
+                    Resource.Status.ERROR -> {
+                        progressDialog.dismiss()
+                        val snackbar = Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_LONG)
+                        snackbar.show()
                     }
                 }
+            }
         })
     }
 

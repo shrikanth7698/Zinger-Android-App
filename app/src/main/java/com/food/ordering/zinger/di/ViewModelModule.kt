@@ -1,6 +1,7 @@
 package com.food.ordering.zinger.di
 
 import com.food.ordering.zinger.ui.home.HomeViewModel
+import com.food.ordering.zinger.ui.profile.ProfileViewModel
 import com.food.ordering.zinger.ui.restaurant.RestaurantViewModel
 import com.food.ordering.zinger.ui.signup.SignUpViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -10,4 +11,5 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { RestaurantViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
 }

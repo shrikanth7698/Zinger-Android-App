@@ -6,4 +6,5 @@
 	<string name="label_resend_otp">Resend OTP</string>
 	<string name="label_verify">Verify</string>
 	<string name="label_register">Register</string>
+	<string name="label_update">Update</string>
 </resources>
