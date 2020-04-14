@@ -23,6 +23,7 @@ import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
+import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -61,6 +62,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         cartSnackBar!!.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
         binding.imageMenu.setOnClickListener(this)
+        binding.textSearch.setOnClickListener(this)
         progressDialog = ProgressDialog(this)
         setStatusBarHeight()
         updateHeaderLayoutUI()
@@ -189,7 +191,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.image_menu -> {
-                drawer!!.openDrawer()
+                drawer.openDrawer()
+            }
+            R.id.text_search -> {
+                startActivity(Intent(applicationContext, SearchActivity::class.java))
             }
         }
     }

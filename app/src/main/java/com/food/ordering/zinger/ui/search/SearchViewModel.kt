@@ -1,4 +1,4 @@
-package com.food.ordering.zinger.ui.home
+package com.food.ordering.zinger.ui.search
 
 import android.os.Handler
 import androidx.lifecycle.*
@@ -13,7 +13,7 @@ import java.net.UnknownHostException
 import java.util.ArrayList
 
 
-class HomeViewModel(private val productRepository: CustomAppRepository) : ViewModel() {
+class SearchViewModel(private val productRepository: CustomAppRepository) : ViewModel() {
 
     //Fetch total stats
     private val performFetchShops = MutableLiveData<Resource<List<Shop>>>()
@@ -40,13 +40,13 @@ class HomeViewModel(private val productRepository: CustomAppRepository) : ViewMo
 
     private fun loadShops(): List<Shop> {
         val shops: MutableList<Shop> = ArrayList()
-        var shop = Shop("1", "Sathyas Main Canteen", "Closes at 9pm", "4.2", "https://i.udemycdn.com/course/750x422/2729284_f9fa_3.jpg")
+        var shop = Shop("1", "Sathyas Main Canteen", "Restaurant", "4.2", "https://i.udemycdn.com/course/750x422/2729284_f9fa_3.jpg")
         shops.add(shop)
-        shop = Shop("2", "Sathyas Mini Canteen", "Closes at 9pm", "4.0", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfmlzlZEE15qncrWbPXRRgF8zXX4fllts4zQBeIXwONt3nmFXV")
+        shop = Shop("2", "Shiv Joint", "Restaurant", "4.0", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfmlzlZEE15qncrWbPXRRgF8zXX4fllts4zQBeIXwONt3nmFXV")
         shops.add(shop)
-        shop = Shop("3", "Snow Cube", "Closes at 10pm", "4.8", "https://www.seriouseats.com/2018/06/20180625-no-churn-vanilla-ice-cream-vicky-wasik-13-1500x1125.jpg")
+        shop = Shop("3", "Snow Cube Special Sundae ", "Dish", "4.8", "file:///android_asset/food.png")
         shops.add(shop)
-        shop = Shop("4", "Thanjavur Thattu Kadai", "Closes at 8pm", "4.9", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR1tlxh62bkra0OXoVQPaogeF0Lc8tNqBGmW8dTO-Ekf13ExjsQ")
+        shop = Shop("4", "Schezwan Fried Rice", "Dish", "4.9", "file:///android_asset/food.png")
         shops.add(shop)
         return shops
     }
