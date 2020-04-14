@@ -23,6 +23,7 @@ import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -36,13 +37,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModel()
-    lateinit var headerLayout: HeaderLayoutBinding
-    lateinit var drawer: Drawer
-    lateinit var shopAdapter: ShopAdapter
-    lateinit var progressDialog: ProgressDialog
-    var shopList: ArrayList<Shop> = ArrayList()
-    var cartList: ArrayList<FoodItem> = ArrayList()
-    var cartSnackBar: Snackbar? = null
+    private lateinit var headerLayout: HeaderLayoutBinding
+    private lateinit var drawer: Drawer
+    private lateinit var shopAdapter: ShopAdapter
+    private lateinit var progressDialog: ProgressDialog
+    private var shopList: ArrayList<Shop> = ArrayList()
+    private var cartList: ArrayList<FoodItem> = ArrayList()
+    private var cartSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -227,5 +228,17 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             items.addAll(temp)
         }
         return items
+    }
+
+    override fun onBackPressed() {
+        MaterialAlertDialogBuilder(this@HomeActivity)
+                .setTitle("Exit app?")
+                .setMessage("Are you sure want to exit the app?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    super.onBackPressed()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
+                .show()
     }
 }

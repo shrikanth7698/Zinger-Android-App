@@ -5,4 +5,5 @@
 	<string name="label_phone_number">Phone Number</string>
 	<string name="label_resend_otp">Resend OTP</string>
 	<string name="label_verify">Verify</string>
+	<string name="label_register">Register</string>
 </resources>

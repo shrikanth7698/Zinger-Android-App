@@ -15,7 +15,12 @@
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
-		<activity android:name=".ui.otp.OtpActivity"/>
+		<activity
+			android:name=".ui.signup.SignUpActivity"
+			android:windowSoftInputMode="adjustResize" />
+		<activity
+			android:name=".ui.otp.OtpActivity"
+			android:windowSoftInputMode="adjustResize" />
 		<activity
 			android:name=".ui.login.LoginActivity"
 			android:windowSoftInputMode="adjustResize">

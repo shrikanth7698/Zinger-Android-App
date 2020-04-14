@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<com.google.android.material.card.MaterialCardView
+		android:id="@+id/layout_root"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+		android:focusable="true"
+		android:layout_margin="8dp"
+		app:cardCornerRadius="8dp"
+		app:cardBackgroundColor="#80F2F2F2"
+		app:cardElevation="0dp">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<ImageView
+				android:id="@+id/image_campus"
+				android:layout_width="match_parent"
+				android:layout_height="100dp"
+				android:layout_margin="16dp"
+				android:scaleType="fitCenter" />
+
+
+				<TextView
+					android:id="@+id/text_campus_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/poppins_semibold"
+					android:textColor="@android:color/black"
+					android:textSize="16sp"
+					android:textStyle="bold"
+					android:singleLine="true"
+					android:ellipsize="marquee"
+					android:layout_marginStart="16dp"
+					android:layout_marginBottom="16dp"
+					android:layout_marginEnd="16dp"
+					tools:text="SSN College" />
+
+
+		</LinearLayout>
+
+	</com.google.android.material.card.MaterialCardView>
+</layout>
