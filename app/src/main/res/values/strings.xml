@@ -1,6 +1,8 @@
 <resources>
-	<string name="app_name">Swaggy</string>
+	<string name="app_name">Zinger</string>
 	<string name="label_login">LOGIN</string>
 	<string name="hint_enter_phone_number">Enter phone number</string>
 	<string name="label_phone_number">Phone Number</string>
+	<string name="label_resend_otp">Resend OTP</string>
+	<string name="label_verify">Verify</string>
 </resources>

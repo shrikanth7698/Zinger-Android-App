@@ -8,12 +8,12 @@
 	</data>
 
 	<com.google.android.material.card.MaterialCardView
+		android:id="@+id/layout_root"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:cardCornerRadius="0dp"
 		android:clickable="true"
 		android:focusable="true"
-		android:id="@+id/layout_root"
+		app:cardCornerRadius="0dp"
 		app:cardElevation="0dp">
 
 		<LinearLayout
@@ -26,8 +26,8 @@
 				android:layout_width="80dp"
 				android:layout_height="80dp"
 				android:layout_margin="16dp"
-				android:scaleType="centerCrop"
-				android:background="#f2f2f2" />
+				android:background="#f2f2f2"
+				android:scaleType="centerCrop" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -41,10 +41,10 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:fontFamily="@font/poppins_semibold"
-					tools:text="Sathyas Main Canteen"
 					android:textColor="@android:color/black"
 					android:textSize="16sp"
-					android:textStyle="bold" />
+					android:textStyle="bold"
+					tools:text="Sathyas Main Canteen" />
 
 				<TextView
 					android:id="@+id/text_shop_desc"
@@ -52,9 +52,9 @@
 					android:layout_height="0dp"
 					android:layout_weight="1"
 					android:fontFamily="@font/poppins_medium"
-					tools:text="Opens at 7AM"
 					android:textColor="@android:color/tab_indicator_text"
-					android:textSize="12sp" />
+					android:textSize="12sp"
+					tools:text="Opens at 7AM" />
 
 				<TextView
 					android:id="@+id/text_shop_rating"
@@ -71,10 +71,11 @@
 
 			</LinearLayout>
 		</LinearLayout>
+
 		<View
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
-			android:background="#f2f2f2"
-			android:layout_gravity="top"/>
+			android:layout_gravity="top"
+			android:background="#f2f2f2" />
 	</com.google.android.material.card.MaterialCardView>
 </layout>

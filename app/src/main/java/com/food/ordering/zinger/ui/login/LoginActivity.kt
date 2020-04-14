@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.databinding.ActivityLoginBinding
 import com.food.ordering.zinger.ui.home.HomeActivity
+import com.food.ordering.zinger.ui.otp.OtpActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -17,13 +18,13 @@ class LoginActivity : AppCompatActivity() {
         setListener()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
     }
 
-    private fun setListener(){
+    private fun setListener() {
         binding.buttonLogin.setOnClickListener {
-            startActivity(Intent(applicationContext,HomeActivity::class.java))
+            startActivity(Intent(applicationContext, OtpActivity::class.java))
         }
     }
 }

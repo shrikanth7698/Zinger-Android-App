@@ -35,14 +35,15 @@
 					android:layout_height="80dp"
 					android:background="#f2f2f2"
 					android:scaleType="centerCrop" />
+
 				<ImageView
+					android:id="@+id/image_veg"
 					android:layout_width="16dp"
 					android:layout_height="16dp"
+					android:layout_alignParentEnd="true"
 					android:layout_margin="4dp"
-					android:id="@+id/image_veg"
-					android:src="@drawable/ic_veg"
 					android:background="@android:color/white"
-					android:layout_alignParentEnd="true" />
+					android:src="@drawable/ic_veg" />
 			</RelativeLayout>
 
 			<LinearLayout

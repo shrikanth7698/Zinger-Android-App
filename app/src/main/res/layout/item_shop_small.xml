@@ -8,12 +8,12 @@
 	</data>
 
 	<com.google.android.material.card.MaterialCardView
+		android:id="@+id/layout_root"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:cardCornerRadius="0dp"
 		android:clickable="true"
 		android:focusable="true"
-		android:id="@+id/layout_root"
+		app:cardCornerRadius="0dp"
 		app:cardElevation="0dp">
 
 		<LinearLayout
@@ -26,15 +26,15 @@
 				android:layout_width="56dp"
 				android:layout_height="56dp"
 				android:layout_margin="16dp"
-				android:visibility="gone"
+				android:background="#f2f2f2"
 				android:scaleType="centerCrop"
-				android:background="#f2f2f2" />
+				android:visibility="gone" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:layout_marginTop="16dp"
 				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
 				android:layout_marginBottom="16dp"
 				android:orientation="vertical">
 
@@ -43,22 +43,22 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:fontFamily="@font/poppins_semibold"
-					tools:text="Sathyas Main Canteen"
 					android:textColor="@android:color/black"
 					android:textSize="16sp"
-					android:textStyle="bold" />
+					android:textStyle="bold"
+					tools:text="Sathyas Main Canteen" />
 
 				<TextView
 					android:id="@+id/text_shop_desc"
 					android:layout_width="wrap_content"
 					android:layout_height="0dp"
 					android:layout_weight="1"
-					android:gravity="start|top"
-					android:visibility="visible"
 					android:fontFamily="@font/poppins_medium"
-					tools:text="Opens at 7AM"
+					android:gravity="start|top"
 					android:textColor="@android:color/tab_indicator_text"
-					android:textSize="12sp" />
+					android:textSize="12sp"
+					android:visibility="visible"
+					tools:text="Opens at 7AM" />
 
 				<TextView
 					android:id="@+id/text_shop_rating"
@@ -69,17 +69,18 @@
 					android:fontFamily="@font/open_sans_semibold"
 					android:gravity="center"
 					android:text=" 4.5"
-					android:visibility="gone"
 					android:textColor="@android:color/tab_indicator_text"
 					android:textSize="11dp"
-					android:textStyle="bold" />
+					android:textStyle="bold"
+					android:visibility="gone" />
 
 			</LinearLayout>
 		</LinearLayout>
+
 		<View
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
-			android:background="#f2f2f2"
-			android:layout_gravity="top"/>
+			android:layout_gravity="top"
+			android:background="#f2f2f2" />
 	</com.google.android.material.card.MaterialCardView>
 </layout>

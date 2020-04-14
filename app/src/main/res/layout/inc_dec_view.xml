@@ -9,16 +9,16 @@
 	<com.google.android.material.card.MaterialCardView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		app:cardCornerRadius="4dp"
-		app:cardElevation="0dp"
+		android:orientation="horizontal"
 		app:cardBackgroundColor="#F8F8F8"
-		android:orientation="horizontal">
+		app:cardCornerRadius="4dp"
+		app:cardElevation="0dp">
 
 		<LinearLayout
+			android:id="@+id/root"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:animateLayoutChanges="true"
-			android:id="@+id/root"
 			android:background="@drawable/bg_rounded_stroke"
 			android:orientation="horizontal">
 
@@ -27,19 +27,19 @@
 				android:layout_width="24dp"
 				android:layout_height="24dp"
 				android:layout_gravity="center"
-				android:padding="8dp"
 				android:clickable="true"
 				android:focusable="true"
-				android:src="@drawable/ic_minus"
 				android:foreground="?android:selectableItemBackground"
+				android:padding="8dp"
+				android:src="@drawable/ic_minus"
 				android:visibility="gone" />
 
 			<TextView
+				android:id="@+id/text_quantity"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
 				android:background="#40FF4141"
-				android:id="@+id/text_quantity"
 				android:fontFamily="@font/open_sans_semibold"
 				android:paddingStart="8dp"
 				android:paddingTop="4dp"
@@ -53,10 +53,10 @@
 				android:id="@+id/image_add"
 				android:layout_width="24dp"
 				android:layout_height="24dp"
+				android:layout_gravity="center"
 				android:clickable="true"
 				android:focusable="true"
 				android:foreground="?android:selectableItemBackground"
-				android:layout_gravity="center"
 				android:padding="8dp"
 				android:src="@drawable/ic_add" />
 		</LinearLayout>

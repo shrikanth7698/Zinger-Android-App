@@ -8,4 +8,5 @@
 	<color name="material_drawer_selected">#40FF7900</color>
 	<color name="material_drawer_selected_text">#FF6238</color>
 	<color name="colorAccent1">#FF6238</color>
+	<color name="white20">#33FFFFFF</color>
 </resources>

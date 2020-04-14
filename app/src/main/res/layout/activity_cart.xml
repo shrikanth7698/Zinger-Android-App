@@ -145,6 +145,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="1dp"
 						android:background="#f2f2f2" />
+
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -157,44 +158,44 @@
 							android:layout_width="16dp"
 							android:layout_height="16dp"
 							android:layout_gravity="center"
-							android:tint="@color/colorAccent"
 							android:background="@android:color/white"
-							android:src="@drawable/ic_info" />
+							android:src="@drawable/ic_info"
+							android:tint="@color/colorAccent" />
 
 
 						<TextView
 							android:id="@+id/text_food_name"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
-							android:layout_weight="1"
+							android:layout_gravity="center"
 							android:layout_marginStart="8dp"
 							android:layout_marginEnd="8dp"
-							android:gravity="center|start"
-							android:layout_gravity="center"
+							android:layout_weight="1"
 							android:fontFamily="@font/open_sans_bold"
+							android:gravity="center|start"
+							android:text="To Pay"
 							android:textColor="@color/colorAccent"
 							android:textSize="14sp"
-							android:textStyle="bold"
-							android:text="To Pay" />
+							android:textStyle="bold" />
 
 						<include
 							android:id="@+id/layoutQuantityControl"
 							layout="@layout/inc_dec_view"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:visibility="invisible"
 							android:layout_gravity="center"
-							android:layout_marginEnd="16dp" />
+							android:layout_marginEnd="16dp"
+							android:visibility="invisible" />
 
 
 						<TextView
 							android:id="@+id/text_total"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:layout_gravity="center"
 							android:fontFamily="@font/open_sans_bold"
 							android:gravity="center|end"
 							android:minWidth="60dp"
-							android:layout_gravity="center"
 							android:text="₹50"
 							android:textColor="@color/colorAccent"
 							android:textSize="14dp"
@@ -216,7 +217,6 @@
 						android:padding="16dp"
 						android:text="Any information to convey to Sathyas Main Canteen?"
 						android:textStyle="bold" />
-
 
 
 				</LinearLayout>
