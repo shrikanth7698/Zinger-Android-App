@@ -1,14 +1,14 @@
-package com.food.ordering.swaggy.ui.home
+package com.food.ordering.zinger.ui.home
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.food.ordering.swaggy.R
-import com.food.ordering.swaggy.data.model.Shop
-import com.food.ordering.swaggy.databinding.ItemShopBinding
-import com.food.ordering.swaggy.ui.home.ShopAdapter.ShopViewHolder
+import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.databinding.ItemShopBinding
+import com.food.ordering.zinger.ui.home.ShopAdapter.ShopViewHolder
 import com.squareup.picasso.Picasso
 
 class ShopAdapter(private val context: Context, private val shopList: List<Shop>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {

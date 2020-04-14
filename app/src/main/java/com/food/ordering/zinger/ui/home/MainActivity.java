@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.ui.home;
+package com.food.ordering.zinger.ui.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -7,10 +7,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,15 +19,15 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.food.ordering.swaggy.R;
-import com.food.ordering.swaggy.data.local.Resource;
-import com.food.ordering.swaggy.data.model.FoodItem;
-import com.food.ordering.swaggy.data.model.Shop;
-import com.food.ordering.swaggy.databinding.ActivityMainBinding;
-import com.food.ordering.swaggy.databinding.HeaderLayoutBinding;
-import com.food.ordering.swaggy.ui.cart.CartActivity;
-import com.food.ordering.swaggy.ui.restaurant.RestaurantActivity;
-import com.food.ordering.swaggy.utils.SharedPreferenceHelper;
+import com.food.ordering.zinger.R;
+import com.food.ordering.zinger.data.local.Resource;
+import com.food.ordering.zinger.data.model.FoodItem;
+import com.food.ordering.zinger.data.model.Shop;
+import com.food.ordering.zinger.databinding.ActivityMainBinding;
+import com.food.ordering.zinger.databinding.HeaderLayoutBinding;
+import com.food.ordering.zinger.ui.cart.CartActivity;
+import com.food.ordering.zinger.ui.restaurant.RestaurantActivity;
+import com.food.ordering.zinger.utils.SharedPreferenceHelper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,7 +41,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

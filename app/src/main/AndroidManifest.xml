@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.food.ordering.swaggy">
+	package="com.food.ordering.zinger">
 
 	<uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,9 +14,9 @@
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
-		<activity android:name=".ui.cart.CartActivity"></activity>
-		<activity android:name=".ui.restaurant.RestaurantActivity" />
-		<activity android:name=".ui.home.MainActivity">
+		<activity android:name="com.food.ordering.zinger.ui.cart.CartActivity"></activity>
+		<activity android:name="com.food.ordering.zinger.ui.restaurant.RestaurantActivity" />
+		<activity android:name="com.food.ordering.zinger.ui.home.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

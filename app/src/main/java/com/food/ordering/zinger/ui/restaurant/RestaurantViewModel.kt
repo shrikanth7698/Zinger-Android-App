@@ -1,12 +1,12 @@
-package com.food.ordering.swaggy.ui.restaurant
+package com.food.ordering.zinger.ui.restaurant
 
 import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.food.ordering.swaggy.data.local.Resource
-import com.food.ordering.swaggy.data.model.FoodItem
-import com.food.ordering.swaggy.data.model.Shop
+import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.Shop
 import java.util.*
 
 class RestaurantViewModel : ViewModel() {

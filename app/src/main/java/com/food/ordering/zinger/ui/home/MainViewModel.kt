@@ -1,11 +1,11 @@
-package com.food.ordering.swaggy.ui.home
+package com.food.ordering.zinger.ui.home
 
 import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.food.ordering.swaggy.data.local.Resource
-import com.food.ordering.swaggy.data.model.Shop
+import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.Shop
 import java.util.*
 
 class MainViewModel : ViewModel() {
@@ -14,10 +14,10 @@ class MainViewModel : ViewModel() {
         get() {
             if (_shopsStatus == null) {
                 _shopsStatus = MutableLiveData()
-                _shopsStatus!!.setValue(Resource<List<Shop>>().loading())
+                _shopsStatus!!.value = Resource<List<Shop>>().loading()
                 loadShops()
             } else {
-                _shopsStatus!!.setValue(Resource<List<Shop>>().loading())
+                _shopsStatus!!.value = Resource<List<Shop>>().loading()
                 loadShops()
             }
             return _shopsStatus as MutableLiveData<Resource<List<Shop>>>

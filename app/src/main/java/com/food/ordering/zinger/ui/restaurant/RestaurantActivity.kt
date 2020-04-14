@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.ui.restaurant
+package com.food.ordering.zinger.ui.restaurant
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -9,20 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.food.ordering.swaggy.R
-import com.food.ordering.swaggy.data.local.Resource
-import com.food.ordering.swaggy.data.model.FoodItem
-import com.food.ordering.swaggy.data.model.Shop
-import com.food.ordering.swaggy.databinding.ActivityRestaurantBinding
-import com.food.ordering.swaggy.ui.cart.CartActivity
-import com.food.ordering.swaggy.utils.SharedPreferenceHelper
+import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
+import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.utils.SharedPreferenceHelper
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
-import java.util.*
 import kotlin.collections.ArrayList
 
 class RestaurantActivity : AppCompatActivity() {

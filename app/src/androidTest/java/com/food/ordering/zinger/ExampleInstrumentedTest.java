@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy;
+package com.food.ordering.zinger;
 
 import android.content.Context;
 

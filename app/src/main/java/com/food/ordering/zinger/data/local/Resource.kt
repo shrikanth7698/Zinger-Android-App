@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.data.local
+package com.food.ordering.zinger.data.local
 
 class Resource<T> {
     @JvmField

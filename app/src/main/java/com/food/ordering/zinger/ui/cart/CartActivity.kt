@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.ui.cart
+package com.food.ordering.zinger.ui.cart
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.food.ordering.swaggy.R
-import com.food.ordering.swaggy.data.model.FoodItem
-import com.food.ordering.swaggy.data.model.Shop
-import com.food.ordering.swaggy.databinding.ActivityCartBinding
-import com.food.ordering.swaggy.utils.SharedPreferenceHelper
+import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.databinding.ActivityCartBinding
+import com.food.ordering.zinger.utils.SharedPreferenceHelper
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
@@ -33,7 +33,7 @@ class CartActivity : AppCompatActivity() {
         getArgs()
         initView()
         snackbar!!.setAction("Place Order") {
-            //TODO open cart activity
+            //TODO open place order activity
         }
         binding.radioPickup.setOnClickListener {
             binding.radioPickup.isChecked = true

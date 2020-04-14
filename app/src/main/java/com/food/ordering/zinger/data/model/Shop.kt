@@ -1,8 +1,7 @@
-package com.food.ordering.swaggy.data.model
+package com.food.ordering.zinger.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.io.Serializable
 
 class Shop(var id: String?, var name: String?, var desc: String?, var rating: String?, var imageUrl: String?) : Parcelable {
     constructor(parcel: Parcel) : this(

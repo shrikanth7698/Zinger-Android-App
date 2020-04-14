@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.data.model
+package com.food.ordering.zinger.data.model
 
 import java.io.Serializable
 

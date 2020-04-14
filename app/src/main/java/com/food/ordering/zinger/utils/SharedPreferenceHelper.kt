@@ -1,4 +1,4 @@
-package com.food.ordering.swaggy.utils
+package com.food.ordering.zinger.utils
 
 import android.content.Context
 
