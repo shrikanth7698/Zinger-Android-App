@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -27,7 +28,7 @@ android {
                 preDexLibraries = true
             }
             ext.alwaysUpdateBuildId = false
-            buildConfigField "String", "CUSTOM_BASE_URL", '"https://api.covid19india.org/"'
+            buildConfigField "String", "CUSTOM_BASE_URL", '"https://food-backend-ssn.herokuapp.com/"'
         }
         release {
             minifyEnabled false
@@ -64,6 +65,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
@@ -72,6 +74,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
 }

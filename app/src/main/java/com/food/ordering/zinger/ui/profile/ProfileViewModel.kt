@@ -1,20 +1,16 @@
 package com.food.ordering.zinger.ui.profile
 
-import android.os.Handler
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.Campus
-import com.food.ordering.zinger.data.model.Shop
-import com.food.ordering.zinger.data.retrofit.CustomAppRepository
-import kotlinx.coroutines.Dispatchers
+import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 import java.net.UnknownHostException
 import java.util.ArrayList
 
 
-class ProfileViewModel(private val repository: CustomAppRepository) : ViewModel() {
+class ProfileViewModel(private val repository: UserRepository) : ViewModel() {
 
     //Fetch campus list
     private val performFetchCampusList = MutableLiveData<Resource<List<Campus>>>()

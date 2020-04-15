@@ -1,13 +1,30 @@
 package com.food.ordering.zinger.data.retrofit
 
+import com.food.ordering.zinger.data.model.*
 import retrofit2.http.*
 
 interface CustomApi {
 
-    /*@GET("/data.json")
-    suspend fun getStats(): Stats
+    //User Repo
+    @POST("/user/customer")
+    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+    //This can be used for both sign-up and updating profile
+    @PATCH("/user/place")
+    suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): UpdateUserResponse
 
-    @GET("/v2/state_district_wise.json")
-    suspend fun getDistrictStats(): List<StateDistrictWise>*/
+    //Shop Repo
+    @GET("/shop/place/{placeId}")
+    suspend fun getShops(@Path("placeId") placeId: String): ShopsResponse
+
+    //Place Repo
+    @GET("/place")
+    suspend fun getPlaceList(): PlacesResponse
+
+    //Item Repo
+    @GET("/menu/{placeId}/{query}")
+    suspend fun searchItems(@Path("placeId") placeId: String, @Path("query") query: String): SearchResponse
+    @GET("/menu/shop/{shopId}")
+    suspend fun getMenu(@Path("shopId") shopId: String): MenuResponse
+
 
 }

@@ -56,18 +56,22 @@
 				android:textSize="14sp" />
 
 			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/edit_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="16dp"
 				android:fontFamily="@font/poppins_semibold"
-				android:hint="Name" />
+				android:hint="Name"
+				android:inputType="textPersonName" />
 
 			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/edit_email"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="16dp"
 				android:fontFamily="@font/poppins_semibold"
-				android:hint="Email" />
+				android:hint="Email"
+				android:inputType="textEmailAddress" />
 
 			<LinearLayout
 				android:id="@+id/layout_choose_campus"
@@ -78,6 +82,7 @@
 				android:orientation="vertical">
 
 				<TextView
+					android:id="@+id/text_campus_name"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_gravity="top"
@@ -87,7 +92,6 @@
 					android:gravity="center|start"
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
-					android:id="@+id/text_campus_name"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
 					android:text="Select your campus"

@@ -1,19 +1,16 @@
 package com.food.ordering.zinger.ui.home
 
-import android.os.Handler
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.Shop
-import com.food.ordering.zinger.data.retrofit.CustomAppRepository
-import kotlinx.coroutines.Dispatchers
+import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 import java.net.UnknownHostException
 import java.util.ArrayList
 
 
-class HomeViewModel(private val productRepository: CustomAppRepository) : ViewModel() {
+class HomeViewModel(private val productRepository: UserRepository) : ViewModel() {
 
     //Fetch total stats
     private val performFetchShops = MutableLiveData<Resource<List<Shop>>>()
