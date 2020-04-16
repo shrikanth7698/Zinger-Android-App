@@ -18,7 +18,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var progressDialog: ProgressDialog
     private var shopList: ArrayList<ShopsResponseData> = ArrayList()
-    private var cartList: ArrayList<FoodItem> = ArrayList()
+    private var cartList: ArrayList<MenuItem> = ArrayList()
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackbar: Snackbar
     private var placeId = ""
@@ -262,13 +262,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun getCart(): ArrayList<FoodItem> {
-        val items: ArrayList<FoodItem> = ArrayList()
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        val listType = object : TypeToken<List<FoodItem?>?>() {}.type
-        val json = getSharedPreferenceString(this, "cart", "")
-        val temp = gson.fromJson<List<FoodItem>>(json, listType)
-        if (temp != null) {
+    fun getCart(): ArrayList<MenuItem> {
+        val items: ArrayList<MenuItem> = ArrayList()
+        val temp = preferencesHelper.getCart()
+        if (!temp.isNullOrEmpty()) {
             items.addAll(temp)
         }
         return items

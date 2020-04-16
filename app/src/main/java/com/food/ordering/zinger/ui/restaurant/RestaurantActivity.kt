@@ -10,12 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
-import com.food.ordering.zinger.utils.SharedPreferenceHelper
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -23,12 +23,15 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.collections.ArrayList
 
 class RestaurantActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityRestaurantBinding
     private val viewModel: RestaurantViewModel by viewModel()
+    private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var foodAdapter: FoodAdapter
     private lateinit var progressDialog: ProgressDialog
     var foodItemList: ArrayList<MenuItem> = ArrayList()
@@ -36,6 +39,7 @@ class RestaurantActivity : AppCompatActivity() {
     var shop: ShopsResponseData? = null
     private lateinit var cartSnackbar: Snackbar
     private lateinit var errorSnackbar: Snackbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getArgs()
@@ -64,9 +68,9 @@ class RestaurantActivity : AppCompatActivity() {
         cartSnackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
         errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         val snackButton: Button = errorSnackbar.view.findViewById(R.id.snackbar_action)
-        snackButton.setCompoundDrawables(null,null,null,null)
+        snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
-        snackButton.setTextColor(ContextCompat.getColor(applicationContext,R.color.accent))
+        snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         binding.toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.white))
@@ -115,7 +119,7 @@ class RestaurantActivity : AppCompatActivity() {
                         }
                     }
                     if (cartList.size > 0) {
-                        if (cartList[0].shopModel?.id == shop?.shopModel?.id) {
+                        if (cartList[0].shopId == shop?.shopModel?.id) {
                             var i = 0
                             while (i < foodItemList.size) {
                                 var j = 0
@@ -247,23 +251,20 @@ class RestaurantActivity : AppCompatActivity() {
     fun saveCart(foodItems: List<MenuItem>) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val cartString = gson.toJson(foodItems)
-        if (foodItems.size > 0) {
-            SharedPreferenceHelper.setSharedPreferenceString(this, "cart", cartString)
-            SharedPreferenceHelper.setSharedPreferenceString(this, "cart_shop", gson.toJson(shop))
+        if (foodItems.isNotEmpty()) {
+            preferencesHelper.cart = cartString
+            preferencesHelper.cartShop = gson.toJson(shop)
         } else {
-            SharedPreferenceHelper.setSharedPreferenceString(this, "cart", "")
-            SharedPreferenceHelper.setSharedPreferenceString(this, "cart_shop", "")
+            preferencesHelper.cart = ""
+            preferencesHelper.cartShop = ""
         }
     }
 
     private val cart: List<MenuItem>
         get() {
             val items: MutableList<MenuItem> = ArrayList()
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            val listType = object : TypeToken<List<MenuItem?>?>() {}.type
-            val json = SharedPreferenceHelper.getSharedPreferenceString(this, "cart", "")
-            val temp = gson.fromJson<List<MenuItem>>(json, listType)
-            if (temp != null) {
+            val temp = preferencesHelper.getCart()
+            if (!temp.isNullOrEmpty()) {
                 items.addAll(temp)
             }
             return items
