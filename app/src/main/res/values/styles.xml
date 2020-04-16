@@ -12,6 +12,15 @@
 		<item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
 	</style>
 
+	<style name="AppTheme.Normal" parent="Theme.MaterialComponents.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
+	</style>
+
+
 	<style name="AppbarTitle">
 		<item name="fontFamily">@font/poppins_semibold</item>
 		<item name="android:textStyle">bold</item>

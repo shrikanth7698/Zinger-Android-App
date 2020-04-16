@@ -35,7 +35,7 @@ data class ConfigurationModel(
 
 data class RatingModel(
     @SerializedName("rating")
-    val rating: Int,
+    val rating: Double,
     @SerializedName("shopModel")
     val shopModel: ShopModel?,
     @SerializedName("userCount")

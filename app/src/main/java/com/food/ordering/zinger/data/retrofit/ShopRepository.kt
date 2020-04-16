@@ -5,6 +5,6 @@ import retrofit2.Retrofit
 
 class ShopRepository(private val retrofit: Retrofit) {
 
-    suspend fun login(loginRequest: LoginRequest) = retrofit.create(CustomApi::class.java).login(loginRequest)
+    suspend fun getShops(placeId: String) = retrofit.create(CustomApi::class.java).getShops(placeId)
 
 }

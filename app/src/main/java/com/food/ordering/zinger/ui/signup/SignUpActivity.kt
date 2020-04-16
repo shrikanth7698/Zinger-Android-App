@@ -58,7 +58,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun setListener() {
         binding.imageClose.setOnClickListener { onBackPressed() }
         binding.buttonRegister.setOnClickListener {
-            //TODO signup
             if(binding.editName.text.toString().isNotEmpty()){
                 //TODO email validation
                 if(binding.editEmail.text.toString().isNotEmpty()){

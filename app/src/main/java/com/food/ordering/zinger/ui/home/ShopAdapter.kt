@@ -7,11 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ItemShopBinding
 import com.food.ordering.zinger.ui.home.ShopAdapter.ShopViewHolder
 import com.squareup.picasso.Picasso
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
-class ShopAdapter(private val context: Context, private val shopList: List<Shop>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {
+class ShopAdapter(private val context: Context, private val shopList: List<ShopsResponseData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ShopViewHolder {
         val binding: ItemShopBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_shop, parent, false)
@@ -27,18 +30,26 @@ class ShopAdapter(private val context: Context, private val shopList: List<Shop>
     }
 
     class ShopViewHolder(var binding: ItemShopBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(shop: Shop, position: Int, listener: OnItemClickListener) {
-            Picasso.get().load(shop.imageUrl).into(binding.imageShop)
-            binding.textShopName.text = shop.name
-            binding.textShopDesc.text = shop.desc
-            binding.textShopRating.text = shop.rating
+        fun bind(shop: ShopsResponseData, position: Int, listener: OnItemClickListener) {
+            Picasso.get().load(shop.shopModel.photoUrl).into(binding.imageShop)
+            binding.textShopName.text = shop.shopModel.name
+            if(shop.configurationModel.isOrderTaken==1){
+                if(shop.configurationModel.isDeliveryAvailable==1){
+                    binding.textShopDesc.text = "Closes at "+shop.shopModel.closingTime.substring(0,5)
+                }else{
+                    binding.textShopDesc.text = "Closes at "+shop.shopModel.closingTime.substring(0,5)+" (Delivery not available)"
+                }
+            }else{
+                binding.textShopDesc.text = "Closed Now"
+            }
+            binding.textShopRating.text = shop.ratingModel.rating.toString()
             binding.layoutRoot.setOnClickListener { listener.onItemClick(shop, position) }
         }
 
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: Shop?, position: Int)
+        fun onItemClick(item: ShopsResponseData, position: Int)
     }
 
 }

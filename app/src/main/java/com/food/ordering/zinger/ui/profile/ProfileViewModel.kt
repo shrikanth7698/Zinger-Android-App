@@ -2,69 +2,81 @@ package com.food.ordering.zinger.ui.profile
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.Campus
+import com.food.ordering.zinger.data.model.PlacesResponse
+import com.food.ordering.zinger.data.model.UpdateUserRequest
+import com.food.ordering.zinger.data.model.UpdateUserResponse
+import com.food.ordering.zinger.data.retrofit.PlaceRepository
 import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
-import java.util.ArrayList
 
 
-class ProfileViewModel(private val repository: UserRepository) : ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository, private val placeRepository: PlaceRepository) : ViewModel() {
 
-    //Fetch campus list
-    private val performFetchCampusList = MutableLiveData<Resource<List<Campus>>>()
-    val performFetchCampusListStatus: LiveData<Resource<List<Campus>>>
-        get() = performFetchCampusList
+    //Fetch places list
+    private val performFetchPlacesList = MutableLiveData<Resource<PlacesResponse>>()
+    val performFetchPlacesStatus: LiveData<Resource<PlacesResponse>>
+        get() = performFetchPlacesList
 
-    fun getCampusList() {
+    fun getPlaces() {
         viewModelScope.launch {
             try {
-                performFetchCampusList.value = Resource.loading()
-                //val response = productRepository.getStats()
-                val response = loadCampusList()
-                performFetchCampusList.value = Resource.success(response)
+                performFetchPlacesList.value = Resource.loading()
+                val response = placeRepository.getPlaces()
+                if(response.code==1) {
+                    if (!response.data.isNullOrEmpty()) {
+                        performFetchPlacesList.value = Resource.success(response)
+                    } else {
+                        if (response.data != null) {
+                            if (response.data.isEmpty()) {
+                                performFetchPlacesList.value = Resource.empty()
+                            }
+                        } else {
+                            performFetchPlacesList.value = Resource.error(null, message = "Something went wrong!")
+                        }
+                    }
+                }else{
+                    performFetchPlacesList.value = Resource.error(null, message = response.message)
+                }
             } catch (e: Exception) {
-                println("fetch campus list failed ${e.message}")
+                println("fetch places list failed ${e.message}")
                 if (e is UnknownHostException) {
-                    performFetchCampusList.value = Resource.offlineError()
+                    performFetchPlacesList.value = Resource.offlineError()
                 } else {
-                    performFetchCampusList.value = Resource.error(e)
+                    performFetchPlacesList.value = Resource.error(e)
                 }
             }
         }
     }
 
-    private fun loadCampusList(): List<Campus> {
-        val campusList: MutableList<Campus> = ArrayList()
-        var campus = Campus("1", "SSN College", "Closes at 9pm", "4.2", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg/1200px-Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg.png")
-        campusList.add(campus)
-        campus = Campus("2", "VIT University", "Closes at 9pm", "4.0", "https://findlogovector.com/wp-content/uploads/2019/03/vellore-institute-of-technology-vit-logo-vector.png")
-        campusList.add(campus)
-        campus = Campus("3", "SRM University", "Closes at 10pm", "4.8", "https://seeklogo.com/images/S/srm-university-logo-81BF9B8323-seeklogo.com.png")
-        campusList.add(campus)
-        campus = Campus("4", "Smartworks", "Closes at 8pm", "4.9", "https://www.et-gbs.com/wp-content/uploads/2019/02/Smartworks.png")
-        campusList.add(campus)
-        campus = Campus("5", "VIT University", "Closes at 9pm", "4.0", "https://findlogovector.com/wp-content/uploads/2019/03/vellore-institute-of-technology-vit-logo-vector.png")
-        campusList.add(campus)
-        campus = Campus("6", "SRM University", "Closes at 10pm", "4.8", "https://seeklogo.com/images/S/srm-university-logo-81BF9B8323-seeklogo.com.png")
-        campusList.add(campus)
-        campus = Campus("7", "Smartworks", "Closes at 8pm", "4.9", "https://www.et-gbs.com/wp-content/uploads/2019/02/Smartworks.png")
-        campusList.add(campus)
-        campus = Campus("8", "SSN College", "Closes at 9pm", "4.2", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg/1200px-Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg.png")
-        campusList.add(campus)
-        campus = Campus("9", "SRM University", "Closes at 10pm", "4.8", "https://seeklogo.com/images/S/srm-university-logo-81BF9B8323-seeklogo.com.png")
-        campusList.add(campus)
-        campus = Campus("10", "Smartworks", "Closes at 8pm", "4.9", "https://www.et-gbs.com/wp-content/uploads/2019/02/Smartworks.png")
-        campusList.add(campus)
-        campus = Campus("11", "SSN College", "Closes at 9pm", "4.2", "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg/1200px-Sri_Sivasubramaniya_Nadar_College_of_Engineering.svg.png")
-        campusList.add(campus)
-        campus = Campus("12", "VIT University", "Closes at 9pm", "4.0", "https://findlogovector.com/wp-content/uploads/2019/03/vellore-institute-of-technology-vit-logo-vector.png")
-        campusList.add(campus)
-        campus = Campus("13", "SRM University", "Closes at 10pm", "4.8", "https://seeklogo.com/images/S/srm-university-logo-81BF9B8323-seeklogo.com.png")
-        campusList.add(campus)
-        campus = Campus("14", "Smartworks", "Closes at 8pm", "4.9", "https://www.et-gbs.com/wp-content/uploads/2019/02/Smartworks.png")
-        return campusList
+    private val performUpdate = MutableLiveData<Resource<UpdateUserResponse>>()
+    val performUpdateStatus: LiveData<Resource<UpdateUserResponse>>
+        get() = performUpdate
+
+    fun signUp(updateUserRequest: UpdateUserRequest) {
+        viewModelScope.launch {
+            try {
+                performUpdate.value = Resource.loading()
+                val response = userRepository.updateUser(updateUserRequest)
+                if(response.code==1) {
+                    if (response.data!=null) {
+                        performUpdate.value = Resource.success(response)
+                    } else {
+                        performUpdate.value = Resource.error(null, message = "Something went wrong")
+                    }
+                }else{
+                    performUpdate.value = Resource.error(null, message = response.message)
+                }
+            } catch (e: Exception) {
+                println("Sign Up failed ${e.message}")
+                if (e is UnknownHostException) {
+                    performUpdate.value = Resource.offlineError()
+                } else {
+                    performUpdate.value = Resource.error(e)
+                }
+            }
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -15,45 +16,57 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amulyakhare.textdrawable.TextDrawable
 import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.FoodItem
 import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.login.LoginActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModel()
+    private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var headerLayout: HeaderLayoutBinding
     private lateinit var drawer: Drawer
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var shopList: ArrayList<Shop> = ArrayList()
+    private var shopList: ArrayList<ShopsResponseData> = ArrayList()
     private var cartList: ArrayList<FoodItem> = ArrayList()
     private var cartSnackBar: Snackbar? = null
+    private var errorSnackbar: Snackbar? = null
+    private var placeId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
         setupMaterialDrawer()
         setObservers()
-        viewModel.getShops()
-        cartSnackBar!!.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
+        placeId = preferencesHelper.getPlace()?.id.toString()
+        viewModel.getShops(placeId)
+        cartSnackBar?.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
+        errorSnackbar?.setAction("Try again") {
+            viewModel.getShops(preferencesHelper.getPlace()?.id.toString())
+        }
     }
 
     private fun initView() {
@@ -61,6 +74,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         headerLayout = DataBindingUtil.inflate(LayoutInflater.from(applicationContext), R.layout.header_layout, null, false)
         cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         cartSnackBar!!.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
+        errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        val snackButton: Button = errorSnackbar!!.view.findViewById(R.id.snackbar_action)
+        snackButton.setCompoundDrawables(null,null,null,null)
+        snackButton.background = null
+        snackButton.setTextColor(ContextCompat.getColor(applicationContext,R.color.accent))
         binding.imageMenu.setOnClickListener(this)
         binding.textSearch.setOnClickListener(this)
         progressDialog = ProgressDialog(this)
@@ -134,7 +152,17 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     if (contactUsItem.identifier == drawerItem.identifier) { //TODO open contact us activity
                     }
-                    if (signOutItem.identifier == drawerItem.identifier) { //TODO show sign out dialog
+                    if (signOutItem.identifier == drawerItem.identifier) {
+                        MaterialAlertDialogBuilder(this@HomeActivity)
+                                .setTitle("Confirm Sign Out")
+                                .setMessage("Are you sure want to sign out?")
+                                .setPositiveButton("Yes") { dialog, which ->
+                                    preferencesHelper.clearPreferences()
+                                    startActivity(Intent(applicationContext,LoginActivity::class.java))
+                                    finish()
+                                }
+                                .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
+                                .show()
                     }
                     true
                 }
@@ -146,29 +174,33 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
+                        errorSnackbar?.dismiss()
                         progressDialog.setMessage("Getting Outlets")
                         progressDialog.show()
                     }
                     Resource.Status.EMPTY -> {
                         progressDialog.dismiss()
-                        val snackbar = Snackbar.make(binding.root, "No Outlets in this college", Snackbar.LENGTH_LONG)
-                        snackbar.show()
+                        shopList.clear()
+                        shopAdapter.notifyDataSetChanged()
+                        errorSnackbar?.setText("No Outlets in this college")
+                        errorSnackbar?.show()
                     }
                     Resource.Status.SUCCESS -> {
                         progressDialog.dismiss()
+                        errorSnackbar?.dismiss()
                         shopList.clear()
                         it.data?.let { it1 -> shopList.addAll(it1) }
                         shopAdapter.notifyDataSetChanged()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         progressDialog.dismiss()
-                        val snackbar = Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_LONG)
-                        snackbar.show()
+                        errorSnackbar?.setText("No Internet Connection")
+                        errorSnackbar?.show()
                     }
                     Resource.Status.ERROR -> {
                         progressDialog.dismiss()
-                        val snackbar = Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_LONG)
-                        snackbar.show()
+                        errorSnackbar?.setText("Something went wrong")
+                        errorSnackbar?.show()
                     }
                 }
             }
@@ -177,9 +209,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupShopRecyclerView() {
         shopAdapter = ShopAdapter(applicationContext, shopList, object : ShopAdapter.OnItemClickListener {
-            override fun onItemClick(item: Shop?, position: Int) {
+            override fun onItemClick(item: ShopsResponseData, position: Int) {
                 val intent = Intent(applicationContext, RestaurantActivity::class.java)
-                intent.putExtra("shop", item)
+                intent.putExtra("shop", Gson().toJson(item))
                 startActivity(intent)
             }
         })
@@ -201,6 +233,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        //Checking whether user has changed their place and refreshing shops accordingly
+        if(placeId!=preferencesHelper.getPlace()?.id.toString()){
+            placeId = preferencesHelper.getPlace()?.id.toString()
+            viewModel.getShops(placeId)
+        }
         cartList.clear()
         cartList.addAll(getCart())
         updateCartUI()
@@ -236,6 +273,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         }
         return items
     }
+
 
     override fun onBackPressed() {
         MaterialAlertDialogBuilder(this@HomeActivity)

@@ -11,4 +11,5 @@ interface AppPreferencesHelper {
 
     fun saveUser(name: String?,email: String?, mobile: String?, role: String?, oauthId: String?, place: String?)
 
+    fun clearPreferences()
 }

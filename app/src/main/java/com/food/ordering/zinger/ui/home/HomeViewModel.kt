@@ -3,6 +3,8 @@ package com.food.ordering.zinger.ui.home
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.retrofit.ShopRepository
 import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
@@ -10,20 +12,25 @@ import java.net.UnknownHostException
 import java.util.ArrayList
 
 
-class HomeViewModel(private val productRepository: UserRepository) : ViewModel() {
+class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
 
     //Fetch total stats
-    private val performFetchShops = MutableLiveData<Resource<List<Shop>>>()
-    val performFetchShopsStatus: LiveData<Resource<List<Shop>>>
+    private val performFetchShops = MutableLiveData<Resource<List<ShopsResponseData>>>()
+    val performFetchShopsStatus: LiveData<Resource<List<ShopsResponseData>>>
         get() = performFetchShops
 
-    fun getShops() {
+    fun getShops(placeId: String) {
         viewModelScope.launch {
             try {
                 performFetchShops.value = Resource.loading()
-                //val response = productRepository.getStats()
-                val response = loadShops()
-                performFetchShops.value = Resource.success(response)
+                val response = shopRepository.getShops(placeId)
+                if(!response.data.isNullOrEmpty()){
+                    response.data.let {
+                        performFetchShops.value = Resource.success(it)
+                    }
+                }else{
+                    performFetchShops.value = Resource.empty()
+                }
             } catch (e: Exception) {
                 println("fetch stats failed ${e.message}")
                 if (e is UnknownHostException) {
@@ -33,19 +40,6 @@ class HomeViewModel(private val productRepository: UserRepository) : ViewModel()
                 }
             }
         }
-    }
-
-    private fun loadShops(): List<Shop> {
-        val shops: MutableList<Shop> = ArrayList()
-        var shop = Shop("1", "Sathyas Main Canteen", "Closes at 9pm", "4.2", "https://i.udemycdn.com/course/750x422/2729284_f9fa_3.jpg")
-        shops.add(shop)
-        shop = Shop("2", "Sathyas Mini Canteen", "Closes at 9pm", "4.0", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfmlzlZEE15qncrWbPXRRgF8zXX4fllts4zQBeIXwONt3nmFXV")
-        shops.add(shop)
-        shop = Shop("3", "Snow Cube", "Closes at 10pm", "4.8", "https://www.seriouseats.com/2018/06/20180625-no-churn-vanilla-ice-cream-vicky-wasik-13-1500x1125.jpg")
-        shops.add(shop)
-        shop = Shop("4", "Thanjavur Thattu Kadai", "Closes at 8pm", "4.9", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR1tlxh62bkra0OXoVQPaogeF0Lc8tNqBGmW8dTO-Ekf13ExjsQ")
-        shops.add(shop)
-        return shops
     }
 
 }

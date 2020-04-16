@@ -12,10 +12,10 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
 
     private val loginPreferences: SharedPreferences =
             context.getSharedPreferences(AppConstants.PREFS_LOGIN_PREFS, MODE_PRIVATE)
-    private val customerPreferences: SharedPreferences = context.getSharedPreferences(
-            AppConstants.PREFS_CUSTOMER,
-            MODE_PRIVATE
-    )
+    private val customerPreferences: SharedPreferences =
+            context.getSharedPreferences(AppConstants.PREFS_CUSTOMER, MODE_PRIVATE)
+    private val cartPreferences: SharedPreferences =
+            context.getSharedPreferences(AppConstants.PREFS_CUSTOMER, MODE_PRIVATE)
 
     override var name: String?
         get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_NAME, null)
@@ -48,6 +48,12 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_ROLE, role).apply()
         loginPreferences.edit().putString(AppConstants.PREFS_AUTH_TOKEN, oauthId).apply()
         customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_PLACE, place).apply()
+    }
+
+    override fun clearPreferences() {
+        loginPreferences.edit().clear().apply()
+        customerPreferences.edit().clear().apply()
+        cartPreferences.edit().clear().apply()
     }
 
     fun getPlace(): PlaceModel? {
