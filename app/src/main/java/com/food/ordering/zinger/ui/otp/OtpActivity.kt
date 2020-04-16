@@ -86,7 +86,7 @@ class OtpActivity : AppCompatActivity() {
                     Resource.Status.SUCCESS -> {
                         if (resource.data != null) {
                             progressDialog.dismiss()
-                            if (resource.data.message.toLowerCase().contains("place")) {
+                            if (resource.data.code==1163) {
                                 unloadKoinModules(networkModule)
                                 loadKoinModules(networkModule)
                                 val intent = Intent(applicationContext, SignUpActivity::class.java)

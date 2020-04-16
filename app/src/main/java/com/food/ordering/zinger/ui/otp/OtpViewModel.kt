@@ -24,9 +24,9 @@ class OtpViewModel(private val userRepository: UserRepository) : ViewModel() {
             try {
                 performLogin.value = Resource.loading()
                 val response = userRepository.login(loginRequest)
-                if(response.code==1){
+                if (response.code == 1 || response.code == 1163) {
                     performLogin.value = Resource.success(response)
-                }else{
+                } else {
                     performLogin.value = Resource.error(null, message = response.message)
                 }
             } catch (e: Exception) {
@@ -35,7 +35,7 @@ class OtpViewModel(private val userRepository: UserRepository) : ViewModel() {
                     performLogin.value = Resource.offlineError()
                 } else {
                     //different type of error
-                    performLogin.value = Resource.error(e,message = "Something went wrong!")
+                    performLogin.value = Resource.error(e, message = "Something went wrong!")
                 }
             }
         }
