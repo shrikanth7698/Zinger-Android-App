@@ -29,7 +29,7 @@ class SearchAdapter(private val menuList: List<MenuItem>, private val listener: 
         fun bind(menuItem: MenuItem, position: Int, listener: OnItemClickListener) {
             Picasso.get().load(menuItem.photoUrl).into(binding.imageShop)
             binding.textShopName.text = menuItem.name
-            binding.textShopDesc.text = "Dish"
+            binding.textShopDesc.text = menuItem.shopModel?.name
             binding.layoutRoot.setOnClickListener { listener.onItemClick(menuItem, position) }
         }
 

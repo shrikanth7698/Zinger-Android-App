@@ -2,6 +2,7 @@ package com.food.ordering.zinger.di
 
 import com.food.ordering.zinger.ui.home.HomeViewModel
 import com.food.ordering.zinger.ui.login.LoginViewModel
+import com.food.ordering.zinger.ui.order.OrderViewModel
 import com.food.ordering.zinger.ui.otp.OtpViewModel
 import com.food.ordering.zinger.ui.profile.ProfileViewModel
 import com.food.ordering.zinger.ui.restaurant.RestaurantViewModel
@@ -18,4 +19,5 @@ val viewModelModule = module {
     viewModel { SignUpViewModel(get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
+    viewModel { OrderViewModel(get()) }
 }

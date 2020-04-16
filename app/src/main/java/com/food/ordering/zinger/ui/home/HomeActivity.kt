@@ -25,6 +25,7 @@ import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.login.LoginActivity
+import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
@@ -76,9 +77,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         cartSnackBar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
         errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         val snackButton: Button = errorSnackbar.view.findViewById(R.id.snackbar_action)
-        snackButton.setCompoundDrawables(null,null,null,null)
+        snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
-        snackButton.setTextColor(ContextCompat.getColor(applicationContext,R.color.accent))
+        snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
         binding.imageMenu.setOnClickListener(this)
         binding.textSearch.setOnClickListener(this)
         progressDialog = ProgressDialog(this)
@@ -146,7 +147,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     if (profileItem.identifier == drawerItem.identifier) {
                         startActivity(Intent(applicationContext, ProfileActivity::class.java))
                     }
-                    if (ordersItem.identifier == drawerItem.identifier) { //TODO open orders activity
+                    if (ordersItem.identifier == drawerItem.identifier) {
+                        startActivity(Intent(applicationContext, OrdersActivity::class.java))
                     }
                     if (helpcenter.identifier == drawerItem.identifier) { //TODO open help activity
                     }
@@ -158,7 +160,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                                 .setMessage("Are you sure want to sign out?")
                                 .setPositiveButton("Yes") { dialog, which ->
                                     preferencesHelper.clearPreferences()
-                                    startActivity(Intent(applicationContext,LoginActivity::class.java))
+                                    startActivity(Intent(applicationContext, LoginActivity::class.java))
                                     finish()
                                 }
                                 .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
@@ -234,7 +236,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         //Checking whether user has changed their place and refreshing shops accordingly
-        if(placeId!=preferencesHelper.getPlace()?.id.toString()){
+        if (placeId != preferencesHelper.getPlace()?.id.toString()) {
             placeId = preferencesHelper.getPlace()?.id.toString()
             viewModel.getShops(placeId)
         }

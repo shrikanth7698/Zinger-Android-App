@@ -8,6 +8,7 @@ interface CustomApi {
     //User Repo
     @POST("/user/customer")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+
     @PATCH("/user/place") //This can be used for both sign-up and updating profile
     suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): UpdateUserResponse
 
@@ -22,8 +23,16 @@ interface CustomApi {
     //Item Repo
     @GET("/menu/{placeId}/{query}")
     suspend fun searchItems(@Path("placeId") placeId: String, @Path("query") query: String): SearchResponse
+
     @GET("/menu/shop/{shopId}")
     suspend fun getMenu(@Path("shopId") shopId: String): MenuResponse
+
+    //Order Repo
+    @GET("/order/customer/{mobile}/{pageNum}/{pageCount}")
+    suspend fun getOrders(
+            @Path("mobile") mobile: String,
+            @Path("pageNum") pageNum: Int,
+            @Path("pageCount") pageCount: Int): OrdersResponse
 
 
 }

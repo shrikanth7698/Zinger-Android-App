@@ -84,7 +84,7 @@
 				android:gravity="center|start"
 				android:text="Name"
 				android:layout_marginTop="16dp"
-				android:textColor="@color/accent"
+				android:textColor="@color/colorAccent"
 				android:textSize="12sp" />
 
 			<com.google.android.material.textfield.TextInputEditText

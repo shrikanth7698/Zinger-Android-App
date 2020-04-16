@@ -55,17 +55,16 @@
 					</LinearLayout>
 
 					<TextView
-						android:id="@+id/title_search"
+						android:id="@+id/title_orders"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_gravity="top"
 						android:layout_marginTop="16dp"
 						android:gravity="center|start"
 						android:paddingTop="3dp"
-						android:text="Search your favourite outlet or dish in your campus"
+						android:text="Manage and track\nyour orders"
 						android:textAppearance="@style/AppbarTitle"
 						android:textColor="@android:color/black" />
-
 
 				</LinearLayout>
 
@@ -73,10 +72,10 @@
 			</com.google.android.material.appbar.CollapsingToolbarLayout>
 
 			<LinearLayout
+				android:id="@+id/layout_search"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:id="@+id/layout_search"
 				android:padding="16dp">
 
 				<EditText
@@ -88,7 +87,7 @@
 					android:drawableStart="@drawable/ic_drawer_search_small"
 					android:drawablePadding="8dp"
 					android:fontFamily="@font/open_sans_semibold"
-					android:hint="@string/hint_search_outlets_or_dish"
+					android:hint="Search order by shop name"
 					android:paddingStart="10dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="10dp"
@@ -99,9 +98,9 @@
 					android:id="@+id/progress_bar"
 					android:layout_width="40dp"
 					android:layout_height="40dp"
-					android:visibility="gone"
 					android:layout_gravity="center"
-					android:layout_margin="16dp" />
+					android:layout_margin="16dp"
+					android:visibility="gone" />
 			</LinearLayout>
 
 
@@ -112,9 +111,12 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:clipToPadding="false"
+			android:paddingStart="8dp"
+			android:paddingTop="8dp"
+			android:paddingEnd="8dp"
 			android:paddingBottom="80dp"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
-			tools:listitem="@layout/item_search">
+			tools:listitem="@layout/item_order">
 
 		</androidx.recyclerview.widget.RecyclerView>
 

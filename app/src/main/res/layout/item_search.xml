@@ -44,7 +44,7 @@
 					android:textColor="@android:color/black"
 					android:textSize="16sp"
 					android:textStyle="bold"
-					tools:text="Sathyas Main Canteen" />
+					tools:text="Masala Dosa" />
 
 				<TextView
 					android:id="@+id/text_shop_desc"
@@ -52,9 +52,9 @@
 					android:layout_height="0dp"
 					android:layout_weight="1"
 					android:fontFamily="@font/poppins_medium"
-					android:textColor="@android:color/tab_indicator_text"
+					android:textColor="@color/colorAccentLight"
 					android:textSize="12sp"
-					tools:text="Opens at 7AM" />
+					tools:text="Store name" />
 
 				<TextView
 					android:id="@+id/text_shop_rating"

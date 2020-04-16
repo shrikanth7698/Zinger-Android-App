@@ -107,7 +107,7 @@
 				android:text="@string/label_register"
 				android:textSize="18sp"
 				android:textStyle="bold"
-				app:backgroundTint="@color/accent" />
+				app:backgroundTint="@color/colorAccent" />
 
 
 		</LinearLayout>
