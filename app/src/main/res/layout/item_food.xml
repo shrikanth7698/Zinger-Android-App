@@ -33,7 +33,7 @@
 					android:id="@+id/image_food"
 					android:layout_width="80dp"
 					android:layout_height="80dp"
-					android:background="#f2f2f2"
+					android:background="@drawable/ic_food"
 					android:scaleType="centerCrop" />
 
 				<ImageView

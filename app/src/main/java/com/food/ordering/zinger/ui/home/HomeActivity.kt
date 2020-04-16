@@ -52,8 +52,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var progressDialog: ProgressDialog
     private var shopList: ArrayList<ShopsResponseData> = ArrayList()
     private var cartList: ArrayList<FoodItem> = ArrayList()
-    private var cartSnackBar: Snackbar? = null
-    private var errorSnackbar: Snackbar? = null
+    private lateinit var cartSnackBar: Snackbar
+    private lateinit var errorSnackbar: Snackbar
     private var placeId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +63,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         setObservers()
         placeId = preferencesHelper.getPlace()?.id.toString()
         viewModel.getShops(placeId)
-        cartSnackBar?.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
-        errorSnackbar?.setAction("Try again") {
+        cartSnackBar.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
+        errorSnackbar.setAction("Try again") {
             viewModel.getShops(preferencesHelper.getPlace()?.id.toString())
         }
     }
@@ -73,9 +73,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         headerLayout = DataBindingUtil.inflate(LayoutInflater.from(applicationContext), R.layout.header_layout, null, false)
         cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        cartSnackBar!!.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
+        cartSnackBar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
         errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        val snackButton: Button = errorSnackbar!!.view.findViewById(R.id.snackbar_action)
+        val snackButton: Button = errorSnackbar.view.findViewById(R.id.snackbar_action)
         snackButton.setCompoundDrawables(null,null,null,null)
         snackButton.background = null
         snackButton.setTextColor(ContextCompat.getColor(applicationContext,R.color.accent))
@@ -97,7 +97,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 val layoutParams = headerLayout.statusbarSpaceView.layoutParams
                 layoutParams.height = statusBarHeight
                 headerLayout.statusbarSpaceView.layoutParams = layoutParams
-                Log.d("Home", "status bar height \$statusBarHeight")
+                Log.d("Home", "status bar height $statusBarHeight")
                 binding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
@@ -174,7 +174,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        errorSnackbar?.dismiss()
+                        errorSnackbar.dismiss()
                         progressDialog.setMessage("Getting Outlets")
                         progressDialog.show()
                     }
@@ -182,25 +182,25 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         progressDialog.dismiss()
                         shopList.clear()
                         shopAdapter.notifyDataSetChanged()
-                        errorSnackbar?.setText("No Outlets in this college")
-                        errorSnackbar?.show()
+                        errorSnackbar.setText("No Outlets in this place")
+                        errorSnackbar.show()
                     }
                     Resource.Status.SUCCESS -> {
                         progressDialog.dismiss()
-                        errorSnackbar?.dismiss()
+                        errorSnackbar.dismiss()
                         shopList.clear()
                         it.data?.let { it1 -> shopList.addAll(it1) }
                         shopAdapter.notifyDataSetChanged()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         progressDialog.dismiss()
-                        errorSnackbar?.setText("No Internet Connection")
-                        errorSnackbar?.show()
+                        errorSnackbar.setText("No Internet Connection")
+                        errorSnackbar.show()
                     }
                     Resource.Status.ERROR -> {
                         progressDialog.dismiss()
-                        errorSnackbar?.setText("Something went wrong")
-                        errorSnackbar?.show()
+                        errorSnackbar.setText("Something went wrong")
+                        errorSnackbar.show()
                     }
                 }
             }

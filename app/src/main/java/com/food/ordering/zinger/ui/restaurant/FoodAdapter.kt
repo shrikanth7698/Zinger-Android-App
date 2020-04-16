@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.databinding.ItemFoodBinding
 import com.squareup.picasso.Picasso
 
-class FoodAdapter(private val context: Context, private val foodItemList: List<FoodItem>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class FoodAdapter(private val context: Context, private val foodItemList: List<MenuItem>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): FoodViewHolder {
         val binding: ItemFoodBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_food, parent, false)
@@ -28,13 +28,13 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<F
     }
 
     class FoodViewHolder(var binding: ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(food: FoodItem, position: Int, listener: OnItemClickListener) {
-            Picasso.get().load(food.imageUrl).into(binding.imageFood)
+        fun bind(food: MenuItem, position: Int, listener: OnItemClickListener) {
+            Picasso.get().load(food.photoUrl).into(binding.imageFood)
             binding.textFoodName.text = food.name
-            binding.textFoodDesc.text = food.desc
+            binding.textFoodDesc.text = food.category
             binding.textFoodPrice.text = "₹" + food.price
             binding.layoutRoot.setOnClickListener { listener.onItemClick(food, position) }
-            if (food.isVeg) {
+            if (food.isVeg==0) {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_veg))
             } else {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_non_veg))
@@ -44,7 +44,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<F
                 binding.layoutQuantityControl.textQuantity.text = "Add"
             } else {
                 binding.layoutQuantityControl.imageSub.visibility = View.VISIBLE
-                binding.layoutQuantityControl.textQuantity.setText(food.quantity.toString())
+                binding.layoutQuantityControl.textQuantity.text = food.quantity.toString()
             }
             binding.layoutQuantityControl.imageAdd.setOnClickListener { listener.onQuantityAdd(position) }
             binding.layoutQuantityControl.imageSub.setOnClickListener { listener.onQuantitySub(position) }
@@ -56,7 +56,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<F
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: FoodItem?, position: Int)
+        fun onItemClick(item: MenuItem?, position: Int)
         fun onQuantityAdd(position: Int)
         fun onQuantitySub(position: Int)
     }

@@ -43,13 +43,14 @@
 						android:layout_width="match_parent"
 						android:layout_height="200dp"
 						android:scaleType="centerCrop"
+						android:src="@drawable/shop_placeholder"
 						app:layout_collapseMode="parallax"
 						app:layout_collapseParallaxMultiplier="0.7" />
 
 					<View
 						android:layout_width="match_parent"
 						android:layout_height="200dp"
-						android:background="#80FF4141" />
+						android:background="#BFFF4141" />
 
 					<com.google.android.material.appbar.MaterialToolbar
 						android:id="@+id/toolbar"

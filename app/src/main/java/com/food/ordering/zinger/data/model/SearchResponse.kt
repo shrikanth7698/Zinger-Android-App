@@ -27,5 +27,6 @@ data class MenuItem(
     @SerializedName("price")
     val price: Int,
     @SerializedName("shopModel")
-    val shopModel: ShopModel
+    val shopModel: ShopModel?,
+    var quantity: Int = 0
 )

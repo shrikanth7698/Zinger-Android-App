@@ -8,8 +8,7 @@ interface CustomApi {
     //User Repo
     @POST("/user/customer")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
-    //This can be used for both sign-up and updating profile
-    @PATCH("/user/place")
+    @PATCH("/user/place") //This can be used for both sign-up and updating profile
     suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): UpdateUserResponse
 
     //Shop Repo
