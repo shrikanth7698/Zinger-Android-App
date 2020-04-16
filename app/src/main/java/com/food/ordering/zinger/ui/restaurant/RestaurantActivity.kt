@@ -54,7 +54,6 @@ class RestaurantActivity : AppCompatActivity() {
     private fun getArgs() {
         val temp = intent.getStringExtra("shop")
         shop = Gson().fromJson(temp, ShopsResponseData::class.java)
-
     }
 
     private fun initView() {
@@ -92,7 +91,7 @@ class RestaurantActivity : AppCompatActivity() {
     private fun updateShopUI() {
         binding.toolbarLayout.title = shop?.shopModel?.name
         binding.textShopRating.text = shop?.ratingModel?.rating.toString()
-        Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).into(binding.imageExpanded)
+        Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).placeholder(R.drawable.shop_placeholder).into(binding.imageExpanded)
     }
 
     private fun setObservers() {
@@ -108,7 +107,13 @@ class RestaurantActivity : AppCompatActivity() {
                     cartList.addAll(cart)
                     updateCartUI()
                     foodItemList.clear()
-                    resource.data?.let { it1 -> foodItemList.addAll(it1) }
+                    resource.data?.let { it1 ->
+                        it1.forEach { item ->
+                            item.shopId = shop?.shopModel?.id
+                            item.shopName = shop?.shopModel?.name
+                            foodItemList.add(item)
+                        }
+                    }
                     if (cartList.size > 0) {
                         if (cartList[0].shopModel?.id == shop?.shopModel?.id) {
                             var i = 0
@@ -155,7 +160,7 @@ class RestaurantActivity : AppCompatActivity() {
             override fun onQuantityAdd(position: Int) {
                 println("quantity add clicked $position")
                 if (cartList.size > 0) {
-                    if (cartList[0].shopModel?.id == shop?.shopModel?.id) {
+                    if (cartList[0].shopId == shop?.shopModel?.id) {
                         foodItemList[position].quantity = foodItemList[position].quantity + 1
                         var k = 0
                         for (i in cartList.indices) {
@@ -170,7 +175,7 @@ class RestaurantActivity : AppCompatActivity() {
                         updateCartUI()
                         saveCart(cartList)
                     } else { //Show replace cart confirmation dialog
-                        var message = "Your cart contains food from " + cartList[0].shopModel?.name + ". "
+                        var message = "Your cart contains food from " + cartList[0].shopName + ". "
                         message += "Do you want to discard the cart and add food from " + shop?.shopModel?.name + "?"
                         MaterialAlertDialogBuilder(this@RestaurantActivity)
                                 .setTitle("Replace cart?")
