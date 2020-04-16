@@ -2,7 +2,9 @@ package com.food.ordering.zinger.ui.search
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.retrofit.ItemRepository
 import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
@@ -10,42 +12,34 @@ import java.net.UnknownHostException
 import java.util.ArrayList
 
 
-class SearchViewModel(private val productRepository: UserRepository) : ViewModel() {
+class SearchViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
-    //Fetch total stats
-    private val performFetchShops = MutableLiveData<Resource<List<Shop>>>()
-    val performFetchShopsStatus: LiveData<Resource<List<Shop>>>
-        get() = performFetchShops
+    //search menu items
+    private val performFetchMenu = MutableLiveData<Resource<List<MenuItem>>>()
+    val performFetchMenuStatus: LiveData<Resource<List<MenuItem>>>
+        get() = performFetchMenu
 
-    fun getShops() {
+    fun getMenu(placeId: String, query: String) {
         viewModelScope.launch {
             try {
-                performFetchShops.value = Resource.loading()
-                //val response = productRepository.getStats()
-                val response = loadShops()
-                performFetchShops.value = Resource.success(response)
+                performFetchMenu.value = Resource.loading()
+                val response = itemRepository.searchItems(placeId, query)
+                if (response != null) {
+                    if (!response.data.isNullOrEmpty()) {
+                        performFetchMenu.value = Resource.success(response.data)
+                    } else {
+                        performFetchMenu.value = Resource.empty()
+                    }
+                }
             } catch (e: Exception) {
                 println("fetch stats failed ${e.message}")
                 if (e is UnknownHostException) {
-                    performFetchShops.value = Resource.offlineError()
+                    performFetchMenu.value = Resource.offlineError()
                 } else {
-                    performFetchShops.value = Resource.error(e)
+                    performFetchMenu.value = Resource.error(e)
                 }
             }
         }
-    }
-
-    private fun loadShops(): List<Shop> {
-        val shops: MutableList<Shop> = ArrayList()
-        var shop = Shop("1", "Sathyas Main Canteen", "Restaurant", "4.2", "https://i.udemycdn.com/course/750x422/2729284_f9fa_3.jpg")
-        shops.add(shop)
-        shop = Shop("2", "Shiv Joint", "Restaurant", "4.0", "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfmlzlZEE15qncrWbPXRRgF8zXX4fllts4zQBeIXwONt3nmFXV")
-        shops.add(shop)
-        shop = Shop("3", "Snow Cube Special Sundae ", "Dish", "4.8", "file:///android_asset/food.png")
-        shops.add(shop)
-        shop = Shop("4", "Schezwan Fried Rice", "Dish", "4.9", "file:///android_asset/food.png")
-        shops.add(shop)
-        return shops
     }
 
 }

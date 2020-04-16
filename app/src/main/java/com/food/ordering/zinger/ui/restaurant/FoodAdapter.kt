@@ -34,7 +34,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
             binding.textFoodDesc.text = food.category
             binding.textFoodPrice.text = "₹" + food.price
             binding.layoutRoot.setOnClickListener { listener.onItemClick(food, position) }
-            if (food.isVeg==0) {
+            if (food.isVeg==1) {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_veg))
             } else {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_non_veg))

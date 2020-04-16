@@ -21,11 +21,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class RestaurantActivity : AppCompatActivity() {
 
@@ -37,16 +37,16 @@ class RestaurantActivity : AppCompatActivity() {
     var foodItemList: ArrayList<MenuItem> = ArrayList()
     var cartList: ArrayList<MenuItem> = ArrayList()
     var shop: ShopsResponseData? = null
-    private lateinit var cartSnackbar: Snackbar
-    private lateinit var errorSnackbar: Snackbar
+    private lateinit var cartSnackBar: Snackbar
+    private lateinit var errorSnackBar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getArgs()
         initView()
         setObservers()
-        cartSnackbar.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
-        errorSnackbar.setAction("Try again") {
+        cartSnackBar.setAction("View Cart") { startActivity(Intent(applicationContext, CartActivity::class.java)) }
+        errorSnackBar.setAction("Try again") {
             viewModel.getMenu(shop?.shopModel?.id.toString())
         }
         shop?.let {
@@ -64,10 +64,10 @@ class RestaurantActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant)
         setSupportActionBar(binding.toolbar)
         progressDialog = ProgressDialog(this)
-        cartSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        cartSnackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
-        errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        val snackButton: Button = errorSnackbar.view.findViewById(R.id.snackbar_action)
+        cartSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        cartSnackBar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
+        errorSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        val snackButton: Button = errorSnackBar.view.findViewById(R.id.snackbar_action)
         snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
         snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
@@ -77,7 +77,7 @@ class RestaurantActivity : AppCompatActivity() {
         binding.toolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.black))
         binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout, verticalOffset ->
             binding.appBar.post {
-                if (Math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) { //Collapsed
+                if (abs(verticalOffset) - appBarLayout.totalScrollRange == 0) { //Collapsed
                     binding.textShopRating.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
                     binding.textShopRating.setTextColor(ContextCompat.getColor(applicationContext, android.R.color.black))
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
@@ -104,7 +104,7 @@ class RestaurantActivity : AppCompatActivity() {
                 Resource.Status.LOADING -> {
                     progressDialog.setMessage("Getting menu")
                     progressDialog.show()
-                    errorSnackbar.dismiss()
+                    errorSnackBar.dismiss()
                 }
                 Resource.Status.SUCCESS -> {
                     cartList.clear()
@@ -135,24 +135,24 @@ class RestaurantActivity : AppCompatActivity() {
                     }
                     foodAdapter.notifyDataSetChanged()
                     progressDialog.dismiss()
-                    errorSnackbar.dismiss()
+                    errorSnackBar.dismiss()
                 }
                 Resource.Status.EMPTY -> {
                     progressDialog.dismiss()
                     foodItemList.clear()
                     foodAdapter.notifyDataSetChanged()
-                    errorSnackbar.setText("No food items available in this shop")
-                    errorSnackbar.show()
+                    errorSnackBar.setText("No food items available in this shop")
+                    errorSnackBar.show()
                 }
                 Resource.Status.OFFLINE_ERROR -> {
                     progressDialog.dismiss()
-                    errorSnackbar.setText("No Internet Connection")
-                    errorSnackbar.show()
+                    errorSnackBar.setText("No Internet Connection")
+                    errorSnackBar.show()
                 }
                 Resource.Status.ERROR -> {
                     progressDialog.dismiss()
-                    errorSnackbar.setText("Something went wrong")
-                    errorSnackbar.show()
+                    errorSnackBar.setText("Something went wrong")
+                    errorSnackBar.show()
                 }
             }
         })
@@ -184,22 +184,22 @@ class RestaurantActivity : AppCompatActivity() {
                         MaterialAlertDialogBuilder(this@RestaurantActivity)
                                 .setTitle("Replace cart?")
                                 .setMessage(message)
-                                .setPositiveButton("Yes") { dialog, which ->
+                                .setPositiveButton("Yes") { dialog, _ ->
                                     foodItemList[position].quantity = foodItemList[position].quantity + 1
-                                    foodAdapter!!.notifyItemChanged(position)
+                                    foodAdapter.notifyItemChanged(position)
                                     cartList.clear()
                                     cartList.add(foodItemList[position])
                                     saveCart(cartList)
                                     updateCartUI()
                                     dialog.dismiss()
                                 }
-                                .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
+                                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
                                 .show()
                     }
                 } else {
                     foodItemList[position].quantity = foodItemList[position].quantity + 1
                     cartList.add(foodItemList[position])
-                    foodAdapter!!.notifyItemChanged(position)
+                    foodAdapter.notifyItemChanged(position)
                     updateCartUI()
                     saveCart(cartList)
                 }
@@ -219,14 +219,14 @@ class RestaurantActivity : AppCompatActivity() {
                             break
                         }
                     }
-                    foodAdapter!!.notifyItemChanged(position)
+                    foodAdapter.notifyItemChanged(position)
                     updateCartUI()
                     saveCart(cartList)
                 }
             }
         })
-        binding!!.recyclerFoodItems.layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
-        binding!!.recyclerFoodItems.adapter = foodAdapter
+        binding.recyclerFoodItems.layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerFoodItems.adapter = foodAdapter
     }
 
     private fun updateCartUI() {
@@ -238,13 +238,13 @@ class RestaurantActivity : AppCompatActivity() {
                 totalItems += cartList[i].quantity
             }
             if (totalItems == 1) {
-                cartSnackbar.setText("₹$total | $totalItems item")
+                cartSnackBar.setText("₹$total | $totalItems item")
             } else {
-                cartSnackbar.setText("₹$total | $totalItems items")
+                cartSnackBar.setText("₹$total | $totalItems items")
             }
-            cartSnackbar.show()
+            cartSnackBar.show()
         } else {
-            cartSnackbar.dismiss()
+            cartSnackBar.dismiss()
         }
     }
 
@@ -275,6 +275,5 @@ class RestaurantActivity : AppCompatActivity() {
         cartList.clear()
         cartList.addAll(cart)
         updateCartUI()
-        //viewModel.getMenu(shop);
     }
 }
