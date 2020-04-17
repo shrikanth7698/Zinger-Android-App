@@ -1,7 +1,6 @@
 package com.food.ordering.zinger.data.retrofit
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.utils.AppConstants
 import okhttp3.Interceptor
@@ -18,7 +17,7 @@ class AuthInterceptor(val context: Context, val preferences: PreferencesHelper) 
         )
         /*//Check if device is connected to internet
         if (!NetworkUtils.isOnline(context)) {
-            throw NoConnectivityException()
+            throw NoConnectivityException()z
         }*/
 
         val request = if (!whiteListedEndpoints.contains(req.url().encodedPath())) {

@@ -251,7 +251,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         if (cartList.size > 0) {
             for (i in cartList.indices) {
                 total += cartList[i].price * cartList[i].quantity
-                totalItems += cartList[i].quantity
+                totalItems += 1
             }
             if (totalItems == 1) {
                 cartSnackBar!!.setText("₹$total | $totalItems item")

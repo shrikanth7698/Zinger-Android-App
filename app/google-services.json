@@ -44,6 +44,67 @@
       },
       "oauth_client": [
         {
+          "client_id": "388724858747-vvbp0grqjsiiq5u75iggq25k2s40b2am.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.food.ordering.zinger.debug",
+            "certificate_hash": "573439614a858539291c7fca017e0b3d73aa7095"
+          }
+        },
+        {
+          "client_id": "388724858747-hoch5pjpeu2ederm3jsh1ph3igl8q7j5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.food.ordering.zinger.debug",
+            "certificate_hash": "defec49ef5dc3919afac6ab6ac25a94b6b4f383e"
+          }
+        },
+        {
+          "client_id": "388724858747-svok8tlu63tsprkqtdkagiipr7rn6242.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.food.ordering.zinger.debug",
+            "certificate_hash": "1de45522631b6076abe1c20339f3097a3079df32"
+          }
+        },
+        {
+          "client_id": "388724858747-m7pujp36r6gkicff703rothf664ii138.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc3OGuTsarP4_iAcTeJ3mvoJRWs6mfh1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388724858747-m7pujp36r6gkicff703rothf664ii138.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388724858747:android:3f49eb08c7ac68ae2b67de",
+        "android_client_info": {
+          "package_name": "com.food.ordering.zinger.seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388724858747-9j4hbnr6msphbr6jkqfdp42fme2d96aj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.food.ordering.zinger.seller",
+            "certificate_hash": "defec49ef5dc3919afac6ab6ac25a94b6b4f383e"
+          }
+        },
+        {
           "client_id": "388724858747-m7pujp36r6gkicff703rothf664ii138.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -174,7 +174,9 @@ class RestaurantActivity : AppCompatActivity() {
                                 break
                             }
                         }
-                        if (k == 0) cartList.add(foodItemList[position])
+                        if (k == 0){
+                            cartList.add(foodItemList[position])
+                        }
                         foodAdapter.notifyItemChanged(position)
                         updateCartUI()
                         saveCart(cartList)
@@ -235,7 +237,7 @@ class RestaurantActivity : AppCompatActivity() {
         if (cartList.size > 0) {
             for (i in cartList.indices) {
                 total += cartList[i].price * cartList[i].quantity
-                totalItems += cartList[i].quantity
+                totalItems += 1
             }
             if (totalItems == 1) {
                 cartSnackBar.setText("₹$total | $totalItems item")
