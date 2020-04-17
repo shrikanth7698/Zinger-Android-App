@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.FoodItem
 import com.food.ordering.zinger.data.model.OrderItems
 import com.food.ordering.zinger.databinding.ItemCartProductBinding
 import com.food.ordering.zinger.databinding.ItemOrderProductBinding

@@ -27,13 +27,13 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center|start"
-                android:text="Information to convey to restaurant"
+                android:text="Enter Delivery Location"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_info"
+                android:id="@+id/edit_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -42,13 +42,13 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="start|center"
-                android:hint="eg: less sugar"
+                android:hint="eg: PG hostel"
                 android:paddingBottom="16dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_save_text_info"
+                android:id="@+id/button_save_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

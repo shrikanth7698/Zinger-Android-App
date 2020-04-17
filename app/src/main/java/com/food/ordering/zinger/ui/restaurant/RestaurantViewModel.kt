@@ -2,11 +2,8 @@ package com.food.ordering.zinger.ui.restaurant
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.FoodItem
 import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.retrofit.ItemRepository
-import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException

@@ -60,6 +60,10 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         get() = cartPreferences.getString(AppConstants.CART_SHOP_INFO, null)
         set(value) = cartPreferences.edit().putString(AppConstants.CART_SHOP_INFO, value).apply()
 
+    override var cartDeliveryLocation: String?
+        get() = cartPreferences.getString(AppConstants.CART_DELIVERY_LOCATION, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART_DELIVERY_LOCATION, value).apply()
+
     override fun saveUser(name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?) {
         customerPreferences.edit().putString(AppConstants.CUSTOMER_NAME, name).apply()
         customerPreferences.edit().putString(AppConstants.CUSTOMER_EMAIL, email).apply()

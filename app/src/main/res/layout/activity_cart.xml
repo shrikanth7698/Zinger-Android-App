@@ -211,8 +211,27 @@
                     android:fontFamily="@font/open_sans_semibold"
                     android:gravity="center|start"
                     android:padding="16dp"
-                    android:text="Any information to convey to Sathyas Main Canteen?"
+                    tools:text="Any information to convey to Sathyas Main Canteen?"
                     android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EAEAEA" />
+
+                <TextView
+                    android:id="@+id/text_delivery_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#F7F7F7"
+                    android:drawableStart="@drawable/ic_location"
+                    android:drawablePadding="16dp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:gravity="center|start"
+                    android:padding="16dp"
+                    android:textStyle="bold"
+                    android:text="Enter Delivery Location" />
 
 
             </LinearLayout>

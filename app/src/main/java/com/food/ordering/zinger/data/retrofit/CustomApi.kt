@@ -33,6 +33,10 @@ interface CustomApi {
             @Path("mobile") mobile: String,
             @Path("pageNum") pageNum: Int,
             @Path("pageCount") pageCount: Int): OrdersResponse
+    @POST("/order")
+    suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): PlaceOrderResponse
+    @POST("/order/place/{orderId}")
+    suspend fun placeOrder(@Path("orderId") orderId: String): PlaceOrderResponse
 
 
 }

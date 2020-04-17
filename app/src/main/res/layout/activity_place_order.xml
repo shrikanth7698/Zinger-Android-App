@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context="com.food.ordering.zinger.ui.login.LoginActivity">
+
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:orientation="vertical"
+				android:padding="16dp">
+
+				<com.airbnb.lottie.LottieAnimationView
+					android:id="@+id/animation_view"
+					android:layout_width="200dp"
+					android:layout_height="200dp"
+					app:lottie_autoPlay="true"
+					app:lottie_loop="true"
+					app:lottie_fileName="loading_animation.json"
+					android:layout_gravity="center" />
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:layout_margin="16dp"
+					android:fontFamily="@font/poppins_bold"
+					android:gravity="center|start"
+					android:paddingTop="3dp"
+					android:text="Placing order"
+					android:textAppearance="@style/AppbarTitle"
+					android:textColor="@android:color/black"
+					android:textSize="18sp" />
+
+			</LinearLayout>
+
+		</RelativeLayout>
+
+</layout>

@@ -16,6 +16,7 @@ object AppConstants {
     const val CART_SHOP = "cart_shop"
     const val CART_DELIVERY = "cart_delivery"
     const val CART_SHOP_INFO = "cart_shop_info"
+    const val CART_DELIVERY_LOCATION = "cart_delivery_location"
     const val ORDER_DETAIL = "order_detail"
 
     //ORDER STATUS

@@ -67,6 +67,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.github.sujithkanna:smileyrating:2.0.0'
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
