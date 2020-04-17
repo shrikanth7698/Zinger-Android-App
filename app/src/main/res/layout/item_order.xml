@@ -64,9 +64,11 @@
 					android:orientation="vertical">
 
 					<TextView
-						android:layout_width="match_parent"
+						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_gravity="end"
 						android:fontFamily="@font/open_sans_bold"
+						android:gravity="end"
 						android:text="AMOUNT"
 						android:textColor="@android:color/tab_indicator_text"
 						android:textSize="10sp" />
@@ -74,10 +76,12 @@
 
 					<TextView
 						android:id="@+id/text_order_price"
-						android:layout_width="match_parent"
+						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:fontFamily="@font/open_sans_bold"
 						android:textColor="@color/colorAccentLight"
+						android:layout_gravity="end"
+						android:gravity="end"
 						android:textSize="14sp"
 						tools:text="$50" />
 				</LinearLayout>
@@ -126,10 +130,10 @@
 					android:layout_gravity="center"
 					android:drawableStart="@drawable/ic_pending"
 					android:drawablePadding="4dp"
-					android:paddingTop="8dp"
-					android:paddingBottom="4dp"
 					android:fontFamily="@font/poppins_semibold"
 					android:gravity="center"
+					android:paddingTop="8dp"
+					android:paddingBottom="4dp"
 					android:textColor="@android:color/tab_indicator_text"
 					android:textSize="16sp"
 					tools:text="Pending" />

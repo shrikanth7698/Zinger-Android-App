@@ -1,6 +1,7 @@
 package com.food.ordering.zinger.ui.profile
 
 import android.app.ProgressDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +17,7 @@ import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.model.UserModel
 import com.food.ordering.zinger.databinding.ActivityProfileBinding
 import com.food.ordering.zinger.databinding.BottomSheetCampusListBinding
+import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -78,7 +80,7 @@ class ProfileActivity : AppCompatActivity() {
             showCampusListBottomDialog()
         }
         binding.textYourOrders.setOnClickListener {
-            //TODO open orders activity
+            startActivity(Intent(applicationContext, OrdersActivity::class.java))
         }
     }
 

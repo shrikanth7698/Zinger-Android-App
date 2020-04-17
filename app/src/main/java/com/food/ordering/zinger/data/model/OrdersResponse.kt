@@ -79,7 +79,7 @@ data class OrderModel(
     @SerializedName("deliveryLocation")
     val deliveryLocation: String?,
     @SerializedName("deliveryPrice")
-    val deliveryPrice: Int,
+    val deliveryPrice: Double?,
     @SerializedName("id")
     val id: String,
     @SerializedName("lastStatusUpdatedTime")

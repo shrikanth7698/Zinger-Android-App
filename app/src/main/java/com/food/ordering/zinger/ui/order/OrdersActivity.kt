@@ -1,6 +1,7 @@
 package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.Html
@@ -17,7 +18,9 @@ import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.OrderData
 import com.food.ordering.zinger.databinding.ActivityOrdersBinding
+import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -132,9 +135,9 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupShopRecyclerView() {
         orderAdapter = OrdersAdapter(orderList, object : OrdersAdapter.OnItemClickListener {
             override fun onItemClick(item: OrderData?, position: Int) {
-                //val intent = Intent(applicationContext, RestaurantActivity::class.java)
-                //intent.putExtra("shop", item)
-                //startActivity(intent)
+                val intent = Intent(applicationContext, OrderDetailActivity::class.java)
+                intent.putExtra(AppConstants.PREFS_ORDER_DETAIL, Gson().toJson(item))
+                startActivity(intent)
             }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@OrdersActivity, LinearLayoutManager.VERTICAL, false)

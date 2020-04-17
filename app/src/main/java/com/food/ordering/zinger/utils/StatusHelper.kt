@@ -35,7 +35,7 @@ object StatusHelper{
         return when(status){
             ORDER_STATUS_PENDING -> "Transaction pending. Bank is still processing your transaction"
             ORDER_STATUS_TXN_FAILURE -> "Transaction failed. If money is deducted it will be refunded in 2 - 4 business hours"
-            ORDER_STATUS_PLACED -> "Order has been successfully placed. Awaiting for restaurant response"
+            ORDER_STATUS_PLACED -> "Order has been successfully placed. Waiting for restaurant response"
             ORDER_STATUS_CANCELLED_BY_USER -> "Cancelled by you. Money will be refunded in 2 - 4 business hours"
             ORDER_STATUS_ACCEPTED -> "Order Accepted. Restaurant is preparing your food"
             ORDER_STATUS_CANCELLED_BY_SELLER -> "Cancelled by shop. Money will be refunded in 2 - 4 business hours"

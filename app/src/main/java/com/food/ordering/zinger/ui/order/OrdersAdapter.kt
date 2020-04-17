@@ -87,6 +87,13 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
 
             }
             binding.layoutRoot.setOnClickListener { listener.onItemClick(order, position) }
+            binding.buttonTrackRate.setOnClickListener {
+                if(binding.buttonTrackRate.text.toString()=="Rate Order"||binding.buttonTrackRate.text.toString()=="Rate Food"){
+                    //TODO show rating dialog
+                }else{
+                    listener.onItemClick(order, position)
+                }
+            }
         }
 
     }
