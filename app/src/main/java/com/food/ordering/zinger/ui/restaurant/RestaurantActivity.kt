@@ -277,5 +277,6 @@ class RestaurantActivity : AppCompatActivity() {
         cartList.clear()
         cartList.addAll(cart)
         updateCartUI()
+        viewModel.getMenu(shop?.shopModel?.id.toString())
     }
 }

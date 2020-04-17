@@ -7,6 +7,7 @@ object AppConstants {
     const val PREFS_CUSTOMER = "customer"
     const val PREFS_CART = "cart"
     const val PREFS_CART_SHOP = "cart_shop"
+    const val PREFS_CART_DELIVERY = "cart_delivery"
     const val PREFS_ORDER_DETAIL = "cart_shop"
     const val PREFS_CUSTOMER_NAME = "name"
     const val PREFS_CUSTOMER_EMAIL = "email"

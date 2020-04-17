@@ -63,7 +63,6 @@ class CartActivity : AppCompatActivity() {
         if(shop?.configurationModel?.deliveryPrice!==null){
             deliveryPrice = shop?.configurationModel?.deliveryPrice!!
         }
-
     }
 
     private fun initView() {
@@ -103,6 +102,15 @@ class CartActivity : AppCompatActivity() {
         }
         binding.layoutShop.textShopRating.text = shop?.ratingModel?.rating.toString()
         binding.textInfo.text = "Any information to convey to " + shop?.shopModel?.name + "?"
+        if(!preferencesHelper.cartDeliveryPref.isNullOrEmpty()){
+            if(preferencesHelper.cartDeliveryPref=="delivery") {
+                binding.radioDelivery.isChecked = true
+                binding.radioPickup.isChecked = false
+                binding.textDeliveryPrice.text = "₹" + deliveryPrice.toInt().toString()
+                isPickup = false
+                updateCartUI()
+            }
+        }
     }
 
     private fun setupMenuRecyclerView() {
@@ -147,6 +155,7 @@ class CartActivity : AppCompatActivity() {
         var total = 0
         var totalItems = 0
         if (cartList.size > 0) {
+
             binding.layoutContent.visibility = View.VISIBLE
             binding.layoutEmpty.visibility = View.GONE
             for (i in cartList.indices) {
@@ -155,6 +164,7 @@ class CartActivity : AppCompatActivity() {
             }
             if(!isPickup) {
                 total += deliveryPrice.toInt()
+                preferencesHelper.cartDeliveryPref = "delivery"
             }
             binding.textTotal.text = "₹$total"
             if (totalItems == 1) {
@@ -164,6 +174,7 @@ class CartActivity : AppCompatActivity() {
             }
             snackbar!!.show()
         } else {
+            preferencesHelper.cartDeliveryPref = ""
             snackbar!!.dismiss()
             binding.layoutContent.visibility = View.GONE
             binding.layoutEmpty.visibility = View.VISIBLE
