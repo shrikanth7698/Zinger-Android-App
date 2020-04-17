@@ -2,13 +2,17 @@ package com.food.ordering.zinger.ui.cart
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
+import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.model.FoodItem
+import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityCartBinding
 import com.food.ordering.zinger.utils.SharedPreferenceHelper
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
@@ -16,16 +20,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class CartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
-    private var cartAdapter: CartAdapter? = null
-    private var progressDialog: ProgressDialog? = null
-    private var cartList: MutableList<FoodItem> = ArrayList()
-    private var shop: Shop? = null
+    private val preferencesHelper: PreferencesHelper by inject()
+    private lateinit var cartAdapter: CartAdapter
+    private lateinit var progressDialog: ProgressDialog
+    private var cartList: MutableList<MenuItem> = ArrayList()
+    private var shop: ShopsResponseData? = null
     private var snackbar: Snackbar? = null
+    private var isPickup = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,21 +46,24 @@ class CartActivity : AppCompatActivity() {
             binding.radioPickup.isChecked = true
             binding.radioDelivery.isChecked = false
             binding.textDeliveryPrice.text = "₹0"
-            deliveryPrice = 0
+            isPickup = true
             updateCartUI()
         }
         binding.radioDelivery.setOnClickListener {
             binding.radioDelivery.isChecked = true
             binding.radioPickup.isChecked = false
-            binding.textDeliveryPrice.text = "₹30"
-            deliveryPrice = 30
+            binding.textDeliveryPrice.text = "₹"+deliveryPrice.toInt().toString()
+            isPickup = false
             updateCartUI()
         }
     }
 
     private fun getArgs() {
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        shop = gson.fromJson(SharedPreferenceHelper.getSharedPreferenceString(this, "cart_shop", ""), Shop::class.java)
+        shop = preferencesHelper.getCartShop()
+        if(shop?.configurationModel?.deliveryPrice!==null){
+            deliveryPrice = shop?.configurationModel?.deliveryPrice!!
+        }
+
     }
 
     private fun initView() {
@@ -79,12 +89,20 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun updateShopUI() {
-        binding.layoutShop.textShopName.text = shop!!.name
-        binding.layoutShop.textShopDesc.text = shop!!.desc
-        binding.layoutShop.textShopRating.text = shop!!.rating
-        binding.textInfo.text = "Any information to convey to " + shop!!.name + "?"
-        Picasso.get().load(shop!!.imageUrl).into(binding.imageExpanded)
-        Picasso.get().load(shop!!.imageUrl).into(binding.layoutShop.imageShop)
+        Picasso.get().load(shop?.shopModel?.photoUrl).placeholder(R.drawable.ic_shop).into(binding.layoutShop.imageShop)
+        Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).placeholder(R.drawable.shop_placeholder).into(binding.imageExpanded)
+        binding.layoutShop.textShopName.text = shop?.shopModel?.name
+        if(shop?.configurationModel?.isOrderTaken==1){
+            if(shop?.configurationModel?.isDeliveryAvailable==1){
+                binding.layoutShop.textShopDesc.text = "Closes at "+shop?.shopModel?.closingTime?.substring(0,5)
+            }else{
+                binding.layoutShop.textShopDesc.text = "Closes at "+shop?.shopModel?.closingTime?.substring(0,5)+" (Delivery not available)"
+            }
+        }else{
+            binding.layoutShop.textShopDesc.text = "Closed Now"
+        }
+        binding.layoutShop.textShopRating.text = shop?.ratingModel?.rating.toString()
+        binding.textInfo.text = "Any information to convey to " + shop?.shopModel?.name + "?"
     }
 
     private fun setupMenuRecyclerView() {
@@ -93,7 +111,7 @@ class CartActivity : AppCompatActivity() {
         updateCartUI()
         cartAdapter = CartAdapter(applicationContext, cartList, object : CartAdapter.OnItemClickListener {
 
-            override fun onItemClick(item: FoodItem?, position: Int) {
+            override fun onItemClick(item: MenuItem?, position: Int) {
 
             }
 
@@ -124,16 +142,20 @@ class CartActivity : AppCompatActivity() {
         binding.recyclerFoodItems.adapter = cartAdapter
     }
 
-    var deliveryPrice = 0
+    var deliveryPrice = 0.0
     private fun updateCartUI() {
         var total = 0
         var totalItems = 0
         if (cartList.size > 0) {
+            binding.layoutContent.visibility = View.VISIBLE
+            binding.layoutEmpty.visibility = View.GONE
             for (i in cartList.indices) {
                 total += cartList[i].price * cartList[i].quantity
-                totalItems += cartList[i].quantity
+                totalItems += 1
             }
-            total += deliveryPrice
+            if(!isPickup) {
+                total += deliveryPrice.toInt()
+            }
             binding.textTotal.text = "₹$total"
             if (totalItems == 1) {
                 snackbar!!.setText("₹$total | $totalItems item")
@@ -143,22 +165,21 @@ class CartActivity : AppCompatActivity() {
             snackbar!!.show()
         } else {
             snackbar!!.dismiss()
+            binding.layoutContent.visibility = View.GONE
+            binding.layoutEmpty.visibility = View.VISIBLE
         }
     }
 
-    fun saveCart(foodItems: List<FoodItem>?) {
+    fun saveCart(foodItems: List<MenuItem>?) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val cartString = gson.toJson(foodItems)
-        SharedPreferenceHelper.setSharedPreferenceString(this, "cart", cartString)
+        preferencesHelper.cart = cartString
     }
 
-    val cart: List<FoodItem>
+    val cart: List<MenuItem>
         get() {
-            val items: MutableList<FoodItem> = ArrayList()
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            val listType = object : TypeToken<List<FoodItem?>?>() {}.type
-            val json = SharedPreferenceHelper.getSharedPreferenceString(this, "cart", "")
-            val temp = gson.fromJson<List<FoodItem>>(json, listType)
+            val items: MutableList<MenuItem> = ArrayList()
+            val temp = preferencesHelper.getCart()
             if (temp != null) {
                 items.addAll(temp)
             }

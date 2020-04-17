@@ -22,7 +22,7 @@ data class ShopsResponseData(
 
 data class ConfigurationModel(
     @SerializedName("deliveryPrice")
-    val deliveryPrice: Int,
+    val deliveryPrice: Double?,
     @SerializedName("isDeliveryAvailable")
     val isDeliveryAvailable: Int,
     @SerializedName("isOrderTaken")
