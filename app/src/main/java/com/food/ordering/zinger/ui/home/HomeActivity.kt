@@ -29,7 +29,6 @@ import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
-import com.food.ordering.zinger.utils.SharedPreferenceHelper.getSharedPreferenceString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson

@@ -187,6 +187,7 @@ class RestaurantActivity : AppCompatActivity() {
                                 .setTitle("Replace cart?")
                                 .setMessage(message)
                                 .setPositiveButton("Yes") { dialog, _ ->
+                                    preferencesHelper.clearCartPreferences()
                                     foodItemList[position].quantity = foodItemList[position].quantity + 1
                                     foodAdapter.notifyItemChanged(position)
                                     cartList.clear()
@@ -246,6 +247,7 @@ class RestaurantActivity : AppCompatActivity() {
             }
             cartSnackBar.show()
         } else {
+            preferencesHelper.clearCartPreferences()
             cartSnackBar.dismiss()
         }
     }

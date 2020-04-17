@@ -14,60 +14,68 @@ import com.google.gson.reflect.TypeToken
 class PreferencesHelper(context: Context) : AppPreferencesHelper {
 
     private val loginPreferences: SharedPreferences =
-            context.getSharedPreferences(AppConstants.PREFS_LOGIN_PREFS, MODE_PRIVATE)
+            context.getSharedPreferences(AppConstants.LOGIN_PREFS, MODE_PRIVATE)
     private val customerPreferences: SharedPreferences =
-            context.getSharedPreferences(AppConstants.PREFS_CUSTOMER, MODE_PRIVATE)
+            context.getSharedPreferences(AppConstants.CUSTOMER_PREFS, MODE_PRIVATE)
     private val cartPreferences: SharedPreferences =
-            context.getSharedPreferences(AppConstants.PREFS_CUSTOMER, MODE_PRIVATE)
+            context.getSharedPreferences(AppConstants.CART_PREFERENCES, MODE_PRIVATE)
 
     override var name: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_NAME, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_NAME, value).apply()
+        get() = customerPreferences.getString(AppConstants.CUSTOMER_NAME, null)
+        set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_NAME, value).apply()
 
     override var email: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_EMAIL, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_EMAIL, value).apply()
+        get() = customerPreferences.getString(AppConstants.CUSTOMER_EMAIL, null)
+        set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_EMAIL, value).apply()
 
     override var mobile: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_MOBILE, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_MOBILE, value).apply()
+        get() = customerPreferences.getString(AppConstants.CUSTOMER_MOBILE, null)
+        set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_MOBILE, value).apply()
 
     override var role: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_ROLE, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_ROLE, value).apply()
+        get() = customerPreferences.getString(AppConstants.CUSTOMER_ROLE, null)
+        set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_ROLE, value).apply()
 
     override var oauthId: String?
-        get() = loginPreferences.getString(AppConstants.PREFS_AUTH_TOKEN, null)
-        set(value) = loginPreferences.edit().putString(AppConstants.PREFS_AUTH_TOKEN, value).apply()
+        get() = loginPreferences.getString(AppConstants.AUTH_TOKEN, null)
+        set(value) = loginPreferences.edit().putString(AppConstants.AUTH_TOKEN, value).apply()
 
     override var place: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CUSTOMER_PLACE, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_PLACE, value).apply()
+        get() = customerPreferences.getString(AppConstants.CUSTOMER_PLACE, null)
+        set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, value).apply()
 
     override var cart: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CART, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CART, value).apply()
+        get() = cartPreferences.getString(AppConstants.CART, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART, value).apply()
 
     override var cartShop: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CART_SHOP, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CART_SHOP, value).apply()
+        get() = cartPreferences.getString(AppConstants.CART_SHOP, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART_SHOP, value).apply()
 
     override var cartDeliveryPref: String?
-        get() = customerPreferences.getString(AppConstants.PREFS_CART_DELIVERY, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.PREFS_CART_DELIVERY, value).apply()
+        get() = cartPreferences.getString(AppConstants.CART_DELIVERY, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART_DELIVERY, value).apply()
+
+    override var cartShopInfo: String?
+        get() = cartPreferences.getString(AppConstants.CART_SHOP_INFO, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART_SHOP_INFO, value).apply()
 
     override fun saveUser(name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?) {
-        customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_NAME, name).apply()
-        customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_EMAIL, email).apply()
-        customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_MOBILE, mobile).apply()
-        customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_ROLE, role).apply()
-        loginPreferences.edit().putString(AppConstants.PREFS_AUTH_TOKEN, oauthId).apply()
-        customerPreferences.edit().putString(AppConstants.PREFS_CUSTOMER_PLACE, place).apply()
+        customerPreferences.edit().putString(AppConstants.CUSTOMER_NAME, name).apply()
+        customerPreferences.edit().putString(AppConstants.CUSTOMER_EMAIL, email).apply()
+        customerPreferences.edit().putString(AppConstants.CUSTOMER_MOBILE, mobile).apply()
+        customerPreferences.edit().putString(AppConstants.CUSTOMER_ROLE, role).apply()
+        loginPreferences.edit().putString(AppConstants.AUTH_TOKEN, oauthId).apply()
+        customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, place).apply()
     }
 
     override fun clearPreferences() {
         loginPreferences.edit().clear().apply()
         customerPreferences.edit().clear().apply()
+        cartPreferences.edit().clear().apply()
+    }
+
+    override fun clearCartPreferences(){
         cartPreferences.edit().clear().apply()
     }
 

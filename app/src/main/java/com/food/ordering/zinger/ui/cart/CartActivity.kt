@@ -14,8 +14,10 @@ import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityCartBinding
-import com.food.ordering.zinger.utils.SharedPreferenceHelper
+import com.food.ordering.zinger.databinding.BottomSheetCampusListBinding
+import com.food.ordering.zinger.databinding.BottomSheetShopInfoBinding
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -33,6 +35,7 @@ class CartActivity : AppCompatActivity() {
     private var shop: ShopsResponseData? = null
     private var snackbar: Snackbar? = null
     private var isPickup = true
+    private var textInfo:String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,23 @@ class CartActivity : AppCompatActivity() {
             isPickup = false
             updateCartUI()
         }
+        binding.textInfo.setOnClickListener {
+            val dialogBinding: BottomSheetShopInfoBinding =
+                    DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_shop_info, null, false)
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(dialogBinding.root)
+            dialog.show()
+            dialogBinding.editTextInfo.setText(preferencesHelper.cartShopInfo)
+            dialogBinding.buttonSaveTextInfo.setOnClickListener {
+                preferencesHelper.cartShopInfo = dialogBinding.editTextInfo.text.toString()
+                if(!preferencesHelper.cartShopInfo.isNullOrEmpty()){
+                    binding.textInfo.text = preferencesHelper.cartShopInfo
+                }else{
+                    binding.textInfo.text = "Any information to convey to " + shop?.shopModel?.name + "?"
+                }
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun getArgs() {
@@ -63,6 +83,7 @@ class CartActivity : AppCompatActivity() {
         if(shop?.configurationModel?.deliveryPrice!==null){
             deliveryPrice = shop?.configurationModel?.deliveryPrice!!
         }
+        textInfo = preferencesHelper.cartShopInfo
     }
 
     private fun initView() {
@@ -101,7 +122,11 @@ class CartActivity : AppCompatActivity() {
             binding.layoutShop.textShopDesc.text = "Closed Now"
         }
         binding.layoutShop.textShopRating.text = shop?.ratingModel?.rating.toString()
-        binding.textInfo.text = "Any information to convey to " + shop?.shopModel?.name + "?"
+        if(!preferencesHelper.cartShopInfo.isNullOrEmpty()){
+            binding.textInfo.text = preferencesHelper.cartShopInfo
+        }else{
+            binding.textInfo.text = "Any information to convey to " + shop?.shopModel?.name + "?"
+        }
         if(!preferencesHelper.cartDeliveryPref.isNullOrEmpty()){
             if(preferencesHelper.cartDeliveryPref=="delivery") {
                 binding.radioDelivery.isChecked = true
@@ -174,7 +199,7 @@ class CartActivity : AppCompatActivity() {
             }
             snackbar!!.show()
         } else {
-            preferencesHelper.cartDeliveryPref = ""
+            preferencesHelper.clearCartPreferences()
             snackbar!!.dismiss()
             binding.layoutContent.visibility = View.GONE
             binding.layoutEmpty.visibility = View.VISIBLE

@@ -2,33 +2,25 @@ package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.Html
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
-import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.OrderData
 import com.food.ordering.zinger.data.model.OrderItems
-import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityOrderDetailBinding
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -56,7 +48,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getArgs(){
-        order = Gson().fromJson(intent.getStringExtra(AppConstants.PREFS_ORDER_DETAIL), OrderData::class.java)
+        order = Gson().fromJson(intent.getStringExtra(AppConstants.ORDER_DETAIL), OrderData::class.java)
     }
 
     private fun initView() {

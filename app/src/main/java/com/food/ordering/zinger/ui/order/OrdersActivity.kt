@@ -136,7 +136,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         orderAdapter = OrdersAdapter(orderList, object : OrdersAdapter.OnItemClickListener {
             override fun onItemClick(item: OrderData?, position: Int) {
                 val intent = Intent(applicationContext, OrderDetailActivity::class.java)
-                intent.putExtra(AppConstants.PREFS_ORDER_DETAIL, Gson().toJson(item))
+                intent.putExtra(AppConstants.ORDER_DETAIL, Gson().toJson(item))
                 startActivity(intent)
             }
         })

@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
             if (binding.editPhone.text.toString().isNotEmpty()) {
                 //TODO Phone number validation
                 val intent = Intent(applicationContext, OtpActivity::class.java)
-                intent.putExtra(AppConstants.PREFS_CUSTOMER_MOBILE, "+91"+binding.editPhone.text.toString())
+                intent.putExtra(AppConstants.CUSTOMER_MOBILE, "+91"+binding.editPhone.text.toString())
                 startActivity(intent)
             } else {
                 Toast.makeText(applicationContext, "Phone number is blank!", Toast.LENGTH_SHORT).show()

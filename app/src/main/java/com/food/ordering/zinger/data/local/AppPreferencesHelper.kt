@@ -11,8 +11,11 @@ interface AppPreferencesHelper {
     val cart: String?
     val cartShop: String?
     val cartDeliveryPref: String?
+    val cartShopInfo: String?
 
     fun saveUser(name: String?,email: String?, mobile: String?, role: String?, oauthId: String?, place: String?)
 
     fun clearPreferences()
+
+    fun clearCartPreferences()
 }

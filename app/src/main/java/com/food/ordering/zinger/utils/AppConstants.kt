@@ -2,19 +2,23 @@ package com.food.ordering.zinger.utils
 
 object AppConstants {
 
-    const val PREFS_AUTH_TOKEN = "auth_token"
-    const val PREFS_LOGIN_PREFS = "loginPrefs"
-    const val PREFS_CUSTOMER = "customer"
-    const val PREFS_CART = "cart"
-    const val PREFS_CART_SHOP = "cart_shop"
-    const val PREFS_CART_DELIVERY = "cart_delivery"
-    const val PREFS_ORDER_DETAIL = "cart_shop"
-    const val PREFS_CUSTOMER_NAME = "name"
-    const val PREFS_CUSTOMER_EMAIL = "email"
-    const val PREFS_CUSTOMER_PLACE = "place"
-    const val PREFS_CUSTOMER_MOBILE = "mobile"
-    const val PREFS_CUSTOMER_ROLE = "role"
+    //SHARED PREFERENCE NAMES
+    const val LOGIN_PREFS = "login_prefs"
+    const val CUSTOMER_PREFS = "customer_prefs"
+    const val CART_PREFERENCES = "cart_prefs"
+    const val AUTH_TOKEN = "auth_token"
+    const val CUSTOMER_NAME = "name"
+    const val CUSTOMER_EMAIL = "email"
+    const val CUSTOMER_PLACE = "place"
+    const val CUSTOMER_MOBILE = "mobile"
+    const val CUSTOMER_ROLE = "role"
+    const val CART = "cart"
+    const val CART_SHOP = "cart_shop"
+    const val CART_DELIVERY = "cart_delivery"
+    const val CART_SHOP_INFO = "cart_shop_info"
+    const val ORDER_DETAIL = "order_detail"
 
+    //ORDER STATUS
     const val ORDER_STATUS_PENDING = "PENDING"
     const val ORDER_STATUS_TXN_FAILURE = "TXN_FAILURE"
     const val ORDER_STATUS_PLACED = "PLACED"
@@ -27,8 +31,5 @@ object AppConstants {
     const val ORDER_STATUS_DELIVERED = "DELIVERED"
     const val ORDER_STATUS_REFUND_INITIATED = "REFUND_INITIATED"
     const val ORDER_STATUS_REFUND_COMPLETED= "REFUND_COMPLETED"
-
-    //PENDING, TXN_FAILURE, PLACED, CANCELLED_BY_USER, ACCEPTED, CANCELLED_BY_SELLER, READY, OUT_FOR_DELIVERY, COMPLETED, DELIVERED, REFUND_INITIATED, REFUND_COMPLETED
-
 
 }

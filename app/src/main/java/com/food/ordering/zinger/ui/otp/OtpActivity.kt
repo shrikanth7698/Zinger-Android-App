@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -12,11 +11,9 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.LoginRequest
-import com.food.ordering.zinger.databinding.ActivityLoginBinding
 import com.food.ordering.zinger.databinding.ActivityOtpBinding
 import com.food.ordering.zinger.di.networkModule
 import com.food.ordering.zinger.ui.home.HomeActivity
-import com.food.ordering.zinger.ui.home.HomeViewModel
 import com.food.ordering.zinger.ui.signup.SignUpActivity
 import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -54,7 +51,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun getArgs() {
-        number = intent.getStringExtra(AppConstants.PREFS_CUSTOMER_MOBILE)
+        number = intent.getStringExtra(AppConstants.CUSTOMER_MOBILE)
         println("Number testing"+number)
     }
 
