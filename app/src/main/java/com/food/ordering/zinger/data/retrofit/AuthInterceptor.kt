@@ -24,7 +24,7 @@ class AuthInterceptor(val context: Context, val preferences: PreferencesHelper) 
             println("oauth_id testing 1"+preferences.oauthId)
             req.newBuilder()
                     .addHeader("oauth_id", preferences.oauthId)
-                    .addHeader("mobile", preferences.mobile)
+                    .addHeader("id", preferences.userId.toString())
                     .addHeader("role", preferences.role)
                     .build()
         } else {

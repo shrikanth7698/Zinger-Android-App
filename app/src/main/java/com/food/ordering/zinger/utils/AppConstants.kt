@@ -7,6 +7,7 @@ object AppConstants {
     const val CUSTOMER_PREFS = "customer_prefs"
     const val CART_PREFERENCES = "cart_prefs"
     const val AUTH_TOKEN = "auth_token"
+    const val USER_ID = "user_id"
     const val CUSTOMER_NAME = "name"
     const val CUSTOMER_EMAIL = "email"
     const val CUSTOMER_PLACE = "place"

@@ -7,6 +7,7 @@ interface AppPreferencesHelper {
     val mobile: String?
     val role: String?
     val oauthId: String?
+    val userId: Int?
     val place: String?
     val cart: String?
     val cartShop: String?
@@ -14,7 +15,7 @@ interface AppPreferencesHelper {
     val cartShopInfo: String?
     val cartDeliveryLocation: String?
 
-    fun saveUser(name: String?,email: String?, mobile: String?, role: String?, oauthId: String?, place: String?)
+    fun saveUser(userId: Int?, name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?)
 
     fun clearPreferences()
 

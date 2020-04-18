@@ -28,13 +28,13 @@ interface CustomApi {
     suspend fun getMenu(@Path("shopId") shopId: String): MenuResponse
 
     //Order Repo
-    @GET("/order/customer/{mobile}/{pageNum}/{pageCount}")
+    @GET("/order/customer/{userId}/{pageNum}/{pageCount}")
     suspend fun getOrders(
-            @Path("mobile") mobile: String,
+            @Path("userId") id: String,
             @Path("pageNum") pageNum: Int,
             @Path("pageCount") pageCount: Int): OrdersResponse
     @POST("/order")
-    suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): PlaceOrderResponse
+    suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): VerifyOrderResponse
     @POST("/order/place/{orderId}")
     suspend fun placeOrder(@Path("orderId") orderId: String): PlaceOrderResponse
 

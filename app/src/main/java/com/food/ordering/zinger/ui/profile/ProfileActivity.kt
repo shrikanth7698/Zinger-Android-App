@@ -35,6 +35,7 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //TODO add mobile edit
         initView()
         setListener()
         setObservers()
@@ -60,6 +61,7 @@ class ProfileActivity : AppCompatActivity() {
                         val updateUserRequest = UpdateUserRequest(
                                 placeModel = selectedPlace!!,
                                 userModel = UserModel(
+                                        preferencesHelper.userId,
                                         binding.editEmail.text.toString(),
                                         preferencesHelper.mobile,
                                         binding.editName.text.toString()

@@ -65,6 +65,7 @@ class SignUpActivity : AppCompatActivity() {
                         val updateUserRequest = UpdateUserRequest(
                                 placeModel = selectedPlace!!,
                                 userModel = UserModel(
+                                        preferencesHelper.userId,
                                         binding.editEmail.text.toString(),
                                         number,
                                         binding.editName.text.toString()

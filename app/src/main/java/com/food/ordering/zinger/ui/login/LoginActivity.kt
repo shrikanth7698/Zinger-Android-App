@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initView()
         setListener()
+        //TODO check mobile and user id too
         if (!preferencesHelper.oauthId.isNullOrEmpty()) {
             startActivity(Intent(applicationContext, HomeActivity::class.java))
             finish()

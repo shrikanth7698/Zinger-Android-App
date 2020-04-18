@@ -179,7 +179,7 @@ class CartActivity : AppCompatActivity() {
                 Resource.Status.SUCCESS -> {
                     progressDialog.dismiss()
                     errorSnackbar.dismiss()
-                    initiatePayment(it.data?.data,orderId)
+                    initiatePayment(it.data?.data?.transactionToken,it.data?.data?.orderId.toString())
                 }
                 Resource.Status.OFFLINE_ERROR -> {
                     progressDialog.dismiss()
@@ -336,7 +336,6 @@ class CartActivity : AppCompatActivity() {
     private fun verifyOrder(){
         var cookingInfo:String? = null
         var deliveryLocation = ""
-        orderId = Date().time.toString()
         if(!preferencesHelper.cartShopInfo.isNullOrEmpty()){
             cookingInfo = preferencesHelper.cartShopInfo
         }
@@ -347,10 +346,9 @@ class CartActivity : AppCompatActivity() {
                 cookingInfo,
                 if(isPickup) null else deliveryLocation,
                 if(isPickup) null else deliveryPrice.toInt(),
-                orderId,
                 cartTotalPrice,
                 CartShopModel(shop?.shopModel?.id),
-                CartUserModel(preferencesHelper.mobile)
+                CartUserModel(preferencesHelper.userId)
         )
         val cartTransactionModel = CartTransactionModel(cartOrderModel)
         val listCartOrderItems:ArrayList<CartOrderItems> = ArrayList()

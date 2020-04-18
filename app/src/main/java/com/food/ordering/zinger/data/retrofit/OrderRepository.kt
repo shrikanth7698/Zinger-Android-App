@@ -4,8 +4,8 @@ import com.food.ordering.zinger.data.model.PlaceOrderRequest
 import retrofit2.Retrofit
 
 class OrderRepository(private val retrofit: Retrofit) {
-    suspend fun getOrders(mobile: String, pageNum: Int, pageCount: Int) = retrofit.create(CustomApi::class.java).getOrders(
-            mobile,
+    suspend fun getOrders(id: String, pageNum: Int, pageCount: Int) = retrofit.create(CustomApi::class.java).getOrders(
+            id,
             pageNum,
             pageCount
     )

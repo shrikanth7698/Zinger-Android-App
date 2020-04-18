@@ -34,8 +34,6 @@ data class CartOrderModel(
     val deliveryLocation: String?,
     @SerializedName("deliveryPrice")
     val deliveryPrice: Int?,
-    @SerializedName("id")
-    val id: String,
     @SerializedName("price")
     val price: Int,
     @SerializedName("shopModel")
@@ -50,6 +48,6 @@ data class CartShopModel(
 )
 
 data class CartUserModel(
-    @SerializedName("mobile")
-    val mobile: String?
+    @SerializedName("id")
+    val id: Int?
 )

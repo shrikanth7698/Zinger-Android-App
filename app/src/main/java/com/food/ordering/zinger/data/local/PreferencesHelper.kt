@@ -40,6 +40,10 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         get() = loginPreferences.getString(AppConstants.AUTH_TOKEN, null)
         set(value) = loginPreferences.edit().putString(AppConstants.AUTH_TOKEN, value).apply()
 
+    override var userId: Int?
+        get() = loginPreferences.getInt(AppConstants.USER_ID,-1)
+        set(value) = loginPreferences.edit().putInt(AppConstants.USER_ID, value!!).apply()
+
     override var place: String?
         get() = customerPreferences.getString(AppConstants.CUSTOMER_PLACE, null)
         set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, value).apply()
@@ -64,12 +68,13 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         get() = cartPreferences.getString(AppConstants.CART_DELIVERY_LOCATION, null)
         set(value) = cartPreferences.edit().putString(AppConstants.CART_DELIVERY_LOCATION, value).apply()
 
-    override fun saveUser(name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?) {
+    override fun saveUser(userId: Int?,name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?) {
         customerPreferences.edit().putString(AppConstants.CUSTOMER_NAME, name).apply()
         customerPreferences.edit().putString(AppConstants.CUSTOMER_EMAIL, email).apply()
         customerPreferences.edit().putString(AppConstants.CUSTOMER_MOBILE, mobile).apply()
         customerPreferences.edit().putString(AppConstants.CUSTOMER_ROLE, role).apply()
         loginPreferences.edit().putString(AppConstants.AUTH_TOKEN, oauthId).apply()
+        userId?.let { loginPreferences.edit().putInt(AppConstants.USER_ID, it).apply() }
         customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, place).apply()
     }
 
@@ -88,7 +93,7 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
     }
 
     fun getUser(): UserModel? {
-        return UserModel(email, mobile, name, oauthId, role)
+        return UserModel(userId, email, mobile, name, oauthId, role)
     }
 
     fun getCart(): List<MenuItem>? {

@@ -20,6 +20,7 @@ import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
@@ -68,11 +69,15 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun updateUI(){
         binding.textShopName.text = order.transactionModel.orderModel.shopModel?.name
-        val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-        val appDateFormat = SimpleDateFormat("dd MMMM yyyy, hh:mm aaa")
-        val date = apiDateFormat.parse(order.transactionModel.orderModel.date)
-        val dateString = appDateFormat.format(date)
-        binding.textOrderTime.text = dateString
+        try {
+            val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            val appDateFormat = SimpleDateFormat("dd MMMM yyyy, hh:mm aaa")
+            val date = apiDateFormat.parse(order.transactionModel.orderModel.date)
+            val dateString = appDateFormat.format(date)
+            binding.textOrderTime.text = dateString
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
         //binding.textOrderPrice.text = "₹ " + order.transactionModel.orderModel.price.toInt().toString()
         binding.textSecretKey.text = order.transactionModel.orderModel.secretKey
         Picasso.get().load(order.transactionModel.orderModel.shopModel?.photoUrl).placeholder(R.drawable.ic_shop).into(binding.imageShop)
@@ -157,17 +162,6 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         })
         binding.recyclerOrderItems.layoutManager = LinearLayoutManager(this@OrderDetailActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerOrderItems.adapter = orderAdapter
-    }
-
-    private fun getOrders(){
-        //TODO pagination
-        preferencesHelper.mobile?.let {
-            viewModel.getMenu(
-                    it,
-                    1,
-                    10
-            )
-        }
     }
 
 

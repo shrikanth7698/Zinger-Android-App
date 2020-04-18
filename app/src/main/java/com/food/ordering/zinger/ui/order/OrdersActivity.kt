@@ -146,9 +146,9 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getOrders(){
         //TODO pagination
-        preferencesHelper.mobile?.let {
+        preferencesHelper.userId?.let {
             viewModel.getMenu(
-                    it,
+                    it.toString(),
                     1,
                     10
             )

@@ -84,6 +84,8 @@ class OtpActivity : AppCompatActivity() {
                         if (resource.data != null) {
                             progressDialog.dismiss()
                             if (resource.data.code==1163) {
+                                val userModel = resource.data.data?.userModel
+                                preferencesHelper.userId = userModel?.userId
                                 unloadKoinModules(networkModule)
                                 loadKoinModules(networkModule)
                                 val intent = Intent(applicationContext, SignUpActivity::class.java)
@@ -94,6 +96,7 @@ class OtpActivity : AppCompatActivity() {
                                 val placeModel = resource.data.data?.placeModel
                                 if(userModel!=null){
                                     preferencesHelper.saveUser(
+                                            userId = userModel.userId,
                                             name = userModel.name,
                                             email = userModel.email,
                                             mobile = userModel.mobile,

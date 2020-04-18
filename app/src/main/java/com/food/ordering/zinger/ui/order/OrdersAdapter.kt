@@ -10,6 +10,7 @@ import com.food.ordering.zinger.data.model.OrderData
 import com.food.ordering.zinger.databinding.ItemOrderBinding
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
+import java.lang.Exception
 import java.text.SimpleDateFormat
 
 class OrdersAdapter(private val orderList: List<OrderData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
@@ -31,11 +32,15 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
         fun bind(order: OrderData, position: Int, listener: OnItemClickListener) {
             //Picasso.get().load(menuItem.photoUrl).into(binding.imageShop)
             binding.textShopName.text = order.transactionModel.orderModel.shopModel?.name
-            val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-            val appDateFormat = SimpleDateFormat("dd MMMM yyyy, hh:mm aaa")
-            val date = apiDateFormat.parse(order.transactionModel.orderModel.date)
-            val dateString = appDateFormat.format(date)
-            binding.textOrderTime.text = dateString
+            try {
+                val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                val appDateFormat = SimpleDateFormat("dd MMMM yyyy, hh:mm aaa")
+                val date = apiDateFormat.parse(order.transactionModel.orderModel.date)
+                val dateString = appDateFormat.format(date)
+                binding.textOrderTime.text = dateString
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
             binding.textOrderPrice.text = "₹ " + order.transactionModel.orderModel.price.toInt().toString()
             var items = ""
             order.orderItemsList.forEach {
