@@ -10,6 +10,7 @@ interface AppPreferencesHelper {
     val userId: Int?
     val place: String?
     val cart: String?
+    val shopList: String?
     val cartShop: String?
     val cartDeliveryPref: String?
     val cartShopInfo: String?

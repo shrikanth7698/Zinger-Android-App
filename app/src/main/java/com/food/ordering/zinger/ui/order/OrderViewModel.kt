@@ -2,10 +2,7 @@ package com.food.ordering.zinger.ui.order
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.OrderData
-import com.food.ordering.zinger.data.model.RatingRequest
-import com.food.ordering.zinger.data.model.RatingResponse
+import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.data.retrofit.OrderRepository
 import kotlinx.coroutines.launch
 
@@ -65,6 +62,33 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
                     rateOrder.value = Resource.offlineError()
                 } else {
                     rateOrder.value = Resource.error(e)
+                }
+            }
+        }
+    }
+
+    private val cancelOrder = MutableLiveData<Resource<OrderStatusResponse>>()
+    val cancelOrderStatus: LiveData<Resource<OrderStatusResponse>>
+        get() = cancelOrder
+
+    fun cancelOrder(orderStatusRequest: OrderStatusRequest) {
+        viewModelScope.launch {
+            try {
+                cancelOrder.value = Resource.loading()
+                val response = orderRepository.cancelOrder(orderStatusRequest)
+                if (response != null) {
+                    if (response.data!=null) {
+                        cancelOrder.value = Resource.success(response)
+                    } else {
+                        cancelOrder.value = Resource.error(null,response.message)
+                    }
+                }
+            } catch (e: Exception) {
+                println("cancel order failed ${e.message}")
+                if (e is UnknownHostException) {
+                    cancelOrder.value = Resource.offlineError()
+                } else {
+                    cancelOrder.value = Resource.error(e)
                 }
             }
         }

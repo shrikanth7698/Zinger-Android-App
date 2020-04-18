@@ -85,7 +85,7 @@ data class OrderModel(
     @SerializedName("lastStatusUpdatedTime")
     val lastStatusUpdatedTime: String?,
     @SerializedName("orderStatus")
-    val orderStatus: String,
+    var orderStatus: String,
     @SerializedName("price")
     val price: Double,
     @SerializedName("rating")

@@ -39,6 +39,8 @@ interface CustomApi {
     suspend fun placeOrder(@Path("orderId") orderId: String): PlaceOrderResponse
     @PATCH("/order/rating")
     suspend fun rateOrder(@Body ratingRequest: RatingRequest): RatingResponse
+    @PATCH("/order/status")
+    suspend fun cancelOrder(@Body orderStatusRequest: OrderStatusRequest): OrderStatusResponse
 
 
 }

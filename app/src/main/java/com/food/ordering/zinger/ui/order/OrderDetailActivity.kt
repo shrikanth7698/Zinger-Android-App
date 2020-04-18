@@ -1,6 +1,7 @@
 package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -13,13 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.OrderData
-import com.food.ordering.zinger.data.model.OrderItems
-import com.food.ordering.zinger.data.model.RatingRequest
-import com.food.ordering.zinger.data.model.RatingShopModel
+import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.databinding.ActivityOrderDetailBinding
 import com.food.ordering.zinger.databinding.BottomSheetDeliveryLocationBinding
 import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
+import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -67,6 +67,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order_detail)
         binding.imageClose.setOnClickListener(this)
         progressDialog = ProgressDialog(this)
+        progressDialog.setCancelable(false)
         errorSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
         val snackButton: Button = errorSnackBar.view.findViewById(R.id.snackbar_action)
         snackButton.setCompoundDrawables(null, null, null, null)
@@ -123,28 +124,36 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         }
         when(order.transactionModel.orderModel.orderStatus){
             AppConstants.ORDER_STATUS_COMPLETED,
-            AppConstants.ORDER_STATUS_DELIVERED,
-            AppConstants.ORDER_STATUS_REFUND_COMPLETED -> {
+            AppConstants.ORDER_STATUS_DELIVERED  -> {
                 binding.textRate.visibility = View.VISIBLE
                 binding.textCancelReorder.visibility = View.VISIBLE
+                binding.textRate.isEnabled = true
+                binding.textCancelReorder.isEnabled = true
                 binding.textRate.text = "RATE FOOD"
                 binding.textCancelReorder.text = "REORDER"
             }
 
             AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER,
             AppConstants.ORDER_STATUS_CANCELLED_BY_USER,
-            AppConstants.ORDER_STATUS_TXN_FAILURE -> {
+            AppConstants.ORDER_STATUS_REFUND_COMPLETED -> {
+                binding.textRate.isEnabled = true
+                binding.textCancelReorder.isEnabled = false
                 binding.textRate.visibility = View.VISIBLE
                 binding.textCancelReorder.visibility = View.GONE
                 binding.textRate.text = "RATE ORDER"
             }
 
-            else -> {
+            AppConstants.ORDER_STATUS_PLACED -> {
                 binding.textRate.visibility = View.GONE
                 binding.textRate.isEnabled = false
                 binding.textCancelReorder.visibility = View.VISIBLE
                 binding.textCancelReorder.isEnabled = true
                 binding.textCancelReorder.text = "CANCEL"
+            }
+
+            else -> {
+                binding.textRate.visibility = View.GONE
+                binding.textCancelReorder.visibility = View.GONE
             }
         }
         when(order.transactionModel.orderModel.orderStatus){
@@ -168,7 +177,12 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setListeners() {
         binding.textCancelReorder.setOnClickListener {
-            //TODO cancel or reorder
+            if(binding.textCancelReorder.text.toString().toUpperCase()!="REORDER") {
+                showCancelOrderDialog()
+            }else{
+                //REORDER (Add items to cart)
+                reOrder()
+            }
         }
         binding.textRate.setOnClickListener {
             showRatingDialog()
@@ -190,6 +204,34 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                         binding.layoutRating.visibility = View.VISIBLE
                         binding.textRating.text = rating.toString()
                         binding.textRate.visibility = View.GONE
+                    }
+                    Resource.Status.OFFLINE_ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("No Internet Connection")
+                        errorSnackBar.show()
+
+                    }
+                    Resource.Status.ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("Something went wrong")
+                        errorSnackBar.show()
+                    }
+                }
+            }
+        })
+        viewModel.cancelOrderStatus.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        progressDialog.setMessage("Cancelling order...")
+                        errorSnackBar.dismiss()
+                        progressDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.dismiss()
+                        order.transactionModel.orderModel.orderStatus = AppConstants.ORDER_STATUS_CANCELLED_BY_USER
+                        updateUI()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         progressDialog.dismiss()
@@ -254,14 +296,79 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun showCancelOrderDialog(){
         MaterialAlertDialogBuilder(this@OrderDetailActivity)
                 .setTitle("Cancel order")
-                .setMessage("Are you sure want to place this order?")
+                .setMessage("Are you sure want to cancel this order?")
                 .setPositiveButton("Yes") { dialog, _ ->
-
+                    val orderId = order?.transactionModel?.orderModel?.id
+                    viewModel.cancelOrder(
+                            OrderStatusRequest(
+                                    orderId.toInt(),
+                                    AppConstants.ORDER_STATUS_CANCELLED_BY_USER
+                            )
+                    )
                 }
                 .setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()
+    }
+
+    private fun reOrder(){
+        var cartString = ""
+        var cartShop = ""
+        val shopList = preferencesHelper.getShopList()
+        if (shopList != null) {
+            for(i in shopList) {
+                if(i.shopModel.id==order.transactionModel.orderModel.shopModel?.id){
+                    cartShop = Gson().toJson(i)
+                }
+            }
+        }
+
+        val cartList:ArrayList<MenuItem> = ArrayList()
+        order.orderItemsList.forEach {
+            cartList.add(
+                    MenuItem(
+                            category = it.itemModel.category,
+                            id = it.itemModel.id,
+                            isAvailable = it.itemModel.isAvailable,
+                            isVeg = it.itemModel.isVeg,
+                            name = it.itemModel.name,
+                            photoUrl = it.itemModel.photoUrl,
+                            price = it.itemModel.price.toInt(),
+                            shopModel = it.itemModel.shopModel,
+                            quantity = it.quantity,
+                            shopId = order.transactionModel.orderModel.shopModel?.id,
+                            shopName = order.transactionModel.orderModel.shopModel?.name
+                    )
+            )
+        }
+        cartString = Gson().toJson(cartList)
+        preferencesHelper.cart = cartString
+        preferencesHelper.cartShop = cartShop
+        if(order.transactionModel.orderModel.deliveryPrice!=null){
+            if(order.transactionModel.orderModel.deliveryPrice!!>0.0){
+                preferencesHelper.cartDeliveryPref = "delivery"
+                if(!order.transactionModel.orderModel.deliveryLocation.isNullOrEmpty()){
+                    preferencesHelper.cartDeliveryLocation = order.transactionModel.orderModel.deliveryLocation
+                }
+            }else{
+                preferencesHelper.cartDeliveryPref = ""
+            }
+        }else{
+            preferencesHelper.cartDeliveryPref = ""
+        }
+
+        if(!order.transactionModel.orderModel.cookingInfo.isNullOrEmpty()){
+            preferencesHelper.cartShopInfo = order.transactionModel.orderModel.cookingInfo
+        }else{
+            preferencesHelper.cartShopInfo = ""
+        }
+        val i = Intent(applicationContext, HomeActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(i)
+        val j = Intent(applicationContext, CartActivity::class.java)
+        j.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+        startActivity(j)
     }
 
     private fun setupShopRecyclerView() {

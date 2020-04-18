@@ -11,6 +11,7 @@ object AppConstants {
     const val CUSTOMER_NAME = "name"
     const val CUSTOMER_EMAIL = "email"
     const val CUSTOMER_PLACE = "place"
+    const val SHOP_LIST = "shop_list"
     const val CUSTOMER_MOBILE = "mobile"
     const val CUSTOMER_ROLE = "role"
     const val CART = "cart"
