@@ -181,7 +181,23 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 showCancelOrderDialog()
             }else{
                 //REORDER (Add items to cart)
-                reOrder()
+                val cartItems = preferencesHelper.getCart()
+                if(cartItems.isNullOrEmpty()){
+                    reOrder()
+                }else{
+                    MaterialAlertDialogBuilder(this@OrderDetailActivity)
+                            .setTitle("Replace cart?")
+                            .setMessage("Cart already contains some items. Are you sure want to replace the cart with this order items?")
+                            .setPositiveButton("Yes") { dialog, _ ->
+                                preferencesHelper.clearCartPreferences()
+                                reOrder()
+                            }
+                            .setNegativeButton("No") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                }
+
             }
         }
         binding.textRate.setOnClickListener {
