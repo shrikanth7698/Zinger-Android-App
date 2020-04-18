@@ -104,10 +104,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateHeaderLayoutUI() {
-        headerLayout.textCustomerName.text = "Shrikanth Ravi"
-        headerLayout.textEmail.text = "shrikanthravi.me@gmail.com"
+        headerLayout.textCustomerName.text = preferencesHelper.name
+        headerLayout.textEmail.text = preferencesHelper.email
+        val letter = preferencesHelper.name?.get(0).toString()
         val textDrawable = TextDrawable.builder()
-                .buildRound("S", ContextCompat.getColor(this, R.color.accent))
+                .buildRound(letter, ContextCompat.getColor(this, R.color.accent))
         headerLayout.imageProfilePic.setImageDrawable(textDrawable)
         //binding.imageMenu.setImageDrawable(textDrawable);
     }

@@ -48,13 +48,13 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         get() = customerPreferences.getString(AppConstants.CUSTOMER_PLACE, null)
         set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, value).apply()
 
-    override var cart: String?
-        get() = customerPreferences.getString(AppConstants.CART, null)
-        set(value) = customerPreferences.edit().putString(AppConstants.CART, value).apply()
-
     override var shopList: String?
         get() = customerPreferences.getString(AppConstants.SHOP_LIST, null)
         set(value) = customerPreferences.edit().putString(AppConstants.SHOP_LIST, value).apply()
+
+    override var cart: String?
+        get() = cartPreferences.getString(AppConstants.CART, null)
+        set(value) = cartPreferences.edit().putString(AppConstants.CART, value).apply()
 
     override var cartShop: String?
         get() = cartPreferences.getString(AppConstants.CART_SHOP, null)
