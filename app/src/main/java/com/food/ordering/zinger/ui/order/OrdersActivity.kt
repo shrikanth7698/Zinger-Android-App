@@ -3,6 +3,7 @@ package com.food.ordering.zinger.ui.order
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
@@ -17,10 +18,15 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.OrderData
+import com.food.ordering.zinger.data.model.RatingRequest
+import com.food.ordering.zinger.data.model.RatingShopModel
 import com.food.ordering.zinger.databinding.ActivityOrdersBinding
+import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
 import com.food.ordering.zinger.utils.AppConstants
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.hsalf.smileyrating.SmileyRating
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -44,9 +50,8 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         setListeners()
         setObservers()
         errorSnackBar.setAction("Try again") {
-           getOrders()
+            getOrders()
         }
-        getOrders()
     }
 
     private fun initView() {
@@ -130,6 +135,33 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
+        viewModel.rateOrderStatus.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        progressDialog.setMessage("Please wait...")
+                        errorSnackBar.dismiss()
+                        progressDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.dismiss()
+                        getOrders()
+                    }
+                    Resource.Status.OFFLINE_ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("No Internet Connection")
+                        errorSnackBar.show()
+
+                    }
+                    Resource.Status.ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("Something went wrong")
+                        errorSnackBar.show()
+                    }
+                }
+            }
+        })
     }
 
     private fun setupShopRecyclerView() {
@@ -139,15 +171,64 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra(AppConstants.ORDER_DETAIL, Gson().toJson(item))
                 startActivity(intent)
             }
+
+            override fun onRatingClick(item: OrderData?, position: Int) {
+                showRatingDialog(item)
+            }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@OrdersActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerShops.adapter = orderAdapter
     }
 
-    private fun getOrders(){
+    private fun showRatingDialog(orderData: OrderData?) {
+        val dialogBinding: BottomSheetRateFoodBinding =
+                DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_rate_food, null, false)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(dialogBinding.root)
+        dialog.show()
+        Handler().postDelayed({
+            dialogBinding.smileyRating.setRating(SmileyRating.Type.GOOD, true)
+        }, 200)
+        dialogBinding.buttonRate.setOnClickListener {
+            var smiley = dialogBinding.smileyRating.selectedSmiley
+            var rating = 0.0
+            when(smiley){
+                SmileyRating.Type.TERRIBLE -> {
+                    rating = 1.0
+                }
+                SmileyRating.Type.BAD -> {
+                    rating = 2.0
+                }
+                SmileyRating.Type.OKAY -> {
+                    rating = 3.0
+                }
+                SmileyRating.Type.GOOD -> {
+                    rating = 4.0
+                }
+                SmileyRating.Type.GREAT -> {
+                    rating = 5.0
+                }
+            }
+            val orderId = orderData?.transactionModel?.orderModel?.id
+            val shopId = orderData?.transactionModel?.orderModel?.shopModel?.id
+            viewModel.rateOrder(
+                    RatingRequest(
+                            orderId?.toInt(),
+                            rating,
+                            RatingShopModel(shopId?.toInt())
+
+                    )
+            )
+            dialog.dismiss()
+        }
+    }
+
+    private fun getOrders() {
+        orderList.clear()
+        orderAdapter.notifyDataSetChanged()
         //TODO pagination
         preferencesHelper.userId?.let {
-            viewModel.getMenu(
+            viewModel.getOrders(
                     it.toString(),
                     1,
                     10
@@ -166,6 +247,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        getOrders()
     }
 
 }

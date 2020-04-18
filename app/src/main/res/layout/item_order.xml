@@ -134,7 +134,7 @@
 					android:gravity="center"
 					android:paddingTop="8dp"
 					android:paddingBottom="4dp"
-					android:textColor="@android:color/tab_indicator_text"
+					android:textColor="@android:color/black"
 					android:textSize="16sp"
 					tools:text="Pending" />
 

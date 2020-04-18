@@ -94,7 +94,11 @@ class RestaurantActivity : AppCompatActivity() {
 
     private fun updateShopUI() {
         binding.toolbarLayout.title = shop?.shopModel?.name
-        binding.textShopRating.text = shop?.ratingModel?.rating.toString()
+        if(shop?.ratingModel?.rating==0.0){
+            binding.textShopRating.text = "No ratings yet"
+        }else {
+            binding.textShopRating.text = shop?.ratingModel?.rating.toString()+" ("+shop?.ratingModel?.userCount+")"
+        }
         Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).placeholder(R.drawable.shop_placeholder).into(binding.imageExpanded)
     }
 

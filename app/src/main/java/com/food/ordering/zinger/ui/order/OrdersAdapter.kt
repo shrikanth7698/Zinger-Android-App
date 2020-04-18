@@ -38,7 +38,7 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
                 val date = apiDateFormat.parse(order.transactionModel.orderModel.date)
                 val dateString = appDateFormat.format(date)
                 binding.textOrderTime.text = dateString
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             binding.textOrderPrice.text = "₹ " + order.transactionModel.orderModel.price.toInt().toString()
@@ -49,10 +49,10 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
             items = items.substring(0, items.length - 2)
             binding.textOrderItems.text = items
             binding.textOrderStatus.text = StatusHelper.getStatusMessage(order.transactionModel.orderModel.orderStatus)
-            if(order.transactionModel.orderModel.rating==0.0){
+            if (order.transactionModel.orderModel.rating == 0.0) {
                 binding.buttonTrackRate.visibility = View.VISIBLE
                 binding.textOrderRating.visibility = View.GONE
-            }else{
+            } else {
                 binding.buttonTrackRate.visibility = View.GONE
                 binding.textOrderRating.visibility = View.VISIBLE
                 binding.textOrderRating.text = order.transactionModel.orderModel.rating.toString()
@@ -93,9 +93,9 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
             }
             binding.layoutRoot.setOnClickListener { listener.onItemClick(order, position) }
             binding.buttonTrackRate.setOnClickListener {
-                if(binding.buttonTrackRate.text.toString()=="Rate Order"||binding.buttonTrackRate.text.toString()=="Rate Food"){
-                    //TODO show rating dialog
-                }else{
+                if (binding.buttonTrackRate.text.toString() == "Rate Order" || binding.buttonTrackRate.text.toString() == "Rate Food") {
+                    listener.onRatingClick(order, position)
+                } else {
                     listener.onItemClick(order, position)
                 }
             }
@@ -105,6 +105,7 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
 
     interface OnItemClickListener {
         fun onItemClick(item: OrderData?, position: Int)
+        fun onRatingClick(item: OrderData?, position: Int)
     }
 
 }

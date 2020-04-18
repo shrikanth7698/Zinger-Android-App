@@ -42,7 +42,11 @@ class ShopAdapter(private val context: Context, private val shopList: List<Shops
             }else{
                 binding.textShopDesc.text = "Closed Now"
             }
-            binding.textShopRating.text = shop.ratingModel.rating.toString()
+            if(shop.ratingModel.rating==0.0){
+                binding.textShopRating.text = "No ratings yet"
+            }else {
+                binding.textShopRating.text = shop.ratingModel.rating.toString()+" ("+shop.ratingModel.userCount+")"
+            }
             binding.layoutRoot.setOnClickListener { listener.onItemClick(shop, position) }
         }
 

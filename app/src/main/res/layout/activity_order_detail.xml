@@ -132,6 +132,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
+					android:id="@+id/layout_secret_key"
 					android:orientation="vertical">
 
 					<TextView
@@ -153,6 +154,36 @@
 						android:text="192842"
 						android:textColor="@color/colorAccentLight"
 						android:textSize="14sp" />
+				</LinearLayout>
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:visibility="gone"
+					android:id="@+id/layout_rating"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="end"
+						android:fontFamily="@font/open_sans_bold"
+						android:text="Your rating"
+						android:textColor="@android:color/tab_indicator_text"
+						android:textSize="10sp" />
+
+
+					<TextView
+						android:id="@+id/text_rating"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="end"
+						android:drawableStart="@drawable/ic_star"
+						android:fontFamily="@font/poppins_bold"
+						android:text="0.0"
+						android:drawablePadding="2dp"
+						android:textColor="@color/colorAccentLight"
+						android:textSize="12sp" />
 				</LinearLayout>
 			</LinearLayout>
 
@@ -377,6 +408,7 @@
 					android:id="@+id/layout_total"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
 					android:layout_marginStart="8dp"
 					android:layout_marginEnd="8dp"
 					android:orientation="vertical"
@@ -491,6 +523,7 @@
 						android:textColor="@android:color/white"
 						android:textSize="12sp"
 						android:textStyle="bold"
+						android:drawableStart="@drawable/ic_star_white"
 						android:visibility="gone"
 						app:layout_constraintBottom_toBottomOf="parent"
 						app:layout_constraintEnd_toStartOf="@+id/text_cancel_reorder"

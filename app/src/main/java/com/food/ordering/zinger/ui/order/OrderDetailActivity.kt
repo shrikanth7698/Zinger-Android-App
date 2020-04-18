@@ -2,22 +2,33 @@ package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
+import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.OrderData
 import com.food.ordering.zinger.data.model.OrderItems
+import com.food.ordering.zinger.data.model.RatingRequest
+import com.food.ordering.zinger.data.model.RatingShopModel
 import com.food.ordering.zinger.databinding.ActivityOrderDetailBinding
+import com.food.ordering.zinger.databinding.BottomSheetDeliveryLocationBinding
+import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.hsalf.smileyrating.SmileyRating
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.Exception
@@ -136,6 +147,23 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 binding.textCancelReorder.text = "CANCEL"
             }
         }
+        when(order.transactionModel.orderModel.orderStatus){
+            AppConstants.ORDER_STATUS_READY,
+            AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY -> {
+                binding.layoutSecretKey.visibility = View.VISIBLE
+            }
+            else -> {
+                binding.layoutSecretKey.visibility = View.GONE
+            }
+        }
+        if(order.transactionModel.orderModel.rating!=null){
+            if(order.transactionModel.orderModel.rating!!>0.0){
+                binding.layoutRating.visibility = View.VISIBLE
+                binding.textRating.text = order.transactionModel.orderModel.rating.toString()
+                binding.textRate.visibility = View.GONE
+            }
+        }
+
     }
 
     private fun setListeners() {
@@ -143,12 +171,97 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
             //TODO cancel or reorder
         }
         binding.textRate.setOnClickListener {
-            //TODO rate order or food
+            showRatingDialog()
         }
     }
 
     private fun setObservers() {
+        viewModel.rateOrderStatus.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        progressDialog.setMessage("Please wait...")
+                        errorSnackBar.dismiss()
+                        progressDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.dismiss()
+                        binding.layoutRating.visibility = View.VISIBLE
+                        binding.textRating.text = rating.toString()
+                        binding.textRate.visibility = View.GONE
+                    }
+                    Resource.Status.OFFLINE_ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("No Internet Connection")
+                        errorSnackBar.show()
 
+                    }
+                    Resource.Status.ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("Something went wrong")
+                        errorSnackBar.show()
+                    }
+                }
+            }
+        })
+    }
+
+    var rating = 0.0
+    private fun showRatingDialog(){
+        val dialogBinding: BottomSheetRateFoodBinding =
+                DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_rate_food, null, false)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(dialogBinding.root)
+        dialog.show()
+        Handler().postDelayed({
+            dialogBinding.smileyRating.setRating(SmileyRating.Type.GOOD,true)
+        },200)
+        dialogBinding.buttonRate.setOnClickListener {
+            var smiley = dialogBinding.smileyRating.selectedSmiley
+            rating = 0.0
+            when(smiley){
+                SmileyRating.Type.TERRIBLE -> {
+                    rating = 1.0
+                }
+                SmileyRating.Type.BAD -> {
+                    rating = 2.0
+                }
+                SmileyRating.Type.OKAY -> {
+                    rating = 3.0
+                }
+                SmileyRating.Type.GOOD -> {
+                    rating = 4.0
+                }
+                SmileyRating.Type.GREAT -> {
+                    rating = 5.0
+                }
+            }
+            val orderId = order?.transactionModel?.orderModel?.id
+            val shopId = order?.transactionModel?.orderModel?.shopModel?.id
+            viewModel.rateOrder(
+                    RatingRequest(
+                            orderId?.toInt(),
+                            rating,
+                            RatingShopModel(shopId?.toInt())
+
+                    )
+            )
+            dialog.dismiss()
+        }
+    }
+
+    private fun showCancelOrderDialog(){
+        MaterialAlertDialogBuilder(this@OrderDetailActivity)
+                .setTitle("Cancel order")
+                .setMessage("Are you sure want to place this order?")
+                .setPositiveButton("Yes") { dialog, _ ->
+
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
     }
 
     private fun setupShopRecyclerView() {
