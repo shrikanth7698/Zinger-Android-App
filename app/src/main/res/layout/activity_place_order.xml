@@ -17,6 +17,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerInParent="true"
+				android:id="@+id/layout_state"
+				android:animateLayoutChanges="true"
 				android:orientation="vertical"
 				android:padding="16dp">
 
@@ -44,7 +46,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:id="@+id/layout_redirection"
-					android:visibility="visible"
+					android:visibility="gone"
 					android:layout_gravity="center"
 					android:orientation="horizontal">
 

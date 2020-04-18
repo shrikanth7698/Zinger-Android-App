@@ -82,8 +82,8 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         binding.textSecretKey.text = order.transactionModel.orderModel.secretKey
         Picasso.get().load(order.transactionModel.orderModel.shopModel?.photoUrl).placeholder(R.drawable.ic_shop).into(binding.imageShop)
         binding.titleOrderStatus.text = StatusHelper.getStatusDetailedMessage(order.transactionModel.orderModel.orderStatus)
-        binding.textOrderId.text = order.transactionModel.orderModel.id
-        binding.textTransactionId.text = order.transactionModel.transactionId
+        binding.textOrderId.text = "#"+order.transactionModel.orderModel.id
+        binding.textTransactionId.text = "#"+order.transactionModel.transactionId
         binding.textTotalPrice.text = "₹"+order.transactionModel.orderModel.price.toInt().toString()
         binding.textPaymentMode.text = "Paid via "+order.transactionModel.paymentMode
         if(!order.transactionModel.orderModel.cookingInfo.isNullOrEmpty()){

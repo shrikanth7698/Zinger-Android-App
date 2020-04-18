@@ -1,5 +1,6 @@
 package com.food.ordering.zinger.ui.placeorder
 
+import android.animation.LayoutTransition.CHANGING
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -48,6 +49,7 @@ class PlaceOrderActivity : AppCompatActivity() {
 
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_order)
+        binding.layoutState.layoutTransition.enableTransitionType(CHANGING)
     }
 
     private fun setListener() {
