@@ -18,6 +18,8 @@ object AppConstants {
     const val CART_SHOP_INFO = "cart_shop_info"
     const val CART_DELIVERY_LOCATION = "cart_delivery_location"
     const val ORDER_DETAIL = "order_detail"
+    const val ORDER_ID = "order_id"
+    const val TRANSACTION_TOKEN = "transaction_token"
 
     //ORDER STATUS
     const val ORDER_STATUS_PENDING = "PENDING"

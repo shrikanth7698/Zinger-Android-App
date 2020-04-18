@@ -5,6 +5,7 @@ import com.food.ordering.zinger.ui.home.HomeViewModel
 import com.food.ordering.zinger.ui.login.LoginViewModel
 import com.food.ordering.zinger.ui.order.OrderViewModel
 import com.food.ordering.zinger.ui.otp.OtpViewModel
+import com.food.ordering.zinger.ui.payment.PaymentViewModel
 import com.food.ordering.zinger.ui.placeorder.PlaceOrderViewModel
 import com.food.ordering.zinger.ui.profile.ProfileViewModel
 import com.food.ordering.zinger.ui.restaurant.RestaurantViewModel
@@ -24,4 +25,5 @@ val viewModelModule = module {
     viewModel { OrderViewModel(get()) }
     viewModel { CartViewModel(get())}
     viewModel { PlaceOrderViewModel(get())}
+    viewModel { PaymentViewModel(get())}
 }

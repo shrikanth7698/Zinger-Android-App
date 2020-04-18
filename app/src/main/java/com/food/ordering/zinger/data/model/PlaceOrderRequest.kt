@@ -29,11 +29,11 @@ data class FoodItem(
 
 data class CartOrderModel(
     @SerializedName("cookingInfo")
-    val cookingInfo: String,
+    val cookingInfo: String?,
     @SerializedName("deliveryLocation")
-    val deliveryLocation: String,
+    val deliveryLocation: String?,
     @SerializedName("deliveryPrice")
-    val deliveryPrice: Int,
+    val deliveryPrice: Int?,
     @SerializedName("id")
     val id: String,
     @SerializedName("price")
@@ -46,10 +46,10 @@ data class CartOrderModel(
 
 data class CartShopModel(
     @SerializedName("id")
-    val id: Int
+    val id: Int?
 )
 
 data class CartUserModel(
     @SerializedName("mobile")
-    val mobile: String
+    val mobile: String?
 )

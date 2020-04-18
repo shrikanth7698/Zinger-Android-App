@@ -3,19 +3,23 @@ package com.food.ordering.zinger.ui.cart
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
-import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.databinding.ActivityCartBinding
 import com.food.ordering.zinger.databinding.BottomSheetDeliveryLocationBinding
 import com.food.ordering.zinger.databinding.BottomSheetShopInfoBinding
-import com.food.ordering.zinger.ui.placeorder.PlaceOrderActivity
+import com.food.ordering.zinger.ui.payment.PaymentActivity
+import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,33 +27,93 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
+    private val viewModel: CartViewModel by viewModel()
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var cartAdapter: CartAdapter
     private lateinit var progressDialog: ProgressDialog
     private var cartList: MutableList<MenuItem> = ArrayList()
     private var shop: ShopsResponseData? = null
     private lateinit var snackbar: Snackbar
+    private lateinit var errorSnackbar: Snackbar
     private var isPickup = true
+    private lateinit var placeOrderRequest: PlaceOrderRequest
+    private var orderId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
         getArgs()
         initView()
+        setListeners()
+        setObservers()
+    }
+
+    private fun getArgs() {
+        shop = preferencesHelper.getCartShop()
+        if(shop?.configurationModel?.deliveryPrice!==null){
+            deliveryPrice = shop?.configurationModel?.deliveryPrice!!
+        }
+    }
+
+    private fun initView() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_cart)
+        snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        snackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
+        errorSnackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        val snackButton: Button = errorSnackbar.view.findViewById(R.id.snackbar_action)
+        snackButton.setCompoundDrawables(null, null, null, null)
+        snackButton.background = null
+        snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
+        progressDialog = ProgressDialog(this)
+        progressDialog.setCancelable(false)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+        binding.toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.white))
+        binding.toolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.black))
+        binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (Math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) { //Collapsed
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
+            } else { //Expanded
+                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+            }
+        })
+        setupMenuRecyclerView()
+        updateShopUI()
+    }
+
+    private fun setListeners(){
         snackbar.setAction("Place Order") {
-            MaterialAlertDialogBuilder(this@CartActivity)
-                    .setTitle("Place order")
-                    .setMessage("Are you sure want to place this order?")
-                    .setPositiveButton("Yes") { dialog, _ ->
-                        placeOrder()
+            if(!isPickup){
+                if(preferencesHelper.cartDeliveryLocation.isNullOrEmpty()){
+                    Handler().postDelayed({
+                        snackbar.show()
+                    },500)
+                    Toast.makeText(applicationContext,"Please choose a delivery location",Toast.LENGTH_SHORT).show()
+                }else{
+                    if(cart.isEmpty()){
+                        Toast.makeText(applicationContext,"Cart is empty",Toast.LENGTH_SHORT).show()
+                    }else{
+                        showOrderConfirmation()
                     }
-                    .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
-                    .show()
+                }
+            }else{
+                if(cart.isEmpty()){
+                    Toast.makeText(applicationContext,"Cart is empty",Toast.LENGTH_SHORT).show()
+                }else{
+                    showOrderConfirmation()
+                }
+            }
+        }
+        errorSnackbar.setAction("Try again") {
+            viewModel.insertOrder(placeOrderRequest)
         }
         binding.radioPickup.setOnClickListener {
             binding.radioPickup.isChecked = true
@@ -104,33 +168,35 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    private fun getArgs() {
-        shop = preferencesHelper.getCartShop()
-        if(shop?.configurationModel?.deliveryPrice!==null){
-            deliveryPrice = shop?.configurationModel?.deliveryPrice!!
-        }
-    }
-
-    private fun initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_cart)
-        snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
-        snackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
-        progressDialog = ProgressDialog(this)
-        progressDialog.setCancelable(false)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-        binding.toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.white))
-        binding.toolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.black))
-        binding.appBar.addOnOffsetChangedListener(OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (Math.abs(verticalOffset) - appBarLayout.totalScrollRange == 0) { //Collapsed
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
-            } else { //Expanded
-                supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+    private fun setObservers(){
+        viewModel.insertOrderStatus.observe(this, androidx.lifecycle.Observer {
+            when(it.status){
+                Resource.Status.LOADING -> {
+                    errorSnackbar.dismiss()
+                    progressDialog.setMessage("Verifying cart items...")
+                    progressDialog.show()
+                }
+                Resource.Status.SUCCESS -> {
+                    progressDialog.dismiss()
+                    errorSnackbar.dismiss()
+                    initiatePayment(it.data?.data,orderId)
+                }
+                Resource.Status.OFFLINE_ERROR -> {
+                    progressDialog.dismiss()
+                    errorSnackbar.setText("No Internet Connection")
+                    errorSnackbar.show()
+                }
+                Resource.Status.ERROR -> {
+                    progressDialog.dismiss()
+                    if(!it.data?.message.isNullOrEmpty()){
+                        errorSnackbar.setText(it.data?.message.toString())
+                    }else{
+                        errorSnackbar.setText("Cart verify failed")
+                    }
+                    errorSnackbar.show()
+                }
             }
         })
-        setupMenuRecyclerView()
-        updateShopUI()
     }
 
     private fun updateShopUI() {
@@ -211,6 +277,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     var deliveryPrice = 0.0
+    var cartTotalPrice = 0
     private fun updateCartUI() {
         var total = 0
         var totalItems = 0
@@ -233,6 +300,7 @@ class CartActivity : AppCompatActivity() {
                 snackbar.setText("₹$total | $totalItems items")
             }
             snackbar.show()
+            cartTotalPrice = total
         } else {
             preferencesHelper.clearCartPreferences()
             snackbar.dismiss()
@@ -257,11 +325,56 @@ class CartActivity : AppCompatActivity() {
             return items
         }
 
-    private fun placeOrder(){
-        //TODO add cart items
-        val intent = Intent(applicationContext,PlaceOrderActivity::class.java)
+    private fun initiatePayment(token: String?, orderId: String){
+        val intent = Intent(applicationContext,PaymentActivity::class.java)
+        intent.putExtra(AppConstants.TRANSACTION_TOKEN,token)
+        intent.putExtra(AppConstants.ORDER_ID,orderId)
         startActivity(intent)
         finish()
+    }
+
+    private fun verifyOrder(){
+        var cookingInfo:String? = null
+        var deliveryLocation = ""
+        orderId = Date().time.toString()
+        if(!preferencesHelper.cartShopInfo.isNullOrEmpty()){
+            cookingInfo = preferencesHelper.cartShopInfo
+        }
+        if(!preferencesHelper.cartDeliveryLocation.isNullOrEmpty()){
+            deliveryLocation = preferencesHelper.cartDeliveryLocation!!
+        }
+        val cartOrderModel = CartOrderModel(
+                cookingInfo,
+                if(isPickup) null else deliveryLocation,
+                if(isPickup) null else deliveryPrice.toInt(),
+                orderId,
+                cartTotalPrice,
+                CartShopModel(shop?.shopModel?.id),
+                CartUserModel(preferencesHelper.mobile)
+        )
+        val cartTransactionModel = CartTransactionModel(cartOrderModel)
+        val listCartOrderItems:ArrayList<CartOrderItems> = ArrayList()
+        cart.forEach {
+            listCartOrderItems.add(CartOrderItems(FoodItem(it.id), it.price, it.quantity))
+        }
+        placeOrderRequest = PlaceOrderRequest(listCartOrderItems,cartTransactionModel)
+        viewModel.insertOrder(placeOrderRequest)
+    }
+
+    private fun showOrderConfirmation(){
+        MaterialAlertDialogBuilder(this@CartActivity)
+                .setTitle("Place order")
+                .setMessage("Are you sure want to place this order?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    verifyOrder()
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                    Handler().postDelayed({
+                        snackbar.show()
+                    },500)
+                }
+                .show()
     }
 
     override fun onResume() {

@@ -2,40 +2,41 @@ package com.food.ordering.zinger.ui.placeorder
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.LoginRequest
-import com.food.ordering.zinger.data.model.LoginResponse
-import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.data.retrofit.OrderRepository
-import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
-import java.util.ArrayList
 
 
 class PlaceOrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
-    //LOGIN
-    private val performLogin = MutableLiveData<Resource<LoginResponse>>()
-    val performLoginStatus: LiveData<Resource<LoginResponse>>
-        get() = performLogin
+    //Fetch total stats
+    private val placeOrder = MutableLiveData<Resource<PlaceOrderResponse>>()
+    val placeOrderStatus: LiveData<Resource<PlaceOrderResponse>>
+        get() = placeOrder
 
-    fun login(loginRequest: LoginRequest) {
+    fun placeOrder(orderId: String) {
         viewModelScope.launch {
             try {
-                performLogin.value = Resource.loading()
-                //val response = userRepository.login(loginRequest)
-                //performLogin.value = Resource.success(response)
+                placeOrder.value = Resource.loading()
+                val response = orderRepository.placeOrder(orderId)
+                if(response!=null){
+                    if(response.code==1){
+                        placeOrder.value = Resource.success(response)
+                    }else{
+                        placeOrder.value = Resource.error(null,response.message)
+                    }
+                }
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("place order failed ${e.message}")
                 if (e is UnknownHostException) {
-                    performLogin.value = Resource.offlineError()
+                    placeOrder.value = Resource.offlineError()
                 } else {
-                    performLogin.value = Resource.error(e)
+                    placeOrder.value = Resource.error(e)
                 }
             }
         }
     }
-
 
 }

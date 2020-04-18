@@ -15,6 +15,7 @@
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
+		<activity android:name=".ui.payment.PaymentActivity" />
 		<activity android:name=".ui.placeorder.PlaceOrderActivity" />
 		<activity android:name=".ui.order.OrderDetailActivity" />
 		<activity android:name=".ui.order.OrdersActivity" />

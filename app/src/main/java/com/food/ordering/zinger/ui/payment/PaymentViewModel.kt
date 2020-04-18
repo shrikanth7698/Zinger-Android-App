@@ -1,4 +1,4 @@
-package com.food.ordering.zinger.ui.cart
+package com.food.ordering.zinger.ui.payment
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
@@ -14,28 +14,23 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 
-class CartViewModel(private val orderRepository: OrderRepository) : ViewModel() {
+class PaymentViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
     //Fetch total stats
     private val insertOrder = MutableLiveData<Resource<PlaceOrderResponse>>()
     val insertOrderStatus: LiveData<Resource<PlaceOrderResponse>>
         get() = insertOrder
 
-    fun insertOrder(placeOrderRequest: PlaceOrderRequest) {
+    fun placeOrder(placeOrderRequest: PlaceOrderRequest) {
         viewModelScope.launch {
             try {
                 insertOrder.value = Resource.loading()
                 val response = orderRepository.insertOrder(placeOrderRequest)
-                if (response != null) {
-                    if (response.code == 1) {
-                        if (!response.data.isNullOrEmpty()) {
-                            insertOrder.value = Resource.success(response)
-                        } else {
-                            insertOrder.value = Resource.error(null, message = response.data)
-                        }
-
-                    } else {
-                        insertOrder.value = Resource.error(null, response.message)
+                if(response!=null){
+                    if(response.code==1){
+                        insertOrder.value = Resource.success(response)
+                    }else{
+                        insertOrder.value = Resource.error(null,response.message)
                     }
                 }
             } catch (e: Exception) {

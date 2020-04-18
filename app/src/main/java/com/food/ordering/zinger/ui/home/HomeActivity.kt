@@ -192,6 +192,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         shopList.clear()
                         it.data?.let { it1 -> shopList.addAll(it1) }
                         shopAdapter.notifyDataSetChanged()
+                        updateCartUI()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         progressDialog.dismiss()

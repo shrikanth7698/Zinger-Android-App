@@ -24,9 +24,6 @@
 					android:id="@+id/animation_view"
 					android:layout_width="200dp"
 					android:layout_height="200dp"
-					app:lottie_autoPlay="true"
-					app:lottie_loop="true"
-					app:lottie_fileName="loading_animation.json"
 					android:layout_gravity="center" />
 
 				<TextView
@@ -34,6 +31,7 @@
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
 					android:layout_margin="16dp"
+					android:id="@+id/text_place_order_status"
 					android:fontFamily="@font/poppins_bold"
 					android:gravity="center|start"
 					android:paddingTop="3dp"
@@ -42,7 +40,63 @@
 					android:textColor="@android:color/black"
 					android:textSize="18sp" />
 
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/layout_redirection"
+					android:visibility="gone"
+					android:orientation="horizontal">
+
+					<TextView
+						android:id="@+id/text_view_order"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:layout_margin="16dp"
+						android:background="@drawable/bg_small_rounded_red"
+						android:fontFamily="@font/open_sans_bold"
+						android:gravity="center"
+						android:padding="16dp"
+						android:text="VIEW ORDER"
+						android:textAllCaps="true"
+						android:textColor="@android:color/white"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:visibility="visible"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toStartOf="@+id/text_go_home"
+						app:layout_constraintHorizontal_bias="1.0"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent" />
+
+					<TextView
+						android:id="@+id/text_go_home"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:layout_margin="16dp"
+						android:layout_marginStart="16dp"
+						android:background="@drawable/bg_rounded_red_stroke"
+						android:fontFamily="@font/open_sans_bold"
+						android:gravity="center"
+						android:padding="16dp"
+						android:text="GO HOME"
+						android:textAllCaps="true"
+						android:textColor="@color/colorAccent"
+						android:textSize="12sp"
+						android:visibility="visible"
+						android:textStyle="bold"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/text_rate"
+						app:layout_constraintTop_toTopOf="parent" />
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+
+
 			</LinearLayout>
+
+
 
 		</RelativeLayout>
 
