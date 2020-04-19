@@ -21,7 +21,7 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
     val performFetchMenuStatus: LiveData<Resource<List<MenuItem>>>
         get() = performFetchMenu
 
-    fun getMenu(placeId: String, query: String) {
+    fun getMenu(placeId: String, query: String, shopId: String?, isGlobalSearch: Boolean) {
         viewModelScope.launch {
             try {
                 performFetchMenu.value = Resource.loading()
@@ -56,17 +56,36 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
                         for(i in menuQuery.indices){
                             menuQuery[i].isDish = true
                         }
-                        if(shopMenuList.isNullOrEmpty()){
-                            performFetchMenu.value = Resource.success(menuQuery)
+                        if(isGlobalSearch){
+                            if(shopMenuList.isNullOrEmpty()){
+                                performFetchMenu.value = Resource.success(menuQuery)
+                            }else{
+                                menuQuery.addAll(shopMenuList)
+                                performFetchMenu.value = Resource.success(menuQuery)
+                            }
                         }else{
-                            menuQuery.addAll(shopMenuList)
-                            performFetchMenu.value = Resource.success(menuQuery)
+                            var menuShopQuery:ArrayList<MenuItem> = ArrayList()
+                            for(i in menuQuery.indices){
+                                if(menuQuery[i].shopModel?.id==shopId?.toInt()){
+                                    menuQuery[i].shopModel?.name = menuQuery[i].category
+                                    menuShopQuery.add(menuQuery[i])
+                                }
+                            }
+                            if(menuShopQuery.isNullOrEmpty()){
+                                performFetchMenu.value = Resource.empty()
+                            }else {
+                                performFetchMenu.value = Resource.success(menuShopQuery)
+                            }
                         }
                     } else {
-                        if(shopMenuList.isNullOrEmpty()){
+                        if(isGlobalSearch){
+                            if (shopMenuList.isNullOrEmpty()) {
+                                performFetchMenu.value = Resource.empty()
+                            } else {
+                                performFetchMenu.value = Resource.success(shopMenuList)
+                            }
+                        }else {
                             performFetchMenu.value = Resource.empty()
-                        }else{
-                            performFetchMenu.value = Resource.success(shopMenuList)
                         }
                     }
                 }

@@ -39,33 +39,44 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
     private var menuList: ArrayList<MenuItem> = ArrayList()
     private lateinit var errorSnackBar: Snackbar
     private var timer: Timer? = null
+    private var isGlobalSearch = true
+    private var shopId: String? = null
+    private var shopName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getArgs()
         initView()
         setObservers()
-        binding.editSearch.addTextChangedListener(object: TextWatcher{
+        binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 timer = Timer()
                 timer?.schedule(object : TimerTask() {
                     override fun run() {
-                        if(s.toString().length>2){
-                            viewModel.getMenu(preferencesHelper.getPlace()?.id.toString(),s.toString())
-                        }else{
+                        if (s.toString().length > 2) {
+                            viewModel.getMenu(preferencesHelper.getPlace()?.id.toString(), s.toString(), shopId, isGlobalSearch)
+                        } else {
                             runOnUiThread {
                                 menuList.clear()
                                 menuAdapter.notifyDataSetChanged()
-                                binding.appBarLayout.setExpanded(true,true)
+                                binding.appBarLayout.setExpanded(true, true)
                             }
                         }
                     }
                 }, 600)
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 timer?.cancel()
             }
         })
+    }
+
+    private fun getArgs() {
+        isGlobalSearch = intent.getBooleanExtra(AppConstants.GLOBAL_SEARCH, true)
+        shopId = intent.getStringExtra(AppConstants.SHOP_ID)
+        shopName = intent.getStringExtra(AppConstants.SHOP_NAME)
     }
 
     private fun initView() {
@@ -77,8 +88,15 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
         snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
         snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
-        val text = "<font color=#000000>Search your favourite</font> <font color=#FF4141>outlet</font> <font color=#000000>or</font> <font color=#FF4141>dish</font> <font color=#000000>in your campus</font>"
-        binding.titleSearch.text = Html.fromHtml(text)
+        if (isGlobalSearch) {
+            val text = "<font color=#000000>Search your favourite</font> <font color=#FF4141>outlet</font> <font color=#000000>or</font> <font color=#FF4141>dish</font> <font color=#000000>in your campus</font>"
+            binding.titleSearch.text = Html.fromHtml(text)
+            binding.editSearch.hint = "Search Outlets or Dish"
+        } else {
+            val text = "<font color=#000000>Search your favourite</font> <font color=#FF4141>dish</font> <font color=#000000>in </font> <font color=#FF4141>" + shopName + "</font>"
+            binding.titleSearch.text = Html.fromHtml(text)
+            binding.editSearch.hint = "Search dish"
+        }
         //binding.layoutSearch.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         setupShopRecyclerView()
     }
@@ -95,9 +113,13 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                         binding.progressBar.visibility = View.GONE
                         menuList.clear()
                         menuAdapter.notifyDataSetChanged()
-                        errorSnackBar.setText("No dish or restaurant found")
+                        if (isGlobalSearch) {
+                            errorSnackBar.setText("No dish or restaurant found")
+                        } else {
+                            errorSnackBar.setText("No dish found")
+                        }
                         errorSnackBar.show()
-                        binding.appBarLayout.setExpanded(true,true)
+                        binding.appBarLayout.setExpanded(true, true)
                     }
                     Resource.Status.SUCCESS -> {
                         errorSnackBar.dismiss()
@@ -105,20 +127,20 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                         menuList.clear()
                         it.data?.let { it1 -> menuList.addAll(it1) }
                         menuAdapter.notifyDataSetChanged()
-                        binding.appBarLayout.setExpanded(false,true)
+                        binding.appBarLayout.setExpanded(false, true)
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         binding.progressBar.visibility = View.GONE
                         errorSnackBar.setText("No Internet Connection")
                         errorSnackBar.show()
-                        binding.appBarLayout.setExpanded(true,true)
+                        binding.appBarLayout.setExpanded(true, true)
 
                     }
                     Resource.Status.ERROR -> {
                         binding.progressBar.visibility = View.GONE
                         errorSnackBar.setText("Something went wrong")
                         errorSnackBar.show()
-                        binding.appBarLayout.setExpanded(true,true)
+                        binding.appBarLayout.setExpanded(true, true)
                     }
                 }
             }
@@ -130,14 +152,15 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
             override fun onItemClick(item: MenuItem, position: Int) {
                 val shopList = preferencesHelper.getShopList()
                 val shop = shopList?.firstOrNull {
-                    it.shopModel.id==item.shopModel?.id
+                    it.shopModel.id == item.shopModel?.id
                 }
                 val intent = Intent(applicationContext, RestaurantActivity::class.java)
-                if(item.isDish){
-                    intent.putExtra(AppConstants.ITEM_ID,item.id)
+                if (item.isDish) {
+                    intent.putExtra(AppConstants.ITEM_ID, item.id)
                 }
                 intent.putExtra(AppConstants.SHOP, Gson().toJson(shop))
                 startActivity(intent)
+                if (!isGlobalSearch) finish()
             }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)

@@ -52,7 +52,7 @@ data class ShopModel(
     @SerializedName("mobile")
     val mobile: String,
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("openingTime")
     val openingTime: String,
     @SerializedName("photoUrl")

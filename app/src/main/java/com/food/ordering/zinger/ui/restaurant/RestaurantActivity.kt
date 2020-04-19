@@ -19,6 +19,7 @@ import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -54,6 +55,14 @@ class RestaurantActivity : AppCompatActivity() {
         errorSnackBar.setAction("Try again") {
             viewModel.getMenu(shop?.shopModel?.id.toString())
         }
+        binding.textSearchMenu.setOnClickListener {
+            val intent = Intent(applicationContext, SearchActivity::class.java)
+            intent.putExtra(AppConstants.GLOBAL_SEARCH, false)
+            intent.putExtra(AppConstants.SHOP_ID, shop?.shopModel?.id.toString())
+            intent.putExtra(AppConstants.SHOP_NAME, shop?.shopModel?.name)
+            startActivity(intent)
+            finish()
+        }
         shop?.let {
             viewModel.getMenu(shop?.shopModel?.id.toString())
         }
@@ -63,7 +72,7 @@ class RestaurantActivity : AppCompatActivity() {
     private fun getArgs() {
         val temp = intent.getStringExtra(AppConstants.SHOP)
         shop = Gson().fromJson(temp, ShopsResponseData::class.java)
-        itemId = intent.getIntExtra(AppConstants.ITEM_ID,-1)
+        itemId = intent.getIntExtra(AppConstants.ITEM_ID, -1)
     }
 
     private fun initView() {
@@ -100,10 +109,10 @@ class RestaurantActivity : AppCompatActivity() {
 
     private fun updateShopUI() {
         binding.toolbarLayout.title = shop?.shopModel?.name
-        if(shop?.ratingModel?.rating==0.0){
+        if (shop?.ratingModel?.rating == 0.0) {
             binding.textShopRating.text = "No ratings yet"
-        }else {
-            binding.textShopRating.text = shop?.ratingModel?.rating.toString()+" ("+shop?.ratingModel?.userCount+")"
+        } else {
+            binding.textShopRating.text = shop?.ratingModel?.rating.toString() + " (" + shop?.ratingModel?.userCount + ")"
         }
         Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).placeholder(R.drawable.shop_placeholder).into(binding.imageExpanded)
     }
@@ -186,7 +195,7 @@ class RestaurantActivity : AppCompatActivity() {
                                 break
                             }
                         }
-                        if (k == 0){
+                        if (k == 0) {
                             cartList.add(foodItemList[position])
                         }
                         foodAdapter.notifyItemChanged(position)
@@ -287,26 +296,26 @@ class RestaurantActivity : AppCompatActivity() {
             return items
         }
 
-    private fun highlightRedirectedItem(){
+    private fun highlightRedirectedItem() {
         var position = -1
-        if(itemId!=-1){
-            for(i in foodItemList.indices){
-                if(foodItemList[i].id == itemId){
+        if (itemId != -1) {
+            for (i in foodItemList.indices) {
+                if (foodItemList[i].id == itemId) {
                     position = i
                     break
                 }
             }
-            if(position!=-1){
+            if (position != -1) {
                 binding.recyclerFoodItems.scrollToPosition(position)
                 Handler().postDelayed({
-                    binding.appBar.setExpanded(false,true)
+                    binding.appBar.setExpanded(false, true)
                     val view = layoutManager.findViewByPosition(position)
-                    if(view!=null){
+                    if (view != null) {
                         YoYo.with(Techniques.Pulse)
                                 .duration(1000)
                                 .playOn(view)
                     }
-                },500)
+                }, 500)
 
             }
         }
