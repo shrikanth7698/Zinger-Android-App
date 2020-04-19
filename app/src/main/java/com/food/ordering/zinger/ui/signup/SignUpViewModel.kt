@@ -2,6 +2,7 @@ package com.food.ordering.zinger.ui.signup
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.PlacesResponse
 import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.model.UpdateUserResponse
@@ -12,20 +13,23 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 
-class SignUpViewModel(private val userRepository: UserRepository,private val placeRepository: PlaceRepository) : ViewModel() {
+class SignUpViewModel(private val userRepository: UserRepository, private val placeRepository: PlaceRepository) : ViewModel() {
 
     //Fetch places list
     private val performFetchPlacesList = MutableLiveData<Resource<PlacesResponse>>()
     val performFetchPlacesStatus: LiveData<Resource<PlacesResponse>>
         get() = performFetchPlacesList
 
+    private var placesList: ArrayList<PlaceModel> = ArrayList()
     fun getPlaces() {
         viewModelScope.launch {
             try {
                 performFetchPlacesList.value = Resource.loading()
                 val response = placeRepository.getPlaces()
-                if(response.code==1) {
+                if (response.code == 1) {
                     if (!response.data.isNullOrEmpty()) {
+                        placesList.clear()
+                        placesList.addAll(response.data)
                         performFetchPlacesList.value = Resource.success(response)
                     } else {
                         if (response.data != null) {
@@ -36,7 +40,7 @@ class SignUpViewModel(private val userRepository: UserRepository,private val pla
                             performFetchPlacesList.value = Resource.error(null, message = "Something went wrong!")
                         }
                     }
-                }else{
+                } else {
                     performFetchPlacesList.value = Resource.error(null, message = response.message)
                 }
             } catch (e: Exception) {
@@ -50,6 +54,17 @@ class SignUpViewModel(private val userRepository: UserRepository,private val pla
         }
     }
 
+    fun searchPlace(query: String?) {
+        if(!query.isNullOrEmpty()) {
+            val queryPlaceList = placesList.filter {
+                it.name.toLowerCase().contains(query?.toLowerCase().toString())
+            }
+            performFetchPlacesList.value = Resource.success(PlacesResponse(1, queryPlaceList, ""))
+        }else{
+            performFetchPlacesList.value = Resource.success(PlacesResponse(1, placesList, ""))
+        }
+    }
+
     private val performSignUp = MutableLiveData<Resource<UpdateUserResponse>>()
     val performSignUpStatus: LiveData<Resource<UpdateUserResponse>>
         get() = performSignUp
@@ -59,13 +74,13 @@ class SignUpViewModel(private val userRepository: UserRepository,private val pla
             try {
                 performSignUp.value = Resource.loading()
                 val response = userRepository.updateUser(updateUserRequest)
-                if(response.code==1) {
-                    if (response.data!=null) {
+                if (response.code == 1) {
+                    if (response.data != null) {
                         performSignUp.value = Resource.success(response)
                     } else {
                         performSignUp.value = Resource.error(null, message = "Something went wrong")
                     }
-                }else{
+                } else {
                     performSignUp.value = Resource.error(null, message = response.message)
                 }
             } catch (e: Exception) {

@@ -5,10 +5,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -23,10 +27,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListener {
 
     private lateinit var binding: ActivitySignUpBinding
     private val viewModel: SignUpViewModel by viewModel()
@@ -103,7 +108,7 @@ class SignUpActivity : AppCompatActivity() {
                     Resource.Status.SUCCESS -> {
                         progressDialog.dismiss()
                         places.clear()
-                        it.data?.let { it1 -> it1.data?.let { it2 -> places.addAll(it2) } }
+                        it.data?.data?.let { it1 -> places.addAll(it1) }
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         progressDialog.dismiss()
@@ -155,25 +160,12 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun showCampusListBottomDialog() {
-        val dialogBinding: BottomSheetCampusListBinding =
-                DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_campus_list, null, false)
-        val dialog = BottomSheetDialog(this)
-        dialog.setContentView(dialogBinding.root)
-        dialog.show()
-        val productAdapter = PlacesAdapter(applicationContext, places, object : PlacesAdapter.OnItemClickListener {
-            override fun onItemClick(item: PlaceModel?, position: Int) {
-                selectedPlace = item
-                binding.textCampusName.text = item?.name
-                Handler().postDelayed({
-                    dialog.dismiss()
-                }, 250)
-            }
-        })
-        dialogBinding.recyclerCampus.layoutManager = GridLayoutManager(this, 2)
-        dialogBinding.recyclerCampus.adapter = productAdapter
-        dialogBinding.imageClose.setOnClickListener {
-            dialog.dismiss()
-        }
+        viewModel.searchPlace("")
+        val dialog = PlacePickerDialog()
+        dialog.setListener(this)
+        dialog.placesList = places
+        dialog.show(supportFragmentManager,null)
+
     }
 
     override fun onBackPressed() {
@@ -186,6 +178,11 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
                 .show()
+    }
+
+    override fun onPlaceClick(place: PlaceModel) {
+        selectedPlace = place
+        binding.textCampusName.text = place.name
     }
 
 }

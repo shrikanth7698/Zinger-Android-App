@@ -2,6 +2,7 @@ package com.food.ordering.zinger.ui.profile
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.PlacesResponse
 import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.model.UpdateUserResponse
@@ -19,6 +20,7 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
     val performFetchPlacesStatus: LiveData<Resource<PlacesResponse>>
         get() = performFetchPlacesList
 
+    private var placesList: ArrayList<PlaceModel> = ArrayList()
     fun getPlaces() {
         viewModelScope.launch {
             try {
@@ -26,6 +28,8 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
                 val response = placeRepository.getPlaces()
                 if(response.code==1) {
                     if (!response.data.isNullOrEmpty()) {
+                        placesList.clear()
+                        placesList.addAll(response.data)
                         performFetchPlacesList.value = Resource.success(response)
                     } else {
                         if (response.data != null) {
@@ -47,6 +51,17 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
                     performFetchPlacesList.value = Resource.error(e)
                 }
             }
+        }
+    }
+
+    fun searchPlace(query: String?) {
+        if(!query.isNullOrEmpty()) {
+            val queryPlaceList = placesList.filter {
+                it.name.toLowerCase().contains(query?.toLowerCase().toString())
+            }
+            performFetchPlacesList.value = Resource.success(PlacesResponse(1, queryPlaceList, ""))
+        }else{
+            performFetchPlacesList.value = Resource.success(PlacesResponse(1, placesList, ""))
         }
     }
 

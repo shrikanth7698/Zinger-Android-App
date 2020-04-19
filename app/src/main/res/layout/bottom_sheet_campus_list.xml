@@ -1,70 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
-	<data>
+    <data>
 
-	</data>
+    </data>
 
-	<androidx.core.widget.NestedScrollView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layout_place_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:elevation="8dp"
-				android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:orientation="horizontal">
 
-				<EditText
-					android:id="@+id/editext_search"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:layout_marginStart="16dp"
-					android:layout_marginTop="16dp"
-					android:layout_marginEnd="8dp"
-					android:layout_marginBottom="16dp"
-					android:layout_weight="1"
-					android:background="@drawable/bg_rounded"
-					android:drawableStart="@drawable/ic_drawer_search_small"
-					android:drawablePadding="4dp"
-					android:fontFamily="@font/open_sans_semibold"
-					android:gravity="start|center"
-					android:hint="Search campus"
-					android:imeOptions="actionSearch"
-					android:maxLines="1"
-					android:padding="10dp"
-					android:singleLine="true"
-					android:textColor="@android:color/black"
-					android:textCursorDrawable="@null"
-					android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/editext_search"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rounded"
+                    android:drawableStart="@drawable/ic_drawer_search_small"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:gravity="start|center"
+                    android:hint="Search campus"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="12sp" />
 
-				<ImageView
-					android:id="@+id/image_close"
-					android:layout_width="40dp"
-					android:layout_height="40dp"
-					android:layout_gravity="center"
-					android:layout_marginEnd="8dp"
-					android:padding="8dp"
-					android:src="@drawable/ic_close"
-					android:tint="@android:color/black" />
-			</LinearLayout>
+                <ImageView
+                    android:id="@+id/image_close"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_close"
+                    android:tint="@android:color/black" />
+            </LinearLayout>
 
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/recycler_campus"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:minHeight="240dp"
-				android:paddingStart="8dp"
-				android:paddingBottom="32dp"
-				android:clipToPadding="false"
-				android:paddingEnd="8dp" />
-		</LinearLayout>
-	</androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_campus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:minHeight="240dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="32dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="800dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
 </layout>

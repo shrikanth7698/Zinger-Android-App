@@ -29,14 +29,14 @@ class PlacesAdapter(private val context: Context, private val places: List<Place
         fun bind(place: PlaceModel, position: Int, listener: OnItemClickListener) {
             Picasso.get().load(place.iconUrl).into(binding.imageCampus)
             binding.textCampusName.text = place.name
-
+            binding.textCampusAddress.text = place.address
             binding.layoutRoot.setOnClickListener { listener.onItemClick(place, position) }
         }
 
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: PlaceModel?, position: Int)
+        fun onItemClick(item: PlaceModel, position: Int)
     }
 
 }

@@ -24,7 +24,7 @@ import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity() ,PlacePickerDialog.PlaceClickListener{
 
     private lateinit var binding: ActivityProfileBinding
     private val viewModel: ProfileViewModel by viewModel()
@@ -157,28 +157,21 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun showCampusListBottomDialog() {
-        val dialogBinding: BottomSheetCampusListBinding =
-                DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_campus_list, null, false)
-        val dialog = BottomSheetDialog(this)
-        dialog.setContentView(dialogBinding.root)
-        dialog.show()
-        val productAdapter = PlacesAdapter(applicationContext, places, object : PlacesAdapter.OnItemClickListener {
-            override fun onItemClick(item: PlaceModel?, position: Int) {
-                selectedPlace = item
-                binding.textCampusName.text = item?.name
-                Handler().postDelayed({
-                    dialog.dismiss()
-                },250)
-            }
-        })
-        dialogBinding.recyclerCampus.layoutManager = GridLayoutManager(this, 2)
-        dialogBinding.recyclerCampus.adapter = productAdapter
-        dialogBinding.imageClose.setOnClickListener {
-            dialog.dismiss()
-        }
+        viewModel.searchPlace("")
+        val dialog = PlacePickerDialog()
+        dialog.setListener(this)
+        dialog.placesList = places
+        dialog.show(supportFragmentManager,null)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+    override fun onPlaceClick(place: PlaceModel) {
+        selectedPlace = place
+        binding.textCampusName.text = place.name
+    }
+
+
 }
