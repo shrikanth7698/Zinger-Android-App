@@ -61,7 +61,9 @@ class RestaurantActivity : AppCompatActivity() {
             intent.putExtra(AppConstants.SHOP_ID, shop?.shopModel?.id.toString())
             intent.putExtra(AppConstants.SHOP_NAME, shop?.shopModel?.name)
             startActivity(intent)
-            finish()
+        }
+        binding.switchVeg.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.switchMenu(isChecked)
         }
         shop?.let {
             viewModel.getMenu(shop?.shopModel?.id.toString())

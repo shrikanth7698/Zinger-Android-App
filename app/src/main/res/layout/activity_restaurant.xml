@@ -130,12 +130,13 @@
 						android:layout_height="40dp"
 						android:layout_gravity="center"
 						android:layout_marginStart="16dp"
+						android:id="@+id/switch_veg"
 						android:fontFamily="@font/open_sans_semibold"
 						android:gravity="center"
 						android:text="Veg only"
 						android:textStyle="bold"
 						app:switchPadding="8dp"
-						app:thumbTint="@android:color/holo_green_dark"
+						app:thumbTint="#4CAF50"
 						app:trackTint="#CCCCCC" />
 				</LinearLayout>
 

@@ -16,6 +16,8 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
     val performFetchMenuStatus: LiveData<Resource<List<MenuItem>>>
         get() = performFetchMenu
 
+    var menuList:ArrayList<MenuItem> = ArrayList()
+    var menuVegList:ArrayList<MenuItem> = ArrayList()
     fun getMenu(shopId: String) {
         viewModelScope.launch {
             try {
@@ -23,6 +25,14 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
                 val response = itemRepository.getMenu(shopId)
                 if(response!=null){
                     if(!response.data.isNullOrEmpty()){
+                        menuList.clear()
+                        menuVegList.clear()
+                        menuList.addAll(response.data)
+                        menuList.forEach{
+                            if(it.isVeg==1){
+                                menuVegList.add(it)
+                            }
+                        }
                         performFetchMenu.value = Resource.success(response.data)
                     }else{
                         performFetchMenu.value = Resource.empty()
@@ -39,4 +49,15 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
         }
     }
 
+
+    fun switchMenu(isVeg: Boolean){
+        println("switch menu testing veg "+menuVegList.size)
+        println("switch menu testing non veg "+menuList.size)
+        if(isVeg){
+            performFetchMenu.value = Resource.success(menuVegList)
+        }else{
+            performFetchMenu.value = Resource.success(menuList)
+        }
+
+    }
 }
