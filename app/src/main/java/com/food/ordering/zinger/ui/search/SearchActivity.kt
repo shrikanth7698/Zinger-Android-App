@@ -2,6 +2,7 @@ package com.food.ordering.zinger.ui.search
 
 import android.animation.LayoutTransition
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.Html
@@ -18,7 +19,10 @@ import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.databinding.ActivitySearchBinding
+import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
+import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -123,10 +127,17 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupShopRecyclerView() {
         menuAdapter = SearchAdapter(menuList, object : SearchAdapter.OnItemClickListener {
-            override fun onItemClick(item: MenuItem?, position: Int) {
-                //val intent = Intent(applicationContext, RestaurantActivity::class.java)
-                //intent.putExtra("shop", item)
-                //startActivity(intent)
+            override fun onItemClick(item: MenuItem, position: Int) {
+                val shopList = preferencesHelper.getShopList()
+                val shop = shopList?.firstOrNull {
+                    it.shopModel.id==item.shopModel?.id
+                }
+                val intent = Intent(applicationContext, RestaurantActivity::class.java)
+                if(item.isDish){
+                    intent.putExtra(AppConstants.ITEM_ID,item.id)
+                }
+                intent.putExtra(AppConstants.SHOP, Gson().toJson(shop))
+                startActivity(intent)
             }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)

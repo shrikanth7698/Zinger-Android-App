@@ -3,12 +3,15 @@ package com.food.ordering.zinger.ui.restaurant
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -16,6 +19,7 @@ import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -37,6 +41,7 @@ class RestaurantActivity : AppCompatActivity() {
     var foodItemList: ArrayList<MenuItem> = ArrayList()
     var cartList: ArrayList<MenuItem> = ArrayList()
     var shop: ShopsResponseData? = null
+    var itemId = -1
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackBar: Snackbar
 
@@ -56,8 +61,9 @@ class RestaurantActivity : AppCompatActivity() {
 
 
     private fun getArgs() {
-        val temp = intent.getStringExtra("shop")
+        val temp = intent.getStringExtra(AppConstants.SHOP)
         shop = Gson().fromJson(temp, ShopsResponseData::class.java)
+        itemId = intent.getIntExtra(AppConstants.ITEM_ID,-1)
     }
 
     private fun initView() {
@@ -140,6 +146,7 @@ class RestaurantActivity : AppCompatActivity() {
                     foodAdapter.notifyDataSetChanged()
                     progressDialog.dismiss()
                     errorSnackBar.dismiss()
+                    highlightRedirectedItem()
                 }
                 Resource.Status.EMPTY -> {
                     progressDialog.dismiss()
@@ -162,6 +169,7 @@ class RestaurantActivity : AppCompatActivity() {
         })
     }
 
+    lateinit var layoutManager: LinearLayoutManager
     private fun setupMenuRecyclerView() {
         foodAdapter = FoodAdapter(applicationContext, foodItemList, object : FoodAdapter.OnItemClickListener {
             override fun onItemClick(item: MenuItem?, position: Int) {}
@@ -232,7 +240,8 @@ class RestaurantActivity : AppCompatActivity() {
                 }
             }
         })
-        binding.recyclerFoodItems.layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
+        layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerFoodItems.layoutManager = layoutManager
         binding.recyclerFoodItems.adapter = foodAdapter
     }
 
@@ -277,6 +286,31 @@ class RestaurantActivity : AppCompatActivity() {
             }
             return items
         }
+
+    private fun highlightRedirectedItem(){
+        var position = -1
+        if(itemId!=-1){
+            for(i in foodItemList.indices){
+                if(foodItemList[i].id == itemId){
+                    position = i
+                    break
+                }
+            }
+            if(position!=-1){
+                binding.recyclerFoodItems.scrollToPosition(position)
+                Handler().postDelayed({
+                    binding.appBar.setExpanded(false,true)
+                    val view = layoutManager.findViewByPosition(position)
+                    if(view!=null){
+                        YoYo.with(Techniques.Pulse)
+                                .duration(1000)
+                                .playOn(view)
+                    }
+                },500)
+
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()

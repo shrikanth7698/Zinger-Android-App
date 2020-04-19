@@ -42,7 +42,7 @@ class SearchAdapter(private val menuList: List<MenuItem>, private val listener: 
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: MenuItem?, position: Int)
+        fun onItemClick(item: MenuItem, position: Int)
     }
 
 }
