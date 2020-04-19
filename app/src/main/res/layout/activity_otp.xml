@@ -46,13 +46,14 @@
 			</com.google.android.material.card.MaterialCardView>
 
 			<TextView
+				android:id="@+id/text_otp_sent"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="top"
 				android:fontFamily="@font/poppins_bold"
 				android:gravity="center|start"
 				android:paddingTop="3dp"
-				android:text="Enter the six digit OTP which has been sent to your mobile number: 9840024137"
+				tools:text="Enter the six digit OTP which has been sent to your mobile number:"
 				android:textColor="@android:color/black"
 				android:textStyle="bold" />
 
