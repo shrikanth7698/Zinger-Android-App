@@ -75,8 +75,7 @@
 				android:id="@+id/layout_search"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				android:padding="16dp">
+				android:orientation="vertical">
 
 				<EditText
 					android:id="@+id/edit_search"
@@ -86,6 +85,7 @@
 					android:background="@drawable/bg_rounded"
 					android:drawableStart="@drawable/ic_drawer_search_small"
 					android:drawablePadding="8dp"
+					android:visibility="gone"
 					android:fontFamily="@font/open_sans_semibold"
 					android:hint="Search order by shop name"
 					android:paddingStart="10dp"
