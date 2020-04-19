@@ -30,5 +30,6 @@ data class MenuItem(
     val shopModel: ShopModel?,
     var quantity: Int = 0,
     var shopId: Int?,
-    var shopName: String?
+    var shopName: String?,
+    var isDish: Boolean = true
 )

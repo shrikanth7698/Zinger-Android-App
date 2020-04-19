@@ -21,9 +21,9 @@ val viewModelModule = module {
     viewModel { RestaurantViewModel(get()) }
     viewModel { SignUpViewModel(get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
-    viewModel { SearchViewModel(get()) }
+    viewModel { SearchViewModel(get(), get()) }
     viewModel { OrderViewModel(get()) }
-    viewModel { CartViewModel(get())}
-    viewModel { PlaceOrderViewModel(get())}
-    viewModel { PaymentViewModel(get())}
+    viewModel { CartViewModel(get()) }
+    viewModel { PlaceOrderViewModel(get()) }
+    viewModel { PaymentViewModel(get()) }
 }

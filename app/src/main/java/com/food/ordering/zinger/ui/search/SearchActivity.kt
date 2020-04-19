@@ -91,7 +91,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                         binding.progressBar.visibility = View.GONE
                         menuList.clear()
                         menuAdapter.notifyDataSetChanged()
-                        errorSnackBar.setText("No dish found")
+                        errorSnackBar.setText("No dish or restaurant found")
                         errorSnackBar.show()
                         binding.appBarLayout.setExpanded(true,true)
                     }

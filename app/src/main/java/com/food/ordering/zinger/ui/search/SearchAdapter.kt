@@ -27,9 +27,15 @@ class SearchAdapter(private val menuList: List<MenuItem>, private val listener: 
 
     class SearchViewHolder(var binding: ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(menuItem: MenuItem, position: Int, listener: OnItemClickListener) {
-            Picasso.get().load(menuItem.photoUrl).into(binding.imageShop)
-            binding.textShopName.text = menuItem.name
-            binding.textShopDesc.text = menuItem.shopModel?.name
+            if(menuItem.isDish){
+                binding.textShopName.text = menuItem.name
+                binding.textShopDesc.text = menuItem.shopModel?.name
+                Picasso.get().load(menuItem.photoUrl).placeholder(R.drawable.ic_food).into(binding.imageShop)
+            }else{
+                binding.textShopName.text = menuItem.shopModel?.name
+                binding.textShopDesc.text = "Restaurant"
+                Picasso.get().load(menuItem.photoUrl).placeholder(R.drawable.ic_shop).into(binding.imageShop)
+            }
             binding.layoutRoot.setOnClickListener { listener.onItemClick(menuItem, position) }
         }
 
