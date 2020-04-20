@@ -3,7 +3,6 @@ package com.food.ordering.zinger.ui.signup
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.PlaceModel
-import com.food.ordering.zinger.data.model.PlacesResponse
 import com.food.ordering.zinger.data.model.Response
 import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.retrofit.PlaceRepository
@@ -16,8 +15,8 @@ import java.net.UnknownHostException
 class SignUpViewModel(private val userRepository: UserRepository, private val placeRepository: PlaceRepository) : ViewModel() {
 
     //Fetch places list
-    private val performFetchPlacesList = MutableLiveData<Resource<PlacesResponse>>()
-    val performFetchPlacesStatus: LiveData<Resource<PlacesResponse>>
+    private val performFetchPlacesList = MutableLiveData<Resource<Response<List<PlaceModel>>>>()
+    val performFetchPlacesStatus: LiveData<Resource<Response<List<PlaceModel>>>>
         get() = performFetchPlacesList
 
     private var placesList: ArrayList<PlaceModel> = ArrayList()
@@ -59,9 +58,9 @@ class SignUpViewModel(private val userRepository: UserRepository, private val pl
             val queryPlaceList = placesList.filter {
                 it.name.toLowerCase().contains(query?.toLowerCase().toString())
             }
-            performFetchPlacesList.value = Resource.success(PlacesResponse(1, queryPlaceList, ""))
+            performFetchPlacesList.value = Resource.success(Response(1, queryPlaceList, ""))
         }else{
-            performFetchPlacesList.value = Resource.success(PlacesResponse(1, placesList, ""))
+            performFetchPlacesList.value = Resource.success(Response(1, placesList, ""))
         }
     }
 

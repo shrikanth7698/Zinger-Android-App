@@ -17,7 +17,7 @@ interface CustomApi {
 
     //PLACE REPO
     @GET("/place")
-    suspend fun getPlaceList(): PlacesResponse
+    suspend fun getPlaceList(): Response<List<PlaceModel>>
 
     //ITEM REPO
     @GET("/menu/{placeId}/{query}")
