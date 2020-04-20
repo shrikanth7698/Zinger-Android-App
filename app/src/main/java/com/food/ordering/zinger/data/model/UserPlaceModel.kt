@@ -3,16 +3,7 @@ package com.food.ordering.zinger.data.model
 import com.google.gson.annotations.SerializedName
 
 
-data class LoginResponse(
-        @SerializedName("code")
-        val code: Int,
-        @SerializedName("data")
-        val `data`: Data?,
-        @SerializedName("message")
-        val message: String
-)
-
-data class Data(
+data class UserPlaceModel(
         @SerializedName("placeModel")
         val placeModel: PlaceModel,
         @SerializedName("userModel")

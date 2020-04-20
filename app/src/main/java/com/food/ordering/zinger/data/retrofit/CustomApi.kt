@@ -7,9 +7,9 @@ interface CustomApi {
 
     //USER REPO
     @POST("/user/customer")
-    suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
+    suspend fun login(@Body loginRequest: LoginRequest): Response<UserPlaceModel>
     @PATCH("/user/place") //This can be used for both sign-up and updating profile
-    suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): UpdateUserResponse
+    suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Response<String>
 
     //SHOP REPO
     @GET("/shop/place/{placeId}")

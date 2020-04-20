@@ -6,13 +6,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ItemShopBinding
 import com.food.ordering.zinger.ui.home.ShopAdapter.ShopViewHolder
 import com.squareup.picasso.Picasso
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class ShopAdapter(private val context: Context, private val shopList: List<ShopsResponseData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,

@@ -3,20 +3,19 @@ package com.food.ordering.zinger.ui.login
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.LoginRequest
-import com.food.ordering.zinger.data.model.LoginResponse
-import com.food.ordering.zinger.data.model.Shop
+import com.food.ordering.zinger.data.model.Response
+import com.food.ordering.zinger.data.model.UserPlaceModel
 import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
-import java.util.ArrayList
 
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     //LOGIN
-    private val performLogin = MutableLiveData<Resource<LoginResponse>>()
-    val performLoginStatus: LiveData<Resource<LoginResponse>>
+    private val performLogin = MutableLiveData<Resource<Response<UserPlaceModel>>>()
+    val performLoginStatus: LiveData<Resource<Response<UserPlaceModel>>>
         get() = performLogin
 
     fun login(loginRequest: LoginRequest) {
@@ -35,6 +34,5 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
             }
         }
     }
-
 
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.PlacesResponse
+import com.food.ordering.zinger.data.model.Response
 import com.food.ordering.zinger.data.model.UpdateUserRequest
-import com.food.ordering.zinger.data.model.UpdateUserResponse
 import com.food.ordering.zinger.data.retrofit.PlaceRepository
 import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
@@ -65,8 +65,8 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
         }
     }
 
-    private val performUpdate = MutableLiveData<Resource<UpdateUserResponse>>()
-    val performUpdateStatus: LiveData<Resource<UpdateUserResponse>>
+    private val performUpdate = MutableLiveData<Resource<Response<String>>>()
+    val performUpdateStatus: LiveData<Resource<Response<String>>>
         get() = performUpdate
 
     fun signUp(updateUserRequest: UpdateUserRequest) {

@@ -19,7 +19,6 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
@@ -33,8 +32,6 @@ import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
@@ -84,7 +81,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         binding.textSearch.setOnClickListener(this)
         progressDialog = ProgressDialog(this)
         setStatusBarHeight()
-        updateHeaderLayoutUI()
         setupShopRecyclerView()
     }
 
@@ -246,6 +242,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         cartList.clear()
         cartList.addAll(getCart())
         updateCartUI()
+        updateHeaderLayoutUI()
     }
 
     private fun updateCartUI() {

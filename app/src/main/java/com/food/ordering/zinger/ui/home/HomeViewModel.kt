@@ -2,14 +2,11 @@ package com.food.ordering.zinger.ui.home
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.Shop
 import com.food.ordering.zinger.data.model.ShopsResponseData
 import com.food.ordering.zinger.data.retrofit.ShopRepository
-import com.food.ordering.zinger.data.retrofit.UserRepository
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
-import java.util.ArrayList
 
 
 class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
