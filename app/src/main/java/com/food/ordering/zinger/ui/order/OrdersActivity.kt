@@ -2,6 +2,7 @@ package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.nfc.tech.MifareUltralight
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -96,56 +98,87 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
+    var isFirstTime = true
     private fun setObservers() {
         viewModel.performFetchOrdersStatus.observe(this, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        binding.layoutStates.visibility = View.VISIBLE
-                        binding.animationView.visibility = View.GONE
+                        isLoading = true
+                        if (isFirstTime) {
+                            binding.layoutStates.visibility = View.VISIBLE
+                            binding.animationView.visibility = View.GONE
+                        }else{
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
                         errorSnackBar.dismiss()
                     }
                     Resource.Status.EMPTY -> {
-                        binding.layoutStates.visibility = View.GONE
-                        binding.animationView.visibility = View.VISIBLE
-                        binding.animationView.loop(true)
-                        binding.animationView.setAnimation("empty_animation.json")
-                        binding.animationView.playAnimation()
-                        orderList.clear()
-                        orderAdapter.notifyDataSetChanged()
-                        errorSnackBar.setText("No orders found")
-                        Handler().postDelayed({errorSnackBar.show()},500)
+                        isLoading = false
+                        isLastPage = true
+                        binding.progressBar.visibility = View.GONE
+                        if(isFirstTime) {
+                            binding.layoutStates.visibility = View.GONE
+                            binding.animationView.visibility = View.VISIBLE
+                            binding.animationView.loop(true)
+                            binding.animationView.setAnimation("empty_animation.json")
+                            binding.animationView.playAnimation()
+                            orderList.clear()
+                            orderAdapter.notifyDataSetChanged()
+                            errorSnackBar.setText("No orders found")
+                            Handler().postDelayed({ errorSnackBar.show() }, 500)
+                        }
                         //binding.appBarLayout.setExpanded(true, true)
                     }
                     Resource.Status.SUCCESS -> {
+                        isLoading = false
+                        binding.progressBar.visibility = View.GONE
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.GONE
                         binding.animationView.cancelAnimation()
                         errorSnackBar.dismiss()
-                        orderList.clear()
+                        if(isFirstTime) {
+                            orderList.clear()
+                        }
+                        println("size testing "+it.data?.size)
                         it.data?.let { it1 -> orderList.addAll(it1) }
+                        if (it.data.isNullOrEmpty()) {
+                            isLastPage = true
+                        } else {
+                            isLastPage = it.data.size < 10
+                            if(!isLastPage) page += 1
+                        }
                         orderAdapter.notifyDataSetChanged()
+                        isFirstTime = false
                         //binding.appBarLayout.setExpanded(false, true)
                     }
                     Resource.Status.OFFLINE_ERROR -> {
-                        binding.layoutStates.visibility = View.GONE
-                        binding.animationView.visibility = View.VISIBLE
-                        binding.animationView.loop(true)
-                        binding.animationView.setAnimation("no_internet_connection_animation.json")
-                        binding.animationView.playAnimation()
-                        errorSnackBar.setText("No Internet Connection")
-                        Handler().postDelayed({errorSnackBar.show()},500)
+                        isLoading = false
+                        binding.progressBar.visibility = View.GONE
+                        if(isFirstTime) {
+                            binding.layoutStates.visibility = View.GONE
+                            binding.animationView.visibility = View.VISIBLE
+                            binding.animationView.loop(true)
+                            binding.animationView.setAnimation("no_internet_connection_animation.json")
+                            binding.animationView.playAnimation()
+                            errorSnackBar.setText("No Internet Connection")
+                            Handler().postDelayed({ errorSnackBar.show() }, 500)
+                        }
                         //binding.appBarLayout.setExpanded(true, true)
 
                     }
                     Resource.Status.ERROR -> {
-                        binding.layoutStates.visibility = View.GONE
-                        binding.animationView.visibility = View.VISIBLE
-                        binding.animationView.loop(true)
-                        binding.animationView.setAnimation("order_failed_animation.json")
-                        binding.animationView.playAnimation()
-                        errorSnackBar.setText("Something went wrong")
-                        Handler().postDelayed({errorSnackBar.show()},500)
+                        isLoading = false
+                        binding.progressBar.visibility = View.GONE
+                        if(isFirstTime) {
+                            binding.layoutStates.visibility = View.GONE
+                            binding.animationView.visibility = View.VISIBLE
+                            binding.animationView.loop(true)
+                            binding.animationView.setAnimation("order_failed_animation.json")
+                            binding.animationView.playAnimation()
+                            errorSnackBar.setText("Something went wrong")
+                            Handler().postDelayed({ errorSnackBar.show() }, 500)
+                        }
                         //binding.appBarLayout.setExpanded(true, true)
                     }
                 }
@@ -180,6 +213,9 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
+    var isLoading = false
+    var isLastPage = false
+    var page = 1
     private fun setupShopRecyclerView() {
         orderAdapter = OrdersAdapter(orderList, object : OrdersAdapter.OnItemClickListener {
             override fun onItemClick(item: OrderItemListModel?, position: Int) {
@@ -192,8 +228,29 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                 showRatingDialog(item)
             }
         })
-        binding.recyclerShops.layoutManager = LinearLayoutManager(this@OrdersActivity, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(this@OrdersActivity, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerShops.layoutManager = layoutManager
         binding.recyclerShops.adapter = AlphaInAnimationAdapter(orderAdapter)
+
+        binding.recyclerShops.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount: Int = layoutManager.childCount
+                val totalItemCount: Int = layoutManager.itemCount
+                val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+                if (!isLoading && !isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= 10) {
+                        preferencesHelper.userId?.let {
+                            viewModel.getOrders(it.toString(), page, 10)
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun showRatingDialog(orderData: OrderItemListModel?) {
@@ -208,7 +265,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         dialogBinding.buttonRate.setOnClickListener {
             var smiley = dialogBinding.smileyRating.selectedSmiley
             var rating = 0.0
-            when(smiley){
+            when (smiley) {
                 SmileyRating.Type.TERRIBLE -> {
                     rating = 1.0
                 }
@@ -263,7 +320,12 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        page = 1
+        isFirstTime = true
+        isLoading = false
+        isLastPage = false
         getOrders()
     }
+
 
 }

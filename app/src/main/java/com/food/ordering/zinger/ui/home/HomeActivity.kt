@@ -170,11 +170,13 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 .build()
     }
 
+    var isError = false
     private fun setObservers() {
         viewModel.performFetchShopsStatus.observe(this, Observer {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
+                        isError = false
                         binding.layoutStates.visibility = View.VISIBLE
                         binding.animationView.visibility = View.GONE
                         errorSnackbar.dismiss()
@@ -182,6 +184,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         //progressDialog.show()
                     }
                     Resource.Status.EMPTY -> {
+                        isError = true
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
                         binding.animationView.loop(true)
@@ -194,6 +197,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.SUCCESS -> {
+                        isError = false
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.GONE
                         binding.animationView.cancelAnimation()
@@ -206,6 +210,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         updateCartUI()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
+                        isError = true
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
                         binding.animationView.loop(true)
@@ -216,6 +221,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.ERROR -> {
+                        isError = true
                         //progressDialog.dismiss()
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
@@ -265,6 +271,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         cartList.addAll(getCart())
         updateCartUI()
         updateHeaderLayoutUI()
+        if(isError){
+            errorSnackbar.show()
+        }
     }
 
     private fun updateCartUI() {
