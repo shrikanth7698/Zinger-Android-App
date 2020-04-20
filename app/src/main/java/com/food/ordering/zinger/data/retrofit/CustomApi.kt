@@ -32,9 +32,9 @@ interface CustomApi {
             @Path("pageNum") pageNum: Int,
             @Path("pageCount") pageCount: Int): Response<List<OrderItemListModel>>
     @POST("/order")
-    suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): VerifyOrderResponse
+    suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): Response<VerifyOrderResponse>
     @POST("/order/place/{orderId}")
-    suspend fun placeOrder(@Path("orderId") orderId: String): PlaceOrderResponse
+    suspend fun placeOrder(@Path("orderId") orderId: String): Response<String>
     @PATCH("/order/rating")
     suspend fun rateOrder(@Body ratingRequest: RatingRequest): RatingResponse
     @PATCH("/order/status")

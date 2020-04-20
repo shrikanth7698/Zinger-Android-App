@@ -12,8 +12,8 @@ import java.net.UnknownHostException
 class PlaceOrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
     //Fetch total stats
-    private val placeOrder = MutableLiveData<Resource<PlaceOrderResponse>>()
-    val placeOrderStatus: LiveData<Resource<PlaceOrderResponse>>
+    private val placeOrder = MutableLiveData<Resource<Response<String>>>()
+    val placeOrderStatus: LiveData<Resource<Response<String>>>
         get() = placeOrder
 
     fun placeOrder(orderId: String) {
