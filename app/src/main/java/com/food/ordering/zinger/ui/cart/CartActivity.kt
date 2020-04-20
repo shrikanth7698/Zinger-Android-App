@@ -251,7 +251,7 @@ class CartActivity : AppCompatActivity() {
         cartAdapter = CartAdapter(applicationContext, cartList, object : CartAdapter.OnItemClickListener {
 
             override fun onItemClick(item: MenuItemModel?, position: Int) {
-
+                //TODO navigate to restaurant activity
             }
 
             override fun onQuantityAdd(position: Int) {

@@ -12,4 +12,5 @@
 	<color name="white20">#33FFFFFF</color>
 	<color name="captionColor">#555555</color>
     <color name="colorAccentLight1">#BFFF4141</color>
+    <color name="shimmerColor">#BCBCBC</color>
 </resources>

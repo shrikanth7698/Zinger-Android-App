@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -27,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.collections.ArrayList
@@ -123,8 +125,8 @@ class RestaurantActivity : AppCompatActivity() {
         viewModel.performFetchMenuStatus.observe(this, Observer { resource ->
             when (resource.status) {
                 Resource.Status.LOADING -> {
-                    progressDialog.setMessage("Getting menu")
-                    progressDialog.show()
+                    binding.layoutStates.visibility = View.VISIBLE
+                    binding.animationView.visibility = View.GONE
                     errorSnackBar.dismiss()
                 }
                 Resource.Status.SUCCESS -> {
@@ -155,24 +157,42 @@ class RestaurantActivity : AppCompatActivity() {
                         }
                     }
                     foodAdapter.notifyDataSetChanged()
-                    progressDialog.dismiss()
+                    binding.layoutStates.visibility = View.GONE
+                    binding.animationView.visibility = View.GONE
+                    binding.animationView.cancelAnimation()
+                    //progressDialog.dismiss()
                     errorSnackBar.dismiss()
                     highlightRedirectedItem()
                 }
                 Resource.Status.EMPTY -> {
-                    progressDialog.dismiss()
+                    binding.layoutStates.visibility = View.GONE
+                    binding.animationView.visibility = View.VISIBLE
+                    binding.animationView.loop(true)
+                    binding.animationView.setAnimation("empty_animation.json")
+                    binding.animationView.playAnimation()
+                    //progressDialog.dismiss()
                     foodItemList.clear()
                     foodAdapter.notifyDataSetChanged()
                     errorSnackBar.setText("No food items available in this shop")
                     errorSnackBar.show()
                 }
                 Resource.Status.OFFLINE_ERROR -> {
-                    progressDialog.dismiss()
+                    binding.layoutStates.visibility = View.GONE
+                    binding.animationView.visibility = View.VISIBLE
+                    binding.animationView.loop(true)
+                    binding.animationView.setAnimation("no_internet_connection_animation.json")
+                    binding.animationView.playAnimation()
+                    //progressDialog.dismiss()
                     errorSnackBar.setText("No Internet Connection")
                     errorSnackBar.show()
                 }
                 Resource.Status.ERROR -> {
-                    progressDialog.dismiss()
+                    binding.layoutStates.visibility = View.GONE
+                    binding.animationView.visibility = View.VISIBLE
+                    binding.animationView.loop(true)
+                    binding.animationView.setAnimation("order_failed_animation.json")
+                    binding.animationView.playAnimation()
+                    //progressDialog.dismiss()
                     errorSnackBar.setText("Something went wrong")
                     errorSnackBar.show()
                 }
@@ -253,7 +273,7 @@ class RestaurantActivity : AppCompatActivity() {
         })
         layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerFoodItems.layoutManager = layoutManager
-        binding.recyclerFoodItems.adapter = foodAdapter
+        binding.recyclerFoodItems.adapter = AlphaInAnimationAdapter(foodAdapter)
     }
 
     private fun updateCartUI() {

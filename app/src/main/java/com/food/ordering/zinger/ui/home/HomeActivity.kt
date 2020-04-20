@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,7 @@ import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -173,19 +175,29 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
+                        binding.layoutStates.visibility = View.VISIBLE
+                        binding.animationView.visibility = View.GONE
                         errorSnackbar.dismiss()
-                        progressDialog.setMessage("Getting Outlets")
-                        progressDialog.show()
+                        //progressDialog.setMessage("Getting Outlets")
+                        //progressDialog.show()
                     }
                     Resource.Status.EMPTY -> {
-                        progressDialog.dismiss()
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("empty_animation.json")
+                        binding.animationView.playAnimation()
+                        //progressDialog.dismiss()
                         shopList.clear()
                         shopAdapter.notifyDataSetChanged()
                         errorSnackbar.setText("No Outlets in this place")
-                        errorSnackbar.show()
+                        Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.SUCCESS -> {
-                        progressDialog.dismiss()
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.GONE
+                        binding.animationView.cancelAnimation()
+                        //progressDialog.dismiss()
                         errorSnackbar.dismiss()
                         shopList.clear()
                         it.data?.let { it1 -> shopList.addAll(it1) }
@@ -194,14 +206,24 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         updateCartUI()
                     }
                     Resource.Status.OFFLINE_ERROR -> {
-                        progressDialog.dismiss()
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("no_internet_connection_animation.json")
+                        binding.animationView.playAnimation()
+                        //progressDialog.dismiss()
                         errorSnackbar.setText("No Internet Connection")
-                        errorSnackbar.show()
+                        Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.ERROR -> {
-                        progressDialog.dismiss()
+                        //progressDialog.dismiss()
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("order_failed_animation.json")
+                        binding.animationView.playAnimation()
                         errorSnackbar.setText("Something went wrong")
-                        errorSnackbar.show()
+                        Handler().postDelayed({errorSnackbar.show()},500)
                     }
                 }
             }
@@ -217,7 +239,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerShops.adapter = shopAdapter
+        binding.recyclerShops.adapter = AlphaInAnimationAdapter(shopAdapter)
     }
 
 
