@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="64dp"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:foreground="@color/shimmerColor"
+                        android:singleLine="true"
+                        android:text="Sathyas Main Canteen"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/open_sans_semibold"
+                        android:foreground="@color/shimmerColor"
+                        android:text="March 17, 6:20 PM"
+                        android:textColor="@android:color/tab_indicator_text"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:foreground="@color/shimmerColor"
+                        android:gravity="end"
+                        android:text="AMOasdUNT"
+                        android:textColor="@android:color/tab_indicator_text"
+                        android:textSize="10sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:foreground="@color/shimmerColor"
+                        android:gravity="end"
+                        android:text="$5a0"
+                        android:textColor="@color/colorAccentLight"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/open_sans_bold"
+                android:foreground="@color/shimmerColor"
+                android:text="ITEMS"
+                android:textColor="@android:color/tab_indicator_text"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:id="@+id/text_order_items"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/open_sans_bold"
+                android:foreground="@color/shimmerColor"
+                android:maxLines="2"
+                android:text="1 X Chicken noodles\n2 X Lemon Juice"
+                android:textColor="@color/colorAccentLight"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_view_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="View More"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_order_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_pending"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:foreground="@color/shimmerColor"
+                    android:gravity="center"
+                    android:text="Pending"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/text_order_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawableStart="@drawable/ic_star_white"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/colorAccent"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="right"
+                    android:text=" 4.5"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_track_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="track order"
+                    android:textColor="@color/shimmerColor"
+                    android:textSize="12sp"
+                    android:visibility="visible"
+                    app:backgroundTint="@color/shimmerColor"
+                    app:cornerRadius="20dp"
+                    app:elevation="0dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

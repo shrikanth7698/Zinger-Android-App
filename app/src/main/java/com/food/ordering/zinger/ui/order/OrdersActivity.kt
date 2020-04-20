@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.hsalf.smileyrating.SmileyRating
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -100,36 +101,51 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
             if (it != null) {
                 when (it.status) {
                     Resource.Status.LOADING -> {
-                        binding.progressBar.visibility = View.VISIBLE
+                        binding.layoutStates.visibility = View.VISIBLE
+                        binding.animationView.visibility = View.GONE
                         errorSnackBar.dismiss()
                     }
                     Resource.Status.EMPTY -> {
-                        binding.progressBar.visibility = View.GONE
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("empty_animation.json")
+                        binding.animationView.playAnimation()
                         orderList.clear()
                         orderAdapter.notifyDataSetChanged()
                         errorSnackBar.setText("No orders found")
-                        errorSnackBar.show()
+                        Handler().postDelayed({errorSnackBar.show()},500)
                         //binding.appBarLayout.setExpanded(true, true)
                     }
                     Resource.Status.SUCCESS -> {
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.GONE
+                        binding.animationView.cancelAnimation()
                         errorSnackBar.dismiss()
-                        binding.progressBar.visibility = View.GONE
                         orderList.clear()
                         it.data?.let { it1 -> orderList.addAll(it1) }
                         orderAdapter.notifyDataSetChanged()
                         //binding.appBarLayout.setExpanded(false, true)
                     }
                     Resource.Status.OFFLINE_ERROR -> {
-                        binding.progressBar.visibility = View.GONE
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("no_internet_connection_animation.json")
+                        binding.animationView.playAnimation()
                         errorSnackBar.setText("No Internet Connection")
-                        errorSnackBar.show()
+                        Handler().postDelayed({errorSnackBar.show()},500)
                         //binding.appBarLayout.setExpanded(true, true)
 
                     }
                     Resource.Status.ERROR -> {
-                        binding.progressBar.visibility = View.GONE
+                        binding.layoutStates.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
+                        binding.animationView.loop(true)
+                        binding.animationView.setAnimation("order_failed_animation.json")
+                        binding.animationView.playAnimation()
                         errorSnackBar.setText("Something went wrong")
-                        errorSnackBar.show()
+                        Handler().postDelayed({errorSnackBar.show()},500)
                         //binding.appBarLayout.setExpanded(true, true)
                     }
                 }
@@ -177,7 +193,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
         binding.recyclerShops.layoutManager = LinearLayoutManager(this@OrdersActivity, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerShops.adapter = orderAdapter
+        binding.recyclerShops.adapter = AlphaInAnimationAdapter(orderAdapter)
     }
 
     private fun showRatingDialog(orderData: OrderItemListModel?) {

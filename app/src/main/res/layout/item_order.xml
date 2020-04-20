@@ -140,7 +140,7 @@
 					android:layout_gravity="center"
 					android:drawableStart="@drawable/ic_pending"
 					android:drawablePadding="4dp"
-					android:fontFamily="@font/poppins_semibold"
+					android:fontFamily="sans-serif"
 					android:gravity="center"
 					android:paddingTop="8dp"
 					android:paddingBottom="4dp"

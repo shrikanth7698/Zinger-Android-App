@@ -174,7 +174,7 @@ class RestaurantActivity : AppCompatActivity() {
                     foodItemList.clear()
                     foodAdapter.notifyDataSetChanged()
                     errorSnackBar.setText("No food items available in this shop")
-                    errorSnackBar.show()
+                    Handler().postDelayed({errorSnackBar.show()},500)
                 }
                 Resource.Status.OFFLINE_ERROR -> {
                     binding.layoutStates.visibility = View.GONE
@@ -184,7 +184,7 @@ class RestaurantActivity : AppCompatActivity() {
                     binding.animationView.playAnimation()
                     //progressDialog.dismiss()
                     errorSnackBar.setText("No Internet Connection")
-                    errorSnackBar.show()
+                    Handler().postDelayed({errorSnackBar.show()},500)
                 }
                 Resource.Status.ERROR -> {
                     binding.layoutStates.visibility = View.GONE
@@ -194,7 +194,7 @@ class RestaurantActivity : AppCompatActivity() {
                     binding.animationView.playAnimation()
                     //progressDialog.dismiss()
                     errorSnackBar.setText("Something went wrong")
-                    errorSnackBar.show()
+                    Handler().postDelayed({errorSnackBar.show()},500)
                 }
             }
         })

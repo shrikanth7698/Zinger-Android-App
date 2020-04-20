@@ -44,9 +44,8 @@ class OrdersAdapter(private val orderList: List<OrderItemListModel>, private val
             binding.textOrderPrice.text = "₹ " + order.transactionModel.orderModel.price.toInt().toString()
             var items = ""
             order.orderItemsList.forEach {
-                items += it.quantity.toString() + " X " + it.itemModel.name + ", "
+                items += it.quantity.toString() + " X " + it.itemModel.name + "\n"
             }
-            items = items.substring(0, items.length - 2)
             binding.textOrderItems.text = items
             binding.textOrderStatus.text = StatusHelper.getStatusMessage(order.transactionModel.orderModel.orderStatus)
             if (order.transactionModel.orderModel.rating == 0.0) {
