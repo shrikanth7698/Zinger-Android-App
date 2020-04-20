@@ -106,14 +106,24 @@
 				android:fontFamily="@font/open_sans_bold"
 				android:maxLines="2"
 				android:textColor="@color/colorAccentLight"
-				android:textSize="14sp"
-				tools:text="1 X Chicken noodles, 2 X Lemon Juice" />
+				android:textSize="12sp"
+				tools:text="1 X Chicken noodles\n2 X Lemon Juice" />
+
+			<TextView
+				android:visibility="gone"
+				android:id="@+id/text_view_more"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="end"
+				android:text="View More"
+				android:textSize="12sp" />
+
 
 			<View
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_gravity="center"
-				android:layout_marginTop="16dp"
+				android:layout_marginTop="8dp"
 				android:background="#E6E6E6" />
 
 

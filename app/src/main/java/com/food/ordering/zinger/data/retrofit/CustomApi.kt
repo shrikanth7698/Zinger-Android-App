@@ -5,29 +5,27 @@ import retrofit2.http.*
 
 interface CustomApi {
 
-    //User Repo
+    //USER REPO
     @POST("/user/customer")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
-
     @PATCH("/user/place") //This can be used for both sign-up and updating profile
     suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): UpdateUserResponse
 
-    //Shop Repo
+    //SHOP REPO
     @GET("/shop/place/{placeId}")
     suspend fun getShops(@Path("placeId") placeId: String): ShopsResponse
 
-    //Place Repo
+    //PLACE REPO
     @GET("/place")
     suspend fun getPlaceList(): PlacesResponse
 
-    //Item Repo
+    //ITEM REPO
     @GET("/menu/{placeId}/{query}")
     suspend fun searchItems(@Path("placeId") placeId: String, @Path("query") query: String): SearchResponse
-
     @GET("/menu/shop/{shopId}")
     suspend fun getMenu(@Path("shopId") shopId: String): MenuResponse
 
-    //Order Repo
+    //ORDER REPO
     @GET("/order/customer/{userId}/{pageNum}/{pageCount}")
     suspend fun getOrders(
             @Path("userId") id: String,
