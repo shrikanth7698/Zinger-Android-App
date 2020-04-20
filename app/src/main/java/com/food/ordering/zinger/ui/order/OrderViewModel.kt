@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
 
-
 class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
     //fetch order items
@@ -40,8 +39,8 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
     }
 
     //rate order
-    private val rateOrder = MutableLiveData<Resource<RatingResponse>>()
-    val rateOrderStatus: LiveData<Resource<RatingResponse>>
+    private val rateOrder = MutableLiveData<Resource<Response<String>>>()
+    val rateOrderStatus: LiveData<Resource<Response<String>>>
         get() = rateOrder
 
     fun rateOrder(ratingRequest: RatingRequest) {
@@ -67,8 +66,8 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    private val cancelOrder = MutableLiveData<Resource<OrderStatusResponse>>()
-    val cancelOrderStatus: LiveData<Resource<OrderStatusResponse>>
+    private val cancelOrder = MutableLiveData<Resource<Response<String>>>()
+    val cancelOrderStatus: LiveData<Resource<Response<String>>>
         get() = cancelOrder
 
     fun cancelOrder(orderStatusRequest: OrderStatusRequest) {
