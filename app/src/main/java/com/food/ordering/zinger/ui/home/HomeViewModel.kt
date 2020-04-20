@@ -2,7 +2,7 @@ package com.food.ordering.zinger.ui.home
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.data.retrofit.ShopRepository
 import kotlinx.coroutines.launch
 
@@ -12,8 +12,8 @@ import java.net.UnknownHostException
 class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
 
     //Fetch total stats
-    private val performFetchShops = MutableLiveData<Resource<List<ShopsResponseData>>>()
-    val performFetchShopsStatus: LiveData<Resource<List<ShopsResponseData>>>
+    private val performFetchShops = MutableLiveData<Resource<List<ShopConfigurationModel>>>()
+    val performFetchShopsStatus: LiveData<Resource<List<ShopConfigurationModel>>>
         get() = performFetchShops
 
     fun getShops(placeId: String) {

@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.databinding.ItemShopBinding
 import com.food.ordering.zinger.ui.home.ShopAdapter.ShopViewHolder
 import com.squareup.picasso.Picasso
 
-class ShopAdapter(private val context: Context, private val shopList: List<ShopsResponseData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {
+class ShopAdapter(private val context: Context, private val shopList: List<ShopConfigurationModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<ShopViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ShopViewHolder {
         val binding: ItemShopBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_shop, parent, false)
@@ -27,7 +27,7 @@ class ShopAdapter(private val context: Context, private val shopList: List<Shops
     }
 
     class ShopViewHolder(var binding: ItemShopBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(shop: ShopsResponseData, position: Int, listener: OnItemClickListener) {
+        fun bind(shop: ShopConfigurationModel, position: Int, listener: OnItemClickListener) {
             Picasso.get().load(shop.shopModel.photoUrl).into(binding.imageShop)
             binding.textShopName.text = shop.shopModel.name
             if(shop.configurationModel.isOrderTaken==1){
@@ -50,7 +50,7 @@ class ShopAdapter(private val context: Context, private val shopList: List<Shops
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: ShopsResponseData, position: Int)
+        fun onItemClick(item: ShopConfigurationModel, position: Int)
     }
 
 }

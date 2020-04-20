@@ -28,7 +28,6 @@ import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
 import kotlin.collections.ArrayList
 
 class CartActivity : AppCompatActivity() {
@@ -39,7 +38,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartAdapter: CartAdapter
     private lateinit var progressDialog: ProgressDialog
     private var cartList: MutableList<MenuItem> = ArrayList()
-    private var shop: ShopsResponseData? = null
+    private var shop: ShopConfigurationModel? = null
     private lateinit var snackbar: Snackbar
     private lateinit var errorSnackbar: Snackbar
     private var isPickup = true

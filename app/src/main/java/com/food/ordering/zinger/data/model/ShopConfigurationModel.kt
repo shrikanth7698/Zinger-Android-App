@@ -1,17 +1,7 @@
 package com.food.ordering.zinger.data.model
 import com.google.gson.annotations.SerializedName
 
-
-data class ShopsResponse(
-    @SerializedName("code")
-    val code: Int,
-    @SerializedName("data")
-    val `data`: List<ShopsResponseData>?,
-    @SerializedName("message")
-    val message: String
-)
-
-data class ShopsResponseData(
+data class ShopConfigurationModel(
     @SerializedName("configurationModel")
     val configurationModel: ConfigurationModel,
     @SerializedName("ratingModel")

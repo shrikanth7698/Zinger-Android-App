@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.food.ordering.zinger.data.model.MenuItem
 import com.food.ordering.zinger.data.model.PlaceModel
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.data.model.UserModel
 import com.food.ordering.zinger.utils.AppConstants
 import com.google.gson.Gson
@@ -105,13 +105,13 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         return Gson().fromJson(cart, listType)
     }
 
-    fun getShopList(): List<ShopsResponseData>? {
-        val listType = object : TypeToken<List<ShopsResponseData?>?>() {}.type
+    fun getShopList(): List<ShopConfigurationModel>? {
+        val listType = object : TypeToken<List<ShopConfigurationModel?>?>() {}.type
         return Gson().fromJson(shopList, listType)
     }
 
-    fun getCartShop(): ShopsResponseData? {
-        return Gson().fromJson(cartShop, ShopsResponseData::class.java)
+    fun getCartShop(): ShopConfigurationModel? {
+        return Gson().fromJson(cartShop, ShopConfigurationModel::class.java)
     }
 
 }

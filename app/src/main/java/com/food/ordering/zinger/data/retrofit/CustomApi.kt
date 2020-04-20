@@ -13,7 +13,7 @@ interface CustomApi {
 
     //SHOP REPO
     @GET("/shop/place/{placeId}")
-    suspend fun getShops(@Path("placeId") placeId: String): ShopsResponse
+    suspend fun getShops(@Path("placeId") placeId: String): Response<List<ShopConfigurationModel>>
 
     //PLACE REPO
     @GET("/place")

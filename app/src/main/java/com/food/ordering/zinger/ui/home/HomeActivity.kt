@@ -19,7 +19,7 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var drawer: Drawer
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var shopList: ArrayList<ShopsResponseData> = ArrayList()
+    private var shopList: ArrayList<ShopConfigurationModel> = ArrayList()
     private var cartList: ArrayList<MenuItem> = ArrayList()
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackbar: Snackbar
@@ -210,7 +210,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupShopRecyclerView() {
         shopAdapter = ShopAdapter(applicationContext, shopList, object : ShopAdapter.OnItemClickListener {
-            override fun onItemClick(item: ShopsResponseData, position: Int) {
+            override fun onItemClick(item: ShopConfigurationModel, position: Int) {
                 val intent = Intent(applicationContext, RestaurantActivity::class.java)
                 intent.putExtra(AppConstants.SHOP, Gson().toJson(item))
                 startActivity(intent)

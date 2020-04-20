@@ -16,7 +16,7 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItem
-import com.food.ordering.zinger.data.model.ShopsResponseData
+import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
@@ -41,7 +41,7 @@ class RestaurantActivity : AppCompatActivity() {
     private lateinit var progressDialog: ProgressDialog
     var foodItemList: ArrayList<MenuItem> = ArrayList()
     var cartList: ArrayList<MenuItem> = ArrayList()
-    var shop: ShopsResponseData? = null
+    var shop: ShopConfigurationModel? = null
     var itemId = -1
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackBar: Snackbar
@@ -73,7 +73,7 @@ class RestaurantActivity : AppCompatActivity() {
 
     private fun getArgs() {
         val temp = intent.getStringExtra(AppConstants.SHOP)
-        shop = Gson().fromJson(temp, ShopsResponseData::class.java)
+        shop = Gson().fromJson(temp, ShopConfigurationModel::class.java)
         itemId = intent.getIntExtra(AppConstants.ITEM_ID, -1)
     }
 
