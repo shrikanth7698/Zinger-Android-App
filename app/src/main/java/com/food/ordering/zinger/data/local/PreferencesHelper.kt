@@ -3,7 +3,7 @@ package com.food.ordering.zinger.data.local
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.data.model.UserModel
@@ -100,8 +100,8 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         return UserModel(userId, email, mobile, name, oauthId, role)
     }
 
-    fun getCart(): List<MenuItem>? {
-        val listType = object : TypeToken<List<MenuItem?>?>() {}.type
+    fun getCart(): List<MenuItemModel>? {
+        val listType = object : TypeToken<List<MenuItemModel?>?>() {}.type
         return Gson().fromJson(cart, listType)
     }
 

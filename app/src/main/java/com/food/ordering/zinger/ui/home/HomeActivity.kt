@@ -18,7 +18,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var shopAdapter: ShopAdapter
     private lateinit var progressDialog: ProgressDialog
     private var shopList: ArrayList<ShopConfigurationModel> = ArrayList()
-    private var cartList: ArrayList<MenuItem> = ArrayList()
+    private var cartList: ArrayList<MenuItemModel> = ArrayList()
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackbar: Snackbar
     private var placeId = ""
@@ -264,8 +264,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun getCart(): ArrayList<MenuItem> {
-        val items: ArrayList<MenuItem> = ArrayList()
+    fun getCart(): ArrayList<MenuItemModel> {
+        val items: ArrayList<MenuItemModel> = ArrayList()
         val temp = preferencesHelper.getCart()
         if (!temp.isNullOrEmpty()) {
             items.addAll(temp)

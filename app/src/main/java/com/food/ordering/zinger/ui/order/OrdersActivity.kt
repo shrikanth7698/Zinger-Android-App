@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.OrderData
+import com.food.ordering.zinger.data.model.OrderItemListModel
 import com.food.ordering.zinger.data.model.RatingRequest
 import com.food.ordering.zinger.data.model.RatingShopModel
 import com.food.ordering.zinger.databinding.ActivityOrdersBinding
@@ -40,7 +40,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var orderAdapter: OrdersAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var orderList: ArrayList<OrderData> = ArrayList()
+    private var orderList: ArrayList<OrderItemListModel> = ArrayList()
     private lateinit var errorSnackBar: Snackbar
     private var timer: Timer? = null
 
@@ -166,13 +166,13 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupShopRecyclerView() {
         orderAdapter = OrdersAdapter(orderList, object : OrdersAdapter.OnItemClickListener {
-            override fun onItemClick(item: OrderData?, position: Int) {
+            override fun onItemClick(item: OrderItemListModel?, position: Int) {
                 val intent = Intent(applicationContext, OrderDetailActivity::class.java)
                 intent.putExtra(AppConstants.ORDER_DETAIL, Gson().toJson(item))
                 startActivity(intent)
             }
 
-            override fun onRatingClick(item: OrderData?, position: Int) {
+            override fun onRatingClick(item: OrderItemListModel?, position: Int) {
                 showRatingDialog(item)
             }
         })
@@ -180,7 +180,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         binding.recyclerShops.adapter = orderAdapter
     }
 
-    private fun showRatingDialog(orderData: OrderData?) {
+    private fun showRatingDialog(orderData: OrderItemListModel?) {
         val dialogBinding: BottomSheetRateFoodBinding =
                 DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet_rate_food, null, false)
         val dialog = BottomSheetDialog(this)

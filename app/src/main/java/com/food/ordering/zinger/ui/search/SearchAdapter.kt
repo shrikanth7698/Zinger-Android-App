@@ -5,12 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.databinding.ItemSearchBinding
-import com.food.ordering.zinger.databinding.ItemShopBinding
 import com.squareup.picasso.Picasso
 
-class SearchAdapter(private val menuList: List<MenuItem>, private val listener: OnItemClickListener) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+class SearchAdapter(private val menuList: List<MenuItemModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): SearchViewHolder {
         val binding: ItemSearchBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_search, parent, false)
@@ -26,7 +25,7 @@ class SearchAdapter(private val menuList: List<MenuItem>, private val listener: 
     }
 
     class SearchViewHolder(var binding: ItemSearchBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuItem: MenuItem, position: Int, listener: OnItemClickListener) {
+        fun bind(menuItem: MenuItemModel, position: Int, listener: OnItemClickListener) {
             if(menuItem.isDish){
                 binding.textShopName.text = menuItem.name
                 binding.textShopDesc.text = menuItem.shopModel?.name
@@ -42,7 +41,7 @@ class SearchAdapter(private val menuList: List<MenuItem>, private val listener: 
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: MenuItem, position: Int)
+        fun onItemClick(item: MenuItemModel, position: Int)
     }
 
 }

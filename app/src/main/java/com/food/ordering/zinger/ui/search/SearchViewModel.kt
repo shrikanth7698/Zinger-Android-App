@@ -3,7 +3,7 @@ package com.food.ordering.zinger.ui.search
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.retrofit.ItemRepository
 import kotlinx.coroutines.launch
 
@@ -14,8 +14,8 @@ import java.util.ArrayList
 class SearchViewModel(private val itemRepository: ItemRepository,private val preferencesHelper: PreferencesHelper) : ViewModel() {
 
     //search menu items
-    private val performFetchMenu = MutableLiveData<Resource<List<MenuItem>>>()
-    val performFetchMenuStatus: LiveData<Resource<List<MenuItem>>>
+    private val performFetchMenu = MutableLiveData<Resource<List<MenuItemModel>>>()
+    val performFetchMenuStatus: LiveData<Resource<List<MenuItemModel>>>
         get() = performFetchMenu
 
     fun getMenu(placeId: String, query: String, shopId: String?, isGlobalSearch: Boolean) {
@@ -27,10 +27,10 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
                 var shopQueryList = shopList?.filter {
                     it.shopModel.name.toLowerCase().contains(query.toLowerCase())
                 }
-                var shopMenuList:ArrayList<MenuItem> = ArrayList()
+                var shopMenuList:ArrayList<MenuItemModel> = ArrayList()
                 shopQueryList?.forEach {
                     shopMenuList.add(
-                            MenuItem(
+                            MenuItemModel(
                                 "",
                                     -1,
                                     0,
@@ -48,7 +48,7 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
                 }
                 if (response != null) {
                     if (!response.data.isNullOrEmpty()) {
-                        var menuQuery:ArrayList<MenuItem> = ArrayList()
+                        var menuQuery:ArrayList<MenuItemModel> = ArrayList()
                         menuQuery.addAll(response.data)
                         for(i in menuQuery.indices){
                             menuQuery[i].isDish = true
@@ -61,7 +61,7 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
                                 performFetchMenu.value = Resource.success(menuQuery)
                             }
                         }else{
-                            var menuShopQuery:ArrayList<MenuItem> = ArrayList()
+                            var menuShopQuery:ArrayList<MenuItemModel> = ArrayList()
                             for(i in menuQuery.indices){
                                 if(menuQuery[i].shopModel?.id==shopId?.toInt()){
                                     menuQuery[i].shopModel?.name = menuQuery[i].category

@@ -12,8 +12,8 @@ import java.net.UnknownHostException
 class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
     //fetch order items
-    private val performFetchOrders = MutableLiveData<Resource<List<OrderData>>>()
-    val performFetchOrdersStatus: LiveData<Resource<List<OrderData>>>
+    private val performFetchOrders = MutableLiveData<Resource<List<OrderItemListModel>>>()
+    val performFetchOrdersStatus: LiveData<Resource<List<OrderItemListModel>>>
         get() = performFetchOrders
 
     fun getOrders(mobile: String, pageNum: Int, pageCount: Int) {

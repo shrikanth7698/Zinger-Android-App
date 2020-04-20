@@ -37,7 +37,7 @@ class CartActivity : AppCompatActivity() {
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var cartAdapter: CartAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var cartList: MutableList<MenuItem> = ArrayList()
+    private var cartList: MutableList<MenuItemModel> = ArrayList()
     private var shop: ShopConfigurationModel? = null
     private lateinit var snackbar: Snackbar
     private lateinit var errorSnackbar: Snackbar
@@ -244,7 +244,7 @@ class CartActivity : AppCompatActivity() {
         updateCartUI()
         cartAdapter = CartAdapter(applicationContext, cartList, object : CartAdapter.OnItemClickListener {
 
-            override fun onItemClick(item: MenuItem?, position: Int) {
+            override fun onItemClick(item: MenuItemModel?, position: Int) {
 
             }
 
@@ -308,15 +308,15 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    fun saveCart(foodItems: List<MenuItem>?) {
+    fun saveCart(foodItems: List<MenuItemModel>?) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val cartString = gson.toJson(foodItems)
         preferencesHelper.cart = cartString
     }
 
-    val cart: List<MenuItem>
+    val cart: List<MenuItemModel>
         get() {
-            val items: MutableList<MenuItem> = ArrayList()
+            val items: MutableList<MenuItemModel> = ArrayList()
             val temp = preferencesHelper.getCart()
             if (temp != null) {
                 items.addAll(temp)

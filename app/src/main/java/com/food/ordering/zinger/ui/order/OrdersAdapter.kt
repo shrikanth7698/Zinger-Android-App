@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.OrderData
+import com.food.ordering.zinger.data.model.OrderItemListModel
 import com.food.ordering.zinger.databinding.ItemOrderBinding
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
 import java.lang.Exception
 import java.text.SimpleDateFormat
 
-class OrdersAdapter(private val orderList: List<OrderData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
+class OrdersAdapter(private val orderList: List<OrderItemListModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): OrderViewHolder {
         val binding: ItemOrderBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_order, parent, false)
@@ -29,7 +29,7 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
     }
 
     class OrderViewHolder(var binding: ItemOrderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(order: OrderData, position: Int, listener: OnItemClickListener) {
+        fun bind(order: OrderItemListModel, position: Int, listener: OnItemClickListener) {
             //Picasso.get().load(menuItem.photoUrl).into(binding.imageShop)
             binding.textShopName.text = order.transactionModel.orderModel.shopModel?.name
             try {
@@ -104,8 +104,8 @@ class OrdersAdapter(private val orderList: List<OrderData>, private val listener
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: OrderData?, position: Int)
-        fun onRatingClick(item: OrderData?, position: Int)
+        fun onItemClick(item: OrderItemListModel?, position: Int)
+        fun onRatingClick(item: OrderItemListModel?, position: Int)
     }
 
 }

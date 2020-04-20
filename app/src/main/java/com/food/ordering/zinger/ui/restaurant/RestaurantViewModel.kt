@@ -2,7 +2,7 @@ package com.food.ordering.zinger.ui.restaurant
 
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.retrofit.ItemRepository
 import kotlinx.coroutines.launch
 
@@ -11,13 +11,13 @@ import java.net.UnknownHostException
 
 class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
-    //Fetch total stats
-    private val performFetchMenu = MutableLiveData<Resource<List<MenuItem>>>()
-    val performFetchMenuStatus: LiveData<Resource<List<MenuItem>>>
+    //Fetch menu items
+    private val performFetchMenu = MutableLiveData<Resource<List<MenuItemModel>>>()
+    val performFetchMenuStatus: LiveData<Resource<List<MenuItemModel>>>
         get() = performFetchMenu
 
-    var menuList:ArrayList<MenuItem> = ArrayList()
-    var menuVegList:ArrayList<MenuItem> = ArrayList()
+    var menuList:ArrayList<MenuItemModel> = ArrayList()
+    var menuVegList:ArrayList<MenuItemModel> = ArrayList()
     fun getMenu(shopId: String) {
         viewModelScope.launch {
             try {

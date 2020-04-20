@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.databinding.ItemFoodBinding
 import com.squareup.picasso.Picasso
 
-class FoodAdapter(private val context: Context, private val foodItemList: List<MenuItem>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class FoodAdapter(private val context: Context, private val foodItemList: List<MenuItemModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): FoodViewHolder {
         val binding: ItemFoodBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_food, parent, false)
@@ -28,7 +28,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
     }
 
     class FoodViewHolder(var binding: ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(food: MenuItem, position: Int, listener: OnItemClickListener) {
+        fun bind(food: MenuItemModel, position: Int, listener: OnItemClickListener) {
             Picasso.get().load(food.photoUrl).into(binding.imageFood)
             binding.textFoodName.text = food.name
             binding.textFoodDesc.text = food.category
@@ -56,7 +56,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: MenuItem?, position: Int)
+        fun onItemClick(item: MenuItemModel?, position: Int)
         fun onQuantityAdd(position: Int)
         fun onQuantitySub(position: Int)
     }

@@ -21,16 +21,16 @@ interface CustomApi {
 
     //ITEM REPO
     @GET("/menu/{placeId}/{query}")
-    suspend fun searchItems(@Path("placeId") placeId: String, @Path("query") query: String): SearchResponse
+    suspend fun searchItems(@Path("placeId") placeId: String, @Path("query") query: String): Response<List<MenuItemModel>>
     @GET("/menu/shop/{shopId}")
-    suspend fun getMenu(@Path("shopId") shopId: String): MenuResponse
+    suspend fun getMenu(@Path("shopId") shopId: String): Response<List<MenuItemModel>>
 
     //ORDER REPO
     @GET("/order/customer/{userId}/{pageNum}/{pageCount}")
     suspend fun getOrders(
             @Path("userId") id: String,
             @Path("pageNum") pageNum: Int,
-            @Path("pageCount") pageCount: Int): OrdersResponse
+            @Path("pageCount") pageCount: Int): Response<List<OrderItemListModel>>
     @POST("/order")
     suspend fun insertOrder(@Body placeOrderRequest: PlaceOrderRequest): VerifyOrderResponse
     @POST("/order/place/{orderId}")

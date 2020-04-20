@@ -1,6 +1,5 @@
 package com.food.ordering.zinger.ui.search
 
-import android.animation.LayoutTransition
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.databinding.ActivitySearchBinding
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.utils.AppConstants
@@ -36,7 +35,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var menuAdapter: SearchAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var menuList: ArrayList<MenuItem> = ArrayList()
+    private var menuList: ArrayList<MenuItemModel> = ArrayList()
     private lateinit var errorSnackBar: Snackbar
     private var timer: Timer? = null
     private var isGlobalSearch = true
@@ -149,7 +148,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupShopRecyclerView() {
         menuAdapter = SearchAdapter(menuList, object : SearchAdapter.OnItemClickListener {
-            override fun onItemClick(item: MenuItem, position: Int) {
+            override fun onItemClick(item: MenuItemModel, position: Int) {
                 val shopList = preferencesHelper.getShopList()
                 val shop = shopList?.firstOrNull {
                     it.shopModel.id == item.shopModel?.id

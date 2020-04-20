@@ -16,7 +16,6 @@ import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.databinding.ActivityOrderDetailBinding
-import com.food.ordering.zinger.databinding.BottomSheetDeliveryLocationBinding
 import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.home.HomeActivity
@@ -28,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.hsalf.smileyrating.SmileyRating
 import com.squareup.picasso.Picasso
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.Exception
@@ -45,7 +43,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var progressDialog: ProgressDialog
     private var orderList: ArrayList<OrderItems> = ArrayList()
     private lateinit var errorSnackBar: Snackbar
-    private lateinit var order: OrderData
+    private lateinit var order: OrderItemListModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +58,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getArgs(){
-        order = Gson().fromJson(intent.getStringExtra(AppConstants.ORDER_DETAIL), OrderData::class.java)
+        order = Gson().fromJson(intent.getStringExtra(AppConstants.ORDER_DETAIL), OrderItemListModel::class.java)
     }
 
     private fun initView() {
@@ -340,10 +338,10 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        val cartList:ArrayList<MenuItem> = ArrayList()
+        val cartList:ArrayList<MenuItemModel> = ArrayList()
         order.orderItemsList.forEach {
             cartList.add(
-                    MenuItem(
+                    MenuItemModel(
                             category = it.itemModel.category,
                             id = it.itemModel.id,
                             isAvailable = it.itemModel.isAvailable,

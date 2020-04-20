@@ -15,7 +15,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
-import com.food.ordering.zinger.data.model.MenuItem
+import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.model.ShopConfigurationModel
 import com.food.ordering.zinger.databinding.ActivityRestaurantBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
@@ -39,8 +39,8 @@ class RestaurantActivity : AppCompatActivity() {
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var foodAdapter: FoodAdapter
     private lateinit var progressDialog: ProgressDialog
-    var foodItemList: ArrayList<MenuItem> = ArrayList()
-    var cartList: ArrayList<MenuItem> = ArrayList()
+    var foodItemList: ArrayList<MenuItemModel> = ArrayList()
+    var cartList: ArrayList<MenuItemModel> = ArrayList()
     var shop: ShopConfigurationModel? = null
     var itemId = -1
     private lateinit var cartSnackBar: Snackbar
@@ -183,7 +183,7 @@ class RestaurantActivity : AppCompatActivity() {
     lateinit var layoutManager: LinearLayoutManager
     private fun setupMenuRecyclerView() {
         foodAdapter = FoodAdapter(applicationContext, foodItemList, object : FoodAdapter.OnItemClickListener {
-            override fun onItemClick(item: MenuItem?, position: Int) {}
+            override fun onItemClick(item: MenuItemModel?, position: Int) {}
             override fun onQuantityAdd(position: Int) {
                 println("quantity add clicked $position")
                 if (cartList.size > 0) {
@@ -276,7 +276,7 @@ class RestaurantActivity : AppCompatActivity() {
         }
     }
 
-    fun saveCart(foodItems: List<MenuItem>) {
+    fun saveCart(foodItems: List<MenuItemModel>) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val cartString = gson.toJson(foodItems)
         if (foodItems.isNotEmpty()) {
@@ -288,9 +288,9 @@ class RestaurantActivity : AppCompatActivity() {
         }
     }
 
-    private val cart: List<MenuItem>
+    private val cart: List<MenuItemModel>
         get() {
-            val items: MutableList<MenuItem> = ArrayList()
+            val items: MutableList<MenuItemModel> = ArrayList()
             val temp = preferencesHelper.getCart()
             if (!temp.isNullOrEmpty()) {
                 items.addAll(temp)
