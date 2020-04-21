@@ -348,6 +348,8 @@ class RestaurantActivity : AppCompatActivity() {
         cartList.clear()
         cartList.addAll(cart)
         updateCartUI()
+        foodItemList.clear()
+        foodAdapter.notifyDataSetChanged()
         viewModel.getMenu(shop?.shopModel?.id.toString())
     }
 }
