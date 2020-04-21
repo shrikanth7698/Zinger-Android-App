@@ -66,12 +66,13 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/text_greeting"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
                             android:gravity="center|start"
                             android:paddingTop="3dp"
-                            android:text="Good Evening,\nShrikanth"
+                            tools:text="Good Evening,\nShrikanth"
                             android:textAppearance="@style/AppbarTitle"
                             android:textColor="@android:color/white" />
 

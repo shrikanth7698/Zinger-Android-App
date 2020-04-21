@@ -40,6 +40,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -262,6 +264,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        updateGreetingMessage()
         //Checking whether user has changed their place and refreshing shops accordingly
         if (placeId != preferencesHelper.getPlace()?.id.toString()) {
             placeId = preferencesHelper.getPlace()?.id.toString()
@@ -302,6 +305,24 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             items.addAll(temp)
         }
         return items
+    }
+
+    private fun updateGreetingMessage(){
+        val timeOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        var message = ""
+        when (timeOfDay) {
+            in 0..11 -> message = "Good Morning,\n"
+            in 12..15 -> message = "Good Afternoon,\n"
+            in 16..23 -> message = "Good Evening,\n"
+        }
+        var temp = preferencesHelper.name
+        var tempList = temp?.split(" ")
+        message += if(!tempList.isNullOrEmpty()){
+            tempList[0]
+        }else{
+            preferencesHelper.name
+        }
+        binding.textGreeting.text = message
     }
 
 
