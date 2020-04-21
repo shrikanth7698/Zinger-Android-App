@@ -20,7 +20,7 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.bind(foodItemList[position], holder.adapterPosition, listener)
+        holder.bind(foodItemList[position], foodItemList, holder.adapterPosition, listener)
     }
 
     override fun getItemCount(): Int {
@@ -28,13 +28,20 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
     }
 
     class FoodViewHolder(var binding: ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(food: MenuItemModel, position: Int, listener: OnItemClickListener) {
+        fun bind(food: MenuItemModel, foodItemList: List<MenuItemModel>, position: Int, listener: OnItemClickListener) {
+            binding.textCategory.visibility = View.GONE
+            binding.textCategory.text = food.category
+            if (position > 0 && foodItemList[position-1].category==food.category){
+                binding.textCategory.visibility = View.GONE
+            }else{
+                binding.textCategory.visibility = View.VISIBLE
+            }
             Picasso.get().load(food.photoUrl).into(binding.imageFood)
             binding.textFoodName.text = food.name
             binding.textFoodDesc.text = food.category
             binding.textFoodPrice.text = "₹" + food.price
             binding.layoutRoot.setOnClickListener { listener.onItemClick(food, position) }
-            if (food.isVeg==1) {
+            if (food.isVeg == 1) {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_veg))
             } else {
                 binding.imageVeg.setImageDrawable(binding.root.context.getDrawable(R.drawable.ic_non_veg))

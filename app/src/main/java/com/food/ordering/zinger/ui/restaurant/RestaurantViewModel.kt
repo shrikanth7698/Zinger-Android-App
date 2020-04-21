@@ -26,12 +26,15 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
                         menuList.clear()
                         menuVegList.clear()
                         menuList.addAll(response.data)
+                        menuList.sortByDescending {
+                            it.category
+                        }
                         menuList.forEach{
                             if(it.isVeg==1){
                                 menuVegList.add(it)
                             }
                         }
-                        performFetchMenu.value = Resource.success(response.data)
+                        performFetchMenu.value = Resource.success(menuList)
                     }else{
                         performFetchMenu.value = Resource.empty()
                     }
