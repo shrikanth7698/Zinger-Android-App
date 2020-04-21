@@ -116,7 +116,7 @@ class CartActivity : AppCompatActivity() {
             }
         }
         errorSnackBar.setAction("Try again") {
-            viewModel.insertOrder(placeOrderRequest)
+            viewModel.verifyOrder(placeOrderRequest)
         }
         binding.radioPickup.setOnClickListener {
             binding.radioPickup.isChecked = true
@@ -362,7 +362,7 @@ class CartActivity : AppCompatActivity() {
             listCartOrderItems.add(CartOrderItems(FoodItem(it.id), it.price, it.quantity))
         }
         placeOrderRequest = PlaceOrderRequest(listCartOrderItems,cartTransactionModel)
-        viewModel.insertOrder(placeOrderRequest)
+        viewModel.verifyOrder(placeOrderRequest)
     }
 
     private fun showOrderConfirmation(){

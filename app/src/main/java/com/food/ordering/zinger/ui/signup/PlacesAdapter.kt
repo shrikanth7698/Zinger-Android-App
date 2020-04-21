@@ -10,14 +10,14 @@ import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.databinding.ItemCampusBinding
 import com.squareup.picasso.Picasso
 
-class PlacesAdapter(private val context: Context, private val places: List<PlaceModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<PlacesAdapter.CampusViewHolder>() {
+class PlacesAdapter(private val context: Context, private val places: List<PlaceModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<PlacesAdapter.PlaceViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): CampusViewHolder {
+                                    viewType: Int): PlaceViewHolder {
         val binding: ItemCampusBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_campus, parent, false)
-        return CampusViewHolder(binding)
+        return PlaceViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CampusViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
         holder.bind(places[position], holder.adapterPosition, listener)
     }
 
@@ -25,7 +25,7 @@ class PlacesAdapter(private val context: Context, private val places: List<Place
         return places.size
     }
 
-    class CampusViewHolder(var binding: ItemCampusBinding) : RecyclerView.ViewHolder(binding.root) {
+    class PlaceViewHolder(var binding: ItemCampusBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(place: PlaceModel, position: Int, listener: OnItemClickListener) {
             Picasso.get().load(place.iconUrl).into(binding.imageCampus)
             binding.textCampusName.text = place.name

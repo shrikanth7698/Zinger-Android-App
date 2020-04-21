@@ -1,18 +1,15 @@
 package com.food.ordering.zinger.ui.profile
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,11 +21,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-
 class PlacePickerDialog : BottomSheetDialogFragment() {
 
     private val viewModel: ProfileViewModel by sharedViewModel()
-
     var bottomSheetDialog: BottomSheetDialog? = null
     private var placeClickListener: PlaceClickListener? = null
     var placesList:List<PlaceModel> = ArrayList()
@@ -36,6 +31,7 @@ class PlacePickerDialog : BottomSheetDialogFragment() {
             field = value
         }
     lateinit var binding: BottomSheetCampusListBinding
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         bottomSheetDialog = dialog as BottomSheetDialog
@@ -110,7 +106,6 @@ class PlacePickerDialog : BottomSheetDialogFragment() {
     fun setListener(placeClickListener: PlaceClickListener) {
         this.placeClickListener = placeClickListener
     }
-
 
     interface PlaceClickListener {
         fun onPlaceClick(place: PlaceModel)

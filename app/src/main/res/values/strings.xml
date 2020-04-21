@@ -8,4 +8,10 @@
 	<string name="label_register">Register</string>
 	<string name="label_update">Update</string>
 	<string name="hint_search_outlets_or_dish">Search Outlets or Dish</string>
+    <string name="label_cart">Cart</string>
+	<string name="label_pickup">Pickup</string>
+	<string name="label_delivery">Delivery</string>
+	<string name="label_to_pay">To Pay</string>
+	<string name="label_enter_delivery_location">Enter Delivery Location</string>
+	<string name="label_no_items_in_cart">No items in cart</string>
 </resources>

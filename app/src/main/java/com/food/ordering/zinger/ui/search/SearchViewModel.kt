@@ -87,7 +87,7 @@ class SearchViewModel(private val itemRepository: ItemRepository,private val pre
                     }
                 }
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("search menu failed ${e.message}")
                 if (e is UnknownHostException) {
                     performFetchMenu.value = Resource.offlineError()
                 } else {

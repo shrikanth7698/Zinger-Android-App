@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
 
-
 class OtpViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     //LOGIN
@@ -29,7 +28,7 @@ class OtpViewModel(private val userRepository: UserRepository) : ViewModel() {
                     performLogin.value = Resource.error(null, message = response.message)
                 }
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("login failed ${e.message}")
                 if (e is UnknownHostException) {
                     performLogin.value = Resource.offlineError()
                 } else {

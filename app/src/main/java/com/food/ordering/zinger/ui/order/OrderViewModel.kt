@@ -10,7 +10,7 @@ import java.net.UnknownHostException
 
 class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
-    //fetch order items
+    //fetch orders
     private val performFetchOrders = MutableLiveData<Resource<List<OrderItemListModel>>>()
     val performFetchOrdersStatus: LiveData<Resource<List<OrderItemListModel>>>
         get() = performFetchOrders
@@ -66,6 +66,7 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
+    //cancel order
     private val cancelOrder = MutableLiveData<Resource<Response<String>>>()
     val cancelOrderStatus: LiveData<Resource<Response<String>>>
         get() = cancelOrder

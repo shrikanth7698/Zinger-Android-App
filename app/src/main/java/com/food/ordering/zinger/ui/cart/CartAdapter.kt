@@ -11,14 +11,14 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.databinding.ItemCartProductBinding
 
-class CartAdapter(private val context: Context, private val foodItemList: List<MenuItemModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<CartAdapter.FoodViewHolder>() {
+class CartAdapter(private val context: Context, private val foodItemList: List<MenuItemModel>, private val listener: OnItemClickListener) : RecyclerView.Adapter<CartAdapter.CartItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): FoodViewHolder {
+                                    viewType: Int): CartItemViewHolder {
         val binding: ItemCartProductBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_cart_product, parent, false)
-        return FoodViewHolder(binding)
+        return CartItemViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
         holder.bind(foodItemList[position], holder.adapterPosition, listener)
     }
 
@@ -26,7 +26,7 @@ class CartAdapter(private val context: Context, private val foodItemList: List<M
         return foodItemList.size
     }
 
-    class FoodViewHolder(var binding: ItemCartProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CartItemViewHolder(var binding: ItemCartProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(food: MenuItemModel, position: Int, listener: OnItemClickListener) {
             binding.textFoodName.text = food.quantity.toString()+" x "+food.name
             binding.textFoodPrice.text = "₹" + food.price * food.quantity

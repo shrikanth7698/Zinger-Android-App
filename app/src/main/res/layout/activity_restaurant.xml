@@ -93,21 +93,6 @@
 					android:paddingEnd="16dp"
 					android:paddingBottom="8dp">
 
-					<!--
-										<TextView
-											android:layout_width="wrap_content"
-											android:layout_height="wrap_content"
-											android:layout_gravity="center"
-											android:fontFamily="@font/poppins_semibold"
-											android:gravity="center|start"
-											android:text="Menu"
-											android:layout_marginEnd="16dp"
-											android:layout_weight="1"
-											android:textColor="@android:color/black"
-											android:textSize="16sp"
-											android:textStyle="bold" />
-					-->
-
 					<TextView
 						android:id="@+id/text_search_menu"
 						android:layout_width="0dp"

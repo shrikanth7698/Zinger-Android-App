@@ -5,9 +5,7 @@ import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.retrofit.ItemRepository
 import kotlinx.coroutines.launch
-
 import java.net.UnknownHostException
-
 
 class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
@@ -39,7 +37,7 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
                     }
                 }
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("fetch menu failed ${e.message}")
                 if (e is UnknownHostException) {
                     performFetchMenu.value = Resource.offlineError()
                 } else {

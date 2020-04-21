@@ -1,6 +1,5 @@
 package com.food.ordering.zinger.data.retrofit
 
-import com.food.ordering.zinger.data.model.LoginRequest
 import retrofit2.Retrofit
 
 class PlaceRepository(retrofit: Retrofit) {

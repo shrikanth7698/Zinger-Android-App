@@ -4,11 +4,9 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -16,9 +14,7 @@ import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.model.UserModel
 import com.food.ordering.zinger.databinding.ActivityProfileBinding
-import com.food.ordering.zinger.databinding.BottomSheetCampusListBinding
 import com.food.ordering.zinger.ui.order.OrdersActivity
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
@@ -67,7 +63,7 @@ class ProfileActivity : AppCompatActivity() ,PlacePickerDialog.PlaceClickListene
                                         binding.editName.text.toString()
                                 )
                         )
-                        viewModel.signUp(updateUserRequest)
+                        viewModel.updateUserDetails(updateUserRequest)
                     }else{
                         Toast.makeText(applicationContext,"Select a place", Toast.LENGTH_SHORT).show()
                     }

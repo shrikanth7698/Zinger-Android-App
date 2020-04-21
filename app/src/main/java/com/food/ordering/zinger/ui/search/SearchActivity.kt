@@ -27,7 +27,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivitySearchBinding

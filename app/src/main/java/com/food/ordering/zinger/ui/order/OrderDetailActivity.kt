@@ -52,9 +52,8 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         setListeners()
         setObservers()
         errorSnackBar.setAction("Try again") {
-           //getOrders()
+
         }
-        //getOrders()
     }
 
     private fun getArgs(){
@@ -71,8 +70,6 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
         snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
-        //val text = "<font color=#000000>Manage and track<br>your </font> <font color=#FF4141>orders</font>"
-        //binding.titleOrderStatus.text = Html.fromHtml(text)
         setupShopRecyclerView()
         updateUI()
     }

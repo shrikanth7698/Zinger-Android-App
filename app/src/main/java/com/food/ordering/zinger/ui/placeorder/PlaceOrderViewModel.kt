@@ -5,13 +5,11 @@ import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.*
 import com.food.ordering.zinger.data.retrofit.OrderRepository
 import kotlinx.coroutines.launch
-
 import java.net.UnknownHostException
-
 
 class PlaceOrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
-    //Fetch total stats
+    //place order
     private val placeOrder = MutableLiveData<Resource<Response<String>>>()
     val placeOrderStatus: LiveData<Resource<Response<String>>>
         get() = placeOrder

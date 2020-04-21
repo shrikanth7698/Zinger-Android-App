@@ -28,7 +28,7 @@
                 app:expandedTitleMarginStart="16dp"
                 app:expandedTitleTextAppearance="@style/AppbarTitle1"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:title="Cart">
+                app:title="@string/label_cart">
 
 
                 <ImageView
@@ -110,15 +110,15 @@
                         android:layout_marginEnd="16dp"
                         android:checked="true"
                         android:fontFamily="@font/open_sans_semibold"
-                        android:text="Pickup" />
+                        android:text="@string/label_pickup" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/radio_delivery"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/open_sans_semibold"
-                        android:text="Delivery" />
+                        android:text="@string/label_delivery" />
 
                     <TextView
                         android:id="@+id/text_delivery_price"
@@ -131,7 +131,7 @@
                         android:minWidth="60dp"
                         android:text="₹0"
                         android:textColor="@android:color/black"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
 
@@ -169,7 +169,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/open_sans_bold"
                         android:gravity="center|start"
-                        android:text="To Pay"
+                        android:text="@string/label_to_pay"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -211,8 +211,8 @@
                     android:fontFamily="@font/open_sans_semibold"
                     android:gravity="center|start"
                     android:padding="16dp"
-                    tools:text="Any information to convey to Sathyas Main Canteen?"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Any information to convey to Sathyas Main Canteen?" />
 
                 <View
                     android:layout_width="match_parent"
@@ -230,8 +230,8 @@
                     android:fontFamily="@font/open_sans_semibold"
                     android:gravity="center|start"
                     android:padding="16dp"
-                    android:textStyle="bold"
-                    android:text="Enter Delivery Location" />
+                    android:text="@string/label_enter_delivery_location"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -257,7 +257,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/open_sans_semibold"
-                android:text="No items in cart" />
+                android:text="@string/label_no_items_in_cart" />
         </LinearLayout>
 
 

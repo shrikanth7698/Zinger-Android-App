@@ -15,11 +15,6 @@ class AuthInterceptor(val context: Context, val preferences: PreferencesHelper) 
         val whiteListedEndpoints = listOf(
                 "/user/customer"
         )
-        /*//Check if device is connected to internet
-        if (!NetworkUtils.isOnline(context)) {
-            throw NoConnectivityException()z
-        }*/
-
         val request = if (!whiteListedEndpoints.contains(req.url().encodedPath())) {
             println("oauth_id testing 1"+preferences.oauthId)
             req.newBuilder()
@@ -32,15 +27,6 @@ class AuthInterceptor(val context: Context, val preferences: PreferencesHelper) 
             req.newBuilder().build()
         }
         val response = chain.proceed(request)
-        //Check for UnAuthenticated Request
-        /*if (response.code() == HTTP_UNAUTHORIZED) {
-            if(whiteListedEndpoints.contains(req.url().encodedPath())){
-                throw InvalidCredentialsException()
-            }else {
-                (context as NiaClubApp).onCustomAppAuthFailed()
-                throw CustomAppUnAuthorizedException()
-            }
-        }*/
         return response
     }
 }

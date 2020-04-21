@@ -64,11 +64,13 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
         }
     }
 
+
+    //Update User Details
     private val performUpdate = MutableLiveData<Resource<Response<String>>>()
     val performUpdateStatus: LiveData<Resource<Response<String>>>
         get() = performUpdate
 
-    fun signUp(updateUserRequest: UpdateUserRequest) {
+    fun updateUserDetails(updateUserRequest: UpdateUserRequest) {
         viewModelScope.launch {
             try {
                 performUpdate.value = Resource.loading()
@@ -83,7 +85,7 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
                     performUpdate.value = Resource.error(null, message = response.message)
                 }
             } catch (e: Exception) {
-                println("Sign Up failed ${e.message}")
+                println("update user details failed ${e.message}")
                 if (e is UnknownHostException) {
                     performUpdate.value = Resource.offlineError()
                 } else {

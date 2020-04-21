@@ -25,7 +25,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
                 val response = userRepository.login(loginRequest)
                 performLogin.value = Resource.success(response)
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("login failed ${e.message}")
                 if (e is UnknownHostException) {
                     performLogin.value = Resource.offlineError()
                 } else {

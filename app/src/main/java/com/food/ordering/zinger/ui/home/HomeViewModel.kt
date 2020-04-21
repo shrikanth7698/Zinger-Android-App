@@ -11,7 +11,7 @@ import java.net.UnknownHostException
 
 class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
 
-    //Fetch total stats
+    //Fetch shops
     private val performFetchShops = MutableLiveData<Resource<List<ShopConfigurationModel>>>()
     val performFetchShopsStatus: LiveData<Resource<List<ShopConfigurationModel>>>
         get() = performFetchShops
@@ -29,7 +29,7 @@ class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
                     performFetchShops.value = Resource.empty()
                 }
             } catch (e: Exception) {
-                println("fetch stats failed ${e.message}")
+                println("fetch shops failed ${e.message}")
                 if (e is UnknownHostException) {
                     performFetchShops.value = Resource.offlineError()
                 } else {
