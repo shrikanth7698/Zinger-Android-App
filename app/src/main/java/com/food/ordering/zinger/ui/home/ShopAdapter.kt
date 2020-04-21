@@ -35,6 +35,11 @@ class ShopAdapter(private val context: Context, private val shopList: List<ShopC
             Picasso.get().load(shop.shopModel.photoUrl).placeholder(R.drawable.ic_shop).into(binding.imageShop)
             binding.textShopName.text = shop.shopModel.name
             if(shop.configurationModel.isOrderTaken==1){
+                binding.textShopName.setTextColor(ContextCompat.getColor(binding.layoutRoot.context,android.R.color.black))
+                binding.textShopDesc.setTextColor(ContextCompat.getColor(binding.layoutRoot.context,android.R.color.tab_indicator_text))
+                binding.textShopRating.setTextColor(ContextCompat.getColor(binding.layoutRoot.context,android.R.color.tab_indicator_text))
+                binding.textShopRating.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
+                binding.imageShop.clearColorFilter()
                 if(shop.configurationModel.isDeliveryAvailable==1){
                     //binding.textShopDesc.text = "Closes at "+shop.shopModel.closingTime.substring(0,5)
                     binding.textShopDesc.text = "Open now"
