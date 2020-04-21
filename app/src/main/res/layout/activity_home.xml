@@ -72,9 +72,9 @@
                             android:layout_gravity="top"
                             android:gravity="center|start"
                             android:paddingTop="3dp"
-                            tools:text="Good Evening,\nShrikanth"
                             android:textAppearance="@style/AppbarTitle"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@android:color/white"
+                            tools:text="Good Evening,\nShrikanth" />
 
 
                     </LinearLayout>
@@ -89,13 +89,13 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center|start"
-                        android:text="Outlets"
+                        android:text="@string/label_outlets"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -114,23 +114,27 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="6dp"
-                        android:text="Search Outlets or Dish"
+                        android:text="@string/label_search_outlets_or_dish"
                         android:textSize="12sp" />
                 </LinearLayout>
 
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_shops"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingBottom="80dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_shop">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_shops"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="80dp"
+                    tools:listitem="@layout/item_shop" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/layout_states"
@@ -143,13 +147,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
+
                     <include layout="@layout/shimmering_item_shop" />
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>

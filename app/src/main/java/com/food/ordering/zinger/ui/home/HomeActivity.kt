@@ -69,6 +69,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         errorSnackbar.setAction("Try again") {
             viewModel.getShops(preferencesHelper.getPlace()?.id.toString())
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+                viewModel.getShops(placeId)
+        }
     }
 
     private fun initView() {
@@ -179,9 +182,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 when (it.status) {
                     Resource.Status.LOADING -> {
                         isError = false
-                        binding.layoutStates.visibility = View.VISIBLE
-                        binding.animationView.visibility = View.GONE
-                        errorSnackbar.dismiss()
+                        if(!binding.swipeRefreshLayout.isRefreshing) {
+                            binding.layoutStates.visibility = View.VISIBLE
+                            binding.animationView.visibility = View.GONE
+                            errorSnackbar.dismiss()
+                        }
                         //progressDialog.setMessage("Getting Outlets")
                         //progressDialog.show()
                     }
@@ -199,6 +204,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.SUCCESS -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         isError = false
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.GONE

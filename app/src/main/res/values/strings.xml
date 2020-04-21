@@ -15,4 +15,6 @@
 	<string name="label_enter_delivery_location">Enter Delivery Location</string>
 	<string name="label_no_items_in_cart">No items in cart</string>
     <string name="label_veg_only">Veg only</string>
+    <string name="label_search_outlets_or_dish">Search Outlets or Dish</string>
+	<string name="label_outlets">Outlets</string>
 </resources>
