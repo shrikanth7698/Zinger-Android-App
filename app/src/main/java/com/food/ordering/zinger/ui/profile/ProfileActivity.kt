@@ -124,6 +124,7 @@ class ProfileActivity : AppCompatActivity() ,PlacePickerDialog.PlaceClickListene
                         progressDialog.dismiss()
                         if (resource.data != null) {
                             Toast.makeText(applicationContext, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                            preferencesHelper.clearCartPreferences()
                         } else {
                             Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                         }
