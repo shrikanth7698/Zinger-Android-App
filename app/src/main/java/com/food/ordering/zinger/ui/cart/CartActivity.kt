@@ -192,8 +192,8 @@ class CartActivity : AppCompatActivity() {
                 }
                 Resource.Status.ERROR -> {
                     progressDialog.dismiss()
-                    if(!it.data?.message.isNullOrEmpty()){
-                        errorSnackBar.setText(it.data?.message.toString())
+                    if(!it.message.isNullOrEmpty()){
+                        errorSnackBar.setText(it.message.toString())
                     }else{
                         errorSnackBar.setText("Cart verify failed")
                     }

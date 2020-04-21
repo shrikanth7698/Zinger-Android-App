@@ -29,7 +29,6 @@ class CartViewModel(private val orderRepository: OrderRepository) : ViewModel() 
                         } else {
                             insertOrder.value = Resource.error(null, message = response.message)
                         }
-
                     } else {
                         insertOrder.value = Resource.error(null, response.message)
                     }
