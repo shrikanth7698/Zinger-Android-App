@@ -21,11 +21,16 @@ class HomeViewModel(private val shopRepository: ShopRepository) : ViewModel() {
             try {
                 performFetchShops.value = Resource.loading()
                 val response = shopRepository.getShops(placeId)
-                if(!response.data.isNullOrEmpty()){
-                    response.data.let {
-                        performFetchShops.value = Resource.success(it)
+                if (!response.data.isNullOrEmpty()) {
+                    response.data.let { list ->
+                        val shops: ArrayList<ShopConfigurationModel> = ArrayList()
+                        shops.addAll(list)
+                        shops.sortByDescending {
+                            it.configurationModel.isOrderTaken
+                        }
+                        performFetchShops.value = Resource.success(shops)
                     }
-                }else{
+                } else {
                     performFetchShops.value = Resource.empty()
                 }
             } catch (e: Exception) {
