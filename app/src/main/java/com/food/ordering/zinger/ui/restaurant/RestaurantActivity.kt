@@ -307,14 +307,19 @@ class RestaurantActivity : AppCompatActivity() {
         if(shop?.configurationModel?.isOrderTaken==1){
             if(shop?.configurationModel?.isDeliveryAvailable==1){
                 //supportActionBar?.subtitle = "Open now"
+                binding.textPickupOnly.visibility = View.GONE
                 closedSnackBar.dismiss()
+            }else{
+                binding.textPickupOnly.text = "Pick up only"
+                binding.textPickupOnly.visibility = View.VISIBLE
             }
         }else{
             cartSnackBar.dismiss()
             closedSnackBar.setText("Shop is closed")
-            closedSnackBar.duration = Snackbar.LENGTH_INDEFINITE
+            closedSnackBar.duration = Snackbar.LENGTH_LONG
             closedSnackBar.show()
-            //supportActionBar?.subtitle = "Opens at "+shop?.shopModel?.openingTime?.substring(0,5)
+            binding.textPickupOnly.text = "Shop is closed"
+            binding.textPickupOnly.visibility = View.VISIBLE
         }
     }
 
