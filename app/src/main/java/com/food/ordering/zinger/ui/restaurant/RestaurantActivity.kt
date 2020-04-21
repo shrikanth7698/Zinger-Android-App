@@ -74,6 +74,11 @@ class RestaurantActivity : AppCompatActivity() {
         shop?.let {
             viewModel.getMenu(shop?.shopModel?.id.toString())
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            shop?.let {
+                viewModel.getMenu(shop?.shopModel?.id.toString())
+            }
+        }
     }
 
 
@@ -134,11 +139,14 @@ class RestaurantActivity : AppCompatActivity() {
         viewModel.performFetchMenuStatus.observe(this, Observer { resource ->
             when (resource.status) {
                 Resource.Status.LOADING -> {
-                    binding.layoutStates.visibility = View.VISIBLE
-                    binding.animationView.visibility = View.GONE
+                    if(!binding.swipeRefreshLayout.isRefreshing) {
+                        binding.layoutStates.visibility = View.VISIBLE
+                        binding.animationView.visibility = View.GONE
+                    }
                     errorSnackBar.dismiss()
                 }
                 Resource.Status.SUCCESS -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
                     cartList.clear()
                     cartList.addAll(cart)
                     updateCartUI()

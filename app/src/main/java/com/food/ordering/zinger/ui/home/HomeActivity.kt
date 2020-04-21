@@ -185,8 +185,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         if(!binding.swipeRefreshLayout.isRefreshing) {
                             binding.layoutStates.visibility = View.VISIBLE
                             binding.animationView.visibility = View.GONE
-                            errorSnackbar.dismiss()
                         }
+                        errorSnackbar.dismiss()
                         //progressDialog.setMessage("Getting Outlets")
                         //progressDialog.show()
                     }
