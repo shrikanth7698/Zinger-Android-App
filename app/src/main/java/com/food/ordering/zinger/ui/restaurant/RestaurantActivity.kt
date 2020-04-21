@@ -2,6 +2,8 @@ package com.food.ordering.zinger.ui.restaurant
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
@@ -48,6 +50,7 @@ class RestaurantActivity : AppCompatActivity() {
     var itemId = -1
     private lateinit var cartSnackBar: Snackbar
     private lateinit var errorSnackBar: Snackbar
+    private lateinit var closedSnackBar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +94,11 @@ class RestaurantActivity : AppCompatActivity() {
         snackButton.setCompoundDrawables(null, null, null, null)
         snackButton.background = null
         snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
+        closedSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_INDEFINITE)
+        val closedSnackButton: Button = closedSnackBar.view.findViewById(R.id.snackbar_action)
+        closedSnackButton.setCompoundDrawables(null, null, null, null)
+        closedSnackButton.background = null
+        closedSnackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         binding.toolbarLayout.setExpandedTitleColor(ContextCompat.getColor(applicationContext, android.R.color.white))
@@ -271,7 +279,7 @@ class RestaurantActivity : AppCompatActivity() {
                     saveCart(cartList)
                 }
             }
-        })
+        }, shop?.configurationModel?.isOrderTaken==1)
         layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerFoodItems.layoutManager = layoutManager
         binding.recyclerFoodItems.adapter = AlphaInAnimationAdapter(foodAdapter)
@@ -290,10 +298,23 @@ class RestaurantActivity : AppCompatActivity() {
             } else {
                 cartSnackBar.setText("₹$total | $totalItems items")
             }
-            cartSnackBar.show()
+            if(shop?.configurationModel?.isOrderTaken==1)
+                cartSnackBar.show()
         } else {
             preferencesHelper.clearCartPreferences()
             cartSnackBar.dismiss()
+        }
+        if(shop?.configurationModel?.isOrderTaken==1){
+            if(shop?.configurationModel?.isDeliveryAvailable==1){
+                //supportActionBar?.subtitle = "Open now"
+                closedSnackBar.dismiss()
+            }
+        }else{
+            cartSnackBar.dismiss()
+            closedSnackBar.setText("Shop is closed")
+            closedSnackBar.duration = Snackbar.LENGTH_INDEFINITE
+            closedSnackBar.show()
+            //supportActionBar?.subtitle = "Opens at "+shop?.shopModel?.openingTime?.substring(0,5)
         }
     }
 

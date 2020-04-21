@@ -47,7 +47,7 @@
 					android:id="@+id/image_food"
 					android:layout_width="56dp"
 					android:layout_height="56dp"
-					android:background="@drawable/ic_food"
+					android:src="@drawable/ic_food"
 					android:scaleType="centerCrop" />
 
 				<ImageView
