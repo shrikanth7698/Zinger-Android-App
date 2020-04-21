@@ -66,6 +66,11 @@ class FoodAdapter(private val context: Context, private val foodItemList: List<M
                 colorMatrix.setSaturation(0f)
                 val filter = ColorMatrixColorFilter(colorMatrix)
                 binding.imageFood.colorFilter = filter
+            }else{
+                binding.textFoodName.setTextColor(ContextCompat.getColor(binding.layoutRoot.context, android.R.color.black))
+                binding.textFoodPrice.setTextColor(ContextCompat.getColor(binding.layoutRoot.context, android.R.color.black))
+                binding.layoutQuantityControl.root.visibility = View.VISIBLE
+                binding.imageFood.clearColorFilter()
             }
         }
 
