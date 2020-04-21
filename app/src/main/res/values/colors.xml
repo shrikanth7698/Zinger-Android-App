@@ -13,4 +13,5 @@
 	<color name="captionColor">#555555</color>
     <color name="colorAccentLight1">#BFFF4141</color>
     <color name="shimmerColor">#BCBCBC</color>
+    <color name="disabledColor">#A6A6A6</color>
 </resources>
