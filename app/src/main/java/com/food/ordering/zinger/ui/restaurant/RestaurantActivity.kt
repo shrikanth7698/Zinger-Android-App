@@ -1,15 +1,19 @@
 package com.food.ordering.zinger.ui.restaurant
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -79,6 +83,10 @@ class RestaurantActivity : AppCompatActivity() {
                 viewModel.getMenu(shop?.shopModel?.id.toString())
             }
         }
+        binding.imageCall.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", shop?.shopModel?.mobile, null))
+            startActivity(intent)
+        }
     }
 
 
@@ -141,7 +149,7 @@ class RestaurantActivity : AppCompatActivity() {
         viewModel.performFetchMenuStatus.observe(this, Observer { resource ->
             when (resource.status) {
                 Resource.Status.LOADING -> {
-                    if(!binding.swipeRefreshLayout.isRefreshing) {
+                    if (!binding.swipeRefreshLayout.isRefreshing) {
                         binding.layoutStates.visibility = View.VISIBLE
                         binding.animationView.visibility = View.GONE
                     }
@@ -194,7 +202,7 @@ class RestaurantActivity : AppCompatActivity() {
                     foodItemList.clear()
                     foodAdapter.notifyDataSetChanged()
                     errorSnackBar.setText("No food items available in this shop")
-                    Handler().postDelayed({errorSnackBar.show()},500)
+                    Handler().postDelayed({ errorSnackBar.show() }, 500)
                 }
                 Resource.Status.OFFLINE_ERROR -> {
                     binding.swipeRefreshLayout.isRefreshing = false
@@ -205,7 +213,7 @@ class RestaurantActivity : AppCompatActivity() {
                     binding.animationView.playAnimation()
                     //progressDialog.dismiss()
                     errorSnackBar.setText("No Internet Connection")
-                    Handler().postDelayed({errorSnackBar.show()},500)
+                    Handler().postDelayed({ errorSnackBar.show() }, 500)
                 }
                 Resource.Status.ERROR -> {
                     binding.swipeRefreshLayout.isRefreshing = false
@@ -216,7 +224,7 @@ class RestaurantActivity : AppCompatActivity() {
                     binding.animationView.playAnimation()
                     //progressDialog.dismiss()
                     errorSnackBar.setText("Something went wrong")
-                    Handler().postDelayed({errorSnackBar.show()},500)
+                    Handler().postDelayed({ errorSnackBar.show() }, 500)
                 }
             }
         })
@@ -292,7 +300,7 @@ class RestaurantActivity : AppCompatActivity() {
                     saveCart(cartList)
                 }
             }
-        }, shop?.configurationModel?.isOrderTaken==1)
+        }, shop?.configurationModel?.isOrderTaken == 1)
         layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerFoodItems.layoutManager = layoutManager
         binding.recyclerFoodItems.adapter = AlphaInAnimationAdapter(foodAdapter)
@@ -311,22 +319,22 @@ class RestaurantActivity : AppCompatActivity() {
             } else {
                 cartSnackBar.setText("₹$total | $totalItems items")
             }
-            if(shop?.configurationModel?.isOrderTaken==1)
+            if (shop?.configurationModel?.isOrderTaken == 1)
                 cartSnackBar.show()
         } else {
             preferencesHelper.clearCartPreferences()
             cartSnackBar.dismiss()
         }
-        if(shop?.configurationModel?.isOrderTaken==1){
-            if(shop?.configurationModel?.isDeliveryAvailable==1){
+        if (shop?.configurationModel?.isOrderTaken == 1) {
+            if (shop?.configurationModel?.isDeliveryAvailable == 1) {
                 //supportActionBar?.subtitle = "Open now"
                 //binding.textPickupOnly.visibility = View.GONE
                 closedSnackBar.dismiss()
-            }else{
+            } else {
                 //binding.textPickupOnly.text = "Pick up only"
                 //binding.textPickupOnly.visibility = View.VISIBLE
             }
-        }else{
+        } else {
             cartSnackBar.dismiss()
             closedSnackBar.setText("Not taking orders")
             closedSnackBar.duration = Snackbar.LENGTH_LONG
@@ -376,8 +384,8 @@ class RestaurantActivity : AppCompatActivity() {
                         YoYo.with(Techniques.Pulse)
                                 .duration(1000)
                                 .playOn(view)
-                        itemId=-1
-                        position=-1
+                        itemId = -1
+                        position = -1
                     }
                 }, 500)
 
@@ -396,7 +404,7 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 true
