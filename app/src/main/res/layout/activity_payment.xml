@@ -1,76 +1,555 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-	<data>
+    <data>
 
-	</data>
+    </data>
 
-	<androidx.core.widget.NestedScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:context="com.food.ordering.zinger.ui.signup.SignUpActivity">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.food.ordering.zinger.ui.signup.SignUpActivity">
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="16dp">
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
+            android:padding="16dp">
 
-			<ImageView
-				android:id="@+id/image_close"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:layout_marginBottom="32dp"
-				android:src="@drawable/ic_close"
-				android:tint="@android:color/black" />
-
-
-			<ImageView
-				android:layout_width="150dp"
-				android:layout_height="150dp"
-				android:layout_gravity="start"
-				android:src="@drawable/ic_signup" />
-
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="top"
-				android:fontFamily="@font/poppins_bold"
-				android:gravity="center|start"
-				android:paddingTop="3dp"
-				android:text="Payment"
-				android:textAppearance="@style/AppbarTitle"
-				android:textColor="@android:color/black"
-				android:textSize="32sp" />
-
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="top"
-				android:fontFamily="@font/poppins_semibold"
-				android:gravity="center|start"
-				android:paddingTop="3dp"
-				android:text="Select a payment mode"
-				android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/image_close"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/ic_close"
+                android:tint="@android:color/black" />
 
 
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_signup" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center|start"
+                android:paddingTop="3dp"
+                android:text="Payment"
+                android:textAppearance="@style/AppbarTitle"
+                android:textColor="@android:color/black"
+                android:textSize="32sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center|start"
+                android:paddingTop="3dp"
+                android:text="Select a payment mode"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_credit_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_credit"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:paddingStart="8dp"
+                            android:text="Credit Card"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_credit_card"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_credit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#F2F2F2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="ENTER YOUR CARD DETAILS"
+                                android:textColor="@android:color/tab_indicator_text"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/bg_rounded_grey"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:padding="8dp"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:text="EXPIRY / VALIDY DATE"
+                                        android:textColor="@android:color/tab_indicator_text"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@drawable/bg_rounded_grey"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:hint="MM / YY"
+                                        android:padding="8dp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:text="CVV"
+                                        android:textColor="@android:color/tab_indicator_text"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@drawable/bg_rounded_grey"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:inputType="numberPassword"
+                                        android:padding="8dp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/button_credit_pay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pay"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/colorAccent" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_debit_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_debit"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:paddingStart="8dp"
+                            android:text="Debit Card"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_debit"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_debit_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#F2F2F2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="ENTER YOUR CARD DETAILS"
+                                android:textColor="@android:color/tab_indicator_text"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/bg_rounded_grey"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:padding="8dp"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:text="EXPIRY / VALIDY DATE"
+                                        android:textColor="@android:color/tab_indicator_text"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@drawable/bg_rounded_grey"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:hint="MM / YY"
+                                        android:padding="8dp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:text="CVV"
+                                        android:textColor="@android:color/tab_indicator_text"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:background="@drawable/bg_rounded_grey"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:inputType="numberPassword"
+                                        android:padding="8dp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/button_debit_pay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pay"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/colorAccent" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_bhim_upi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_bhim"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:paddingStart="8dp"
+                            android:text="BHIM UPI"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_upi"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_bhim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#F2F2F2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="ENTER YOUR UPI ID"
+                                android:textColor="@android:color/tab_indicator_text"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/bg_rounded_grey"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:padding="8dp"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/button_bhim_pay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pay"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/colorAccent" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_paytm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_paytm"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:paddingStart="8dp"
+                            android:text="Paytm"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_paytm"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_paytm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#F2F2F2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="ENTER PAYTM LINKED PHONE NUMBER"
+                                android:textColor="@android:color/tab_indicator_text"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/bg_rounded_grey"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:padding="8dp"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/button_paytm_pay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Pay"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/colorAccent" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/button_pay"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
-				android:fontFamily="@font/poppins_semibold"
-				android:text="Pay"
-				android:textSize="18sp"
-				android:textStyle="bold"
-				app:backgroundTint="@color/colorAccent" />
 
+        </LinearLayout>
 
-		</LinearLayout>
-
-	</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

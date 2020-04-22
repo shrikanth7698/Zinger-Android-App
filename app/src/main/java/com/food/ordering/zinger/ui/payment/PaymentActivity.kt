@@ -1,14 +1,17 @@
 package com.food.ordering.zinger.ui.payment
 
+import android.animation.LayoutTransition
 import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.braintreepayments.cardform.view.CardForm
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -25,10 +28,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_payment.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class PaymentActivity : AppCompatActivity() {
+class PaymentActivity : AppCompatActivity(),View.OnClickListener {
 
     private lateinit var binding: ActivityPaymentBinding
     private val viewModel: PaymentViewModel by viewModel()
@@ -42,6 +46,7 @@ class PaymentActivity : AppCompatActivity() {
         initView()
         setListener()
         setObservers()
+        setupPaymentModes()
     }
 
     private fun getArgs() {
@@ -51,19 +56,62 @@ class PaymentActivity : AppCompatActivity() {
 
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment)
+        binding.layoutContent.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     private fun setListener() {
         binding.imageClose.setOnClickListener { onBackPressed() }
-        binding.buttonPay.setOnClickListener {
-            val intent = Intent(applicationContext,PlaceOrderActivity::class.java)
-            intent.putExtra(AppConstants.ORDER_ID,orderId)
-            startActivity(intent)
-            finish()
+        binding.buttonCreditPay.setOnClickListener(this)
+        binding.buttonDebitPay.setOnClickListener(this)
+        binding.buttonBhimPay.setOnClickListener(this)
+        binding.buttonPaytmPay.setOnClickListener(this)
+        binding.radioCredit.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                binding.cardCredit.visibility = View.VISIBLE
+                binding.radioDebit.isChecked = false
+                binding.radioBhim.isChecked = false
+                binding.radioPaytm.isChecked = false
+            }else{
+                binding.cardCredit.visibility = View.GONE
+            }
+        }
+        binding.radioDebit.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                binding.cardDebitDetails.visibility = View.VISIBLE
+                binding.radioCredit.isChecked = false
+                binding.radioBhim.isChecked = false
+                binding.radioPaytm.isChecked = false
+            }else{
+                binding.cardDebitDetails.visibility = View.GONE
+            }
+        }
+        binding.radioBhim.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                binding.cardBhim.visibility = View.VISIBLE
+                binding.radioCredit.isChecked = false
+                binding.radioDebit.isChecked = false
+                binding.radioPaytm.isChecked = false
+            }else{
+                binding.cardBhim.visibility = View.GONE
+            }
+        }
+        binding.radioPaytm.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                binding.cardPaytm.visibility = View.VISIBLE
+                binding.radioCredit.isChecked = false
+                binding.radioDebit.isChecked = false
+                binding.radioBhim.isChecked = false
+            }else{
+                binding.cardPaytm.visibility = View.GONE
+            }
         }
     }
 
     private fun setObservers() {
+
+    }
+
+    private fun setupPaymentModes(){
 
     }
 
@@ -77,6 +125,20 @@ class PaymentActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
                 .show()
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.button_bhim_pay,
+            R.id.button_credit_pay,
+            R.id.button_debit_pay,
+            R.id.button_paytm_pay -> {
+                val intent = Intent(applicationContext,PlaceOrderActivity::class.java)
+                intent.putExtra(AppConstants.ORDER_ID,orderId)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
 }
