@@ -80,21 +80,6 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
-                <TextView
-                    android:id="@+id/text_pickup_only"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
-                    android:text="Pick up only"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -140,6 +125,22 @@
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_pickup_only"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="Pick up only"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
 
 
             </com.google.android.material.appbar.AppBarLayout>
