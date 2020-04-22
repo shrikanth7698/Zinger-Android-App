@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
@@ -207,6 +209,9 @@ class OtpActivity : AppCompatActivity() {
                         //Log.w(TAG, "signInWithCredential:failure", task.exception)
                         if (task.exception is FirebaseAuthInvalidCredentialsException) {
                             // The verification code entered was invalid
+                            YoYo.with(Techniques.Shake)
+                                    .duration(1000)
+                                    .playOn(binding.editOtp)
                             (task.exception as FirebaseAuthInvalidCredentialsException).printStackTrace()
                             Toast.makeText(applicationContext, "Verification failed!", Toast.LENGTH_LONG).show()
                             binding.editOtp.setText("")
