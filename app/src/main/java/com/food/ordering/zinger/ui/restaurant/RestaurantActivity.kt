@@ -112,10 +112,12 @@ class RestaurantActivity : AppCompatActivity() {
             binding.appBar.post {
                 if (abs(verticalOffset) - appBarLayout.totalScrollRange == 0) { //Collapsed
                     binding.textShopRating.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star, 0, 0, 0)
+                    binding.imageCall.setImageDrawable(getDrawable(R.drawable.ic_call_primary))
                     binding.textShopRating.setTextColor(ContextCompat.getColor(applicationContext, android.R.color.black))
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
                 } else { //Expanded
                     binding.textShopRating.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_star_white, 0, 0, 0)
+                    binding.imageCall.setImageDrawable(getDrawable(R.drawable.ic_call_white))
                     binding.textShopRating.setTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
                     supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
                 }

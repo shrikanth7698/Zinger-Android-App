@@ -41,10 +41,10 @@ class ShopAdapter(private val context: Context, private val shopList: List<ShopC
             var sdf2 = SimpleDateFormat("hh:mm a", Locale.getDefault())
             var openingTimeString = sdf2.format(sdf.parse(shop.shopModel.openingTime))
             var closingTimeString = sdf2.format(sdf.parse(shop.shopModel.closingTime))
-            /*var openingTime = getTime(shop.shopModel.openingTime)
+            var openingTime = getTime(shop.shopModel.openingTime)
             var closingTime = getTime(shop.shopModel.closingTime)
             val currentTime = Date()
-            isShopOpen = currentTime.before(closingTime) && currentTime.after(openingTime)*/
+            isShopOpen = currentTime.before(closingTime) && currentTime.after(openingTime)
             if(isShopOpen) {
                 if (shop.configurationModel.isOrderTaken == 1) {
                     binding.textShopName.setTextColor(ContextCompat.getColor(binding.layoutRoot.context, android.R.color.black))
