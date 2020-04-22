@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 
@@ -96,6 +97,7 @@ class RestaurantActivity : AppCompatActivity() {
         itemId = intent.getIntExtra(AppConstants.ITEM_ID, -1)
     }
 
+    var isShopOpen = true
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_restaurant)
         setSupportActionBar(binding.toolbar)
@@ -131,6 +133,13 @@ class RestaurantActivity : AppCompatActivity() {
                 }
             }
         })
+        val openingTime = viewModel.getTime(shop?.shopModel?.openingTime)
+        val closingTime = viewModel.getTime(shop?.shopModel?.closingTime)
+        val currentTime = Date()
+        isShopOpen = currentTime.before(closingTime) && currentTime.after(openingTime)
+        if(isShopOpen){
+            isShopOpen = shop?.configurationModel?.isOrderTaken == 1
+        }
         setupMenuRecyclerView()
         updateShopUI()
     }
@@ -300,7 +309,7 @@ class RestaurantActivity : AppCompatActivity() {
                     saveCart(cartList)
                 }
             }
-        }, shop?.configurationModel?.isOrderTaken == 1)
+        }, isShopOpen)
         layoutManager = LinearLayoutManager(this@RestaurantActivity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerFoodItems.layoutManager = layoutManager
         binding.recyclerFoodItems.adapter = AlphaInAnimationAdapter(foodAdapter)
@@ -414,4 +423,5 @@ class RestaurantActivity : AppCompatActivity() {
             }
         }
     }
+
 }

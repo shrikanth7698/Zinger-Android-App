@@ -6,6 +6,9 @@ import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.retrofit.ItemRepository
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
@@ -60,5 +63,17 @@ class RestaurantViewModel(private val itemRepository: ItemRepository) : ViewMode
             performFetchMenu.value = Resource.success(menuList)
         }
 
+    }
+
+    fun getTime(time: String?): Date {
+        val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val timeCalendar = Calendar.getInstance()
+        val closingTime = sdf.parse(time)
+        val cal1 = Calendar.getInstance()
+        cal1.time = closingTime
+        timeCalendar[Calendar.HOUR_OF_DAY] = cal1.get(Calendar.HOUR_OF_DAY)
+        timeCalendar[Calendar.MINUTE] = cal1.get(Calendar.MINUTE)
+        timeCalendar[Calendar.SECOND] = cal1.get(Calendar.SECOND)
+        return timeCalendar.time
     }
 }
