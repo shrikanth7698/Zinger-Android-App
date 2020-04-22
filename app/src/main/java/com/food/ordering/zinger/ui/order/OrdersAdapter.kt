@@ -32,6 +32,7 @@ class OrdersAdapter(private val orderList: List<OrderItemListModel>, private val
         fun bind(order: OrderItemListModel, position: Int, listener: OnItemClickListener) {
             //Picasso.get().load(menuItem.photoUrl).into(binding.imageShop)
             binding.textShopName.text = order.transactionModel.orderModel.shopModel?.name
+            binding.textItemsCount.text = order.orderItemsList.size.toString()+" ITEM(S)"
             try {
                 val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
                 val appDateFormat = SimpleDateFormat("dd MMMM yyyy, hh:mm aaa")
