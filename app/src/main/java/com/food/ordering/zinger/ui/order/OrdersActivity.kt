@@ -55,6 +55,13 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         errorSnackBar.setAction("Try again") {
             getOrders()
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            page = 1
+            isFirstTime = true
+            isLoading = false
+            isLastPage = false
+            getOrders()
+        }
     }
 
     private fun initView() {
@@ -114,6 +121,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                         errorSnackBar.dismiss()
                     }
                     Resource.Status.EMPTY -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         isLoading = false
                         isLastPage = true
                         binding.progressBar.visibility = View.GONE
@@ -131,6 +139,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                         //binding.appBarLayout.setExpanded(true, true)
                     }
                     Resource.Status.SUCCESS -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         isLoading = false
                         binding.progressBar.visibility = View.GONE
                         binding.layoutStates.visibility = View.GONE
@@ -153,6 +162,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
                         //binding.appBarLayout.setExpanded(false, true)
                     }
                     Resource.Status.OFFLINE_ERROR -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         isLoading = false
                         binding.progressBar.visibility = View.GONE
                         if(isFirstTime) {
@@ -168,6 +178,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
 
                     }
                     Resource.Status.ERROR -> {
+                        binding.swipeRefreshLayout.isRefreshing = false
                         isLoading = false
                         binding.progressBar.visibility = View.GONE
                         if(isFirstTime) {
