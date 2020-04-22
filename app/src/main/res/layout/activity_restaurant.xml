@@ -35,7 +35,7 @@
                     app:expandedTitleMarginStart="16dp"
                     app:expandedTitleTextAppearance="@style/AppbarTitle1"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                    app:title="Sathyas Main Canteen">
+                    app:title="Sathyasaaaaaaaaaaaaaaaaasasd">
 
 
                     <ImageView
@@ -51,6 +51,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
                         android:background="@color/colorAccentLight1" />
+                    <ImageView
+                        android:id="@+id/image_call"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_call_white"/>
+
 
                     <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/toolbar"
@@ -78,13 +87,6 @@
                                 android:layout_gravity="center"
                                 android:textColor="@android:color/white"
                                 android:textStyle="bold" />
-                            <ImageView
-                                android:id="@+id/image_call"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="16dp"
-                                android:src="@drawable/ic_call_white"/>
                         </LinearLayout>
 
                     </com.google.android.material.appbar.MaterialToolbar>

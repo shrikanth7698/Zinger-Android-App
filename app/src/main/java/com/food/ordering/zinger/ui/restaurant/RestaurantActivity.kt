@@ -130,7 +130,7 @@ class RestaurantActivity : AppCompatActivity() {
     private fun updateShopUI() {
         binding.toolbarLayout.title = shop?.shopModel?.name
         if (shop?.ratingModel?.rating == 0.0) {
-            binding.textShopRating.text = "No ratings yet"
+            binding.textShopRating.text = "N/R"
         } else {
             binding.textShopRating.text = shop?.ratingModel?.rating.toString() + " (" + shop?.ratingModel?.userCount + ")"
         }
@@ -184,6 +184,7 @@ class RestaurantActivity : AppCompatActivity() {
                     highlightRedirectedItem()
                 }
                 Resource.Status.EMPTY -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
                     binding.layoutStates.visibility = View.GONE
                     binding.animationView.visibility = View.VISIBLE
                     binding.animationView.loop(true)
@@ -196,6 +197,7 @@ class RestaurantActivity : AppCompatActivity() {
                     Handler().postDelayed({errorSnackBar.show()},500)
                 }
                 Resource.Status.OFFLINE_ERROR -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
                     binding.layoutStates.visibility = View.GONE
                     binding.animationView.visibility = View.VISIBLE
                     binding.animationView.loop(true)
@@ -206,6 +208,7 @@ class RestaurantActivity : AppCompatActivity() {
                     Handler().postDelayed({errorSnackBar.show()},500)
                 }
                 Resource.Status.ERROR -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
                     binding.layoutStates.visibility = View.GONE
                     binding.animationView.visibility = View.VISIBLE
                     binding.animationView.loop(true)
@@ -373,6 +376,8 @@ class RestaurantActivity : AppCompatActivity() {
                         YoYo.with(Techniques.Pulse)
                                 .duration(1000)
                                 .playOn(view)
+                        itemId=-1
+                        position=-1
                     }
                 }, 500)
 

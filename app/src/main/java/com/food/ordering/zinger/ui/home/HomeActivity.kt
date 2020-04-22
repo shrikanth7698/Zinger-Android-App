@@ -192,6 +192,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     Resource.Status.EMPTY -> {
                         isError = true
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
                         binding.animationView.loop(true)
@@ -219,6 +220,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     Resource.Status.OFFLINE_ERROR -> {
                         isError = true
+                        binding.swipeRefreshLayout.isRefreshing = false
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
                         binding.animationView.loop(true)
@@ -230,6 +232,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     Resource.Status.ERROR -> {
                         isError = true
+                        binding.swipeRefreshLayout.isRefreshing = false
                         //progressDialog.dismiss()
                         binding.layoutStates.visibility = View.GONE
                         binding.animationView.visibility = View.VISIBLE
