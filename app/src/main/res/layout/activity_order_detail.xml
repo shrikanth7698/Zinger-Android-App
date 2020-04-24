@@ -71,15 +71,6 @@
                             android:textColor="@android:color/white"
                             tools:text="Order Accepted. Restaurant is preparing your order" />
                     </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-						android:id="@+id/recycler_status"
-						android:overScrollMode="never"
-						tools:itemCount="3"
-						tools:listitem="@layout/item_order_status"/>
-
                 </LinearLayout>
 
 
@@ -298,6 +289,21 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F2F2F2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    tools:itemCount="3"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    tools:listitem="@layout/item_order_status" />
+
 
                 <View
                     android:layout_width="match_parent"

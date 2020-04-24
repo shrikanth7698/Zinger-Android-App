@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_normal_size">16sp</dimen>
+    <dimen name="status_small_size">12sp</dimen>
+    <dimen name="status_dot_normal_size">16dp</dimen>
+    <dimen name="status_dot_small_size">12dp</dimen>
+</resources>
