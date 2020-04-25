@@ -151,7 +151,7 @@ class RestaurantActivity : AppCompatActivity() {
         } else {
             binding.textShopRating.text = shop?.ratingModel?.rating.toString() + " (" + shop?.ratingModel?.userCount + ")"
         }
-        Picasso.get().load(shop?.shopModel?.coverUrls?.get(0)).placeholder(R.drawable.shop_placeholder).into(binding.imageExpanded)
+        shop?.shopModel?.coverUrls?.let { binding.coverSlider.setAdapter(CoverSliderAdapter(it)) }
     }
 
     private fun setObservers() {

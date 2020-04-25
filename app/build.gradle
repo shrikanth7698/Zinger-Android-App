@@ -74,7 +74,7 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
-    implementation 'com.braintreepayments:card-form:4.2.0'
+    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
