@@ -1,3 +1,3 @@
 # Zinger Android App
 
-![Cover Image](zinger_app_cover.jpg)
+![Cover Image](zinger_app_cover_with_text.jpg)
