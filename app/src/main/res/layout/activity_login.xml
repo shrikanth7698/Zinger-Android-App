@@ -76,6 +76,7 @@
 				android:inputType="phone"
 				android:paddingTop="8dp"
 				android:paddingBottom="8dp"
+				android:maxLength="10"
 				android:singleLine="true"
 				android:textColor="@android:color/black"
 				android:textColorHint="#000000"
