@@ -2,6 +2,7 @@ package com.food.ordering.zinger.ui.order
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -310,6 +311,10 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         }
         binding.textRate.setOnClickListener {
             showRatingDialog()
+        }
+        binding.imageCall.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", order.transactionModel.orderModel.shopModel?.mobile, null))
+            startActivity(intent)
         }
     }
 
