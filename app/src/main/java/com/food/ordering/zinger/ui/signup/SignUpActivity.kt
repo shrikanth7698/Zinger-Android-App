@@ -67,13 +67,16 @@ class SignUpActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListener
                 //TODO email validation
                 if(binding.editEmail.text.toString().isNotEmpty()){
                     if(selectedPlace!=null){
+                        var token = ""
+                        token = preferencesHelper.fcmToken.toString()
                         val updateUserRequest = UpdateUserRequest(
                                 placeModel = selectedPlace!!,
                                 userModel = UserModel(
                                         preferencesHelper.userId,
                                         binding.editEmail.text.toString(),
                                         number,
-                                        binding.editName.text.toString()
+                                        binding.editName.text.toString(),
+                                        notificationToken = arrayListOf(token)
                                 )
                         )
                         viewModel.signUp(updateUserRequest)

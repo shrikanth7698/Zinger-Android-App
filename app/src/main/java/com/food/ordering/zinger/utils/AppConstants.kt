@@ -8,6 +8,7 @@ object AppConstants {
     const val CART_PREFERENCES = "cart_prefs"
     const val AUTH_TOKEN = "auth_token"
     const val USER_ID = "user_id"
+    const val FCM_TOKEN = "fcm_token"
     const val SHOP = "shop"
     const val ITEM_ID = "item_id"
     const val SHOP_ID = "shop_id"

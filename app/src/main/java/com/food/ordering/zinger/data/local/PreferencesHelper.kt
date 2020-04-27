@@ -44,6 +44,10 @@ class PreferencesHelper(context: Context) : AppPreferencesHelper {
         get() = loginPreferences.getInt(AppConstants.USER_ID,-1)
         set(value) = loginPreferences.edit().putInt(AppConstants.USER_ID, value!!).apply()
 
+    override var fcmToken: String?
+        get() = loginPreferences.getString(AppConstants.FCM_TOKEN,null)
+        set(value) = loginPreferences.edit().putString(AppConstants.FCM_TOKEN, value).apply()
+
     override var place: String?
         get() = customerPreferences.getString(AppConstants.CUSTOMER_PLACE, null)
         set(value) = customerPreferences.edit().putString(AppConstants.CUSTOMER_PLACE, value).apply()

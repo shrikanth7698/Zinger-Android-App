@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -30,8 +31,10 @@ import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.AppConstants
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
@@ -72,6 +75,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         binding.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.getShops(placeId)
         }
+        getFCMToken()
     }
 
     private fun initView() {
@@ -345,5 +349,20 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 .setNegativeButton("No") { dialog, which -> dialog.dismiss() }
                 .show()
+    }
+
+    private fun getFCMToken(){
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("FCM", "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    // Get new Instance ID token
+                    val token = task.result?.token
+                    preferencesHelper.fcmToken = token
+                    val msg = "FCM TOKEN "+token
+                    Log.d("FCM", msg)
+                })
     }
 }

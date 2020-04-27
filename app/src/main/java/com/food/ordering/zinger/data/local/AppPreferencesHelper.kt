@@ -8,6 +8,7 @@ interface AppPreferencesHelper {
     val role: String?
     val oauthId: String?
     val userId: Int?
+    val fcmToken: String?
     val place: String?
     val cart: String?
     val shopList: String?

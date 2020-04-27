@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -18,12 +19,14 @@ import com.food.ordering.zinger.di.networkModule
 import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.ui.signup.SignUpActivity
 import com.food.ordering.zinger.utils.AppConstants
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -198,10 +201,31 @@ class OtpActivity : AppCompatActivity() {
                         preferencesHelper.oauthId = user?.uid
                         preferencesHelper.mobile = user?.phoneNumber?.substring(3)
                         preferencesHelper.role = "CUSTOMER"
-                        val loginRequest = user?.uid?.let { user.phoneNumber?.let { it1 -> LoginRequest(oauthId = it, mobile = it1.substring(3)) } }
-                        loginRequest?.let { viewModel.login(it) }?:run{
-                            Toast.makeText(applicationContext,"Login failed!",Toast.LENGTH_SHORT).show()
-                        }
+                        FirebaseInstanceId.getInstance().instanceId
+                                .addOnCompleteListener(OnCompleteListener { task ->
+                                    if (!task.isSuccessful) {
+                                        Log.w("FCM", "getInstanceId failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
+                                    // Get new Instance ID token
+                                    val token = task.result?.token
+                                    preferencesHelper.fcmToken = token
+                                    val msg = "FCM TOKEN "+token
+                                    if(!token.isNullOrEmpty()) {
+                                        val loginRequest = user?.uid?.let {
+                                            user.phoneNumber?.let { it1 ->
+                                                LoginRequest(oauthId = it, mobile = it1.substring(3), notificationToken = arrayListOf(token))
+                                            }
+                                        }
+                                        loginRequest?.let { viewModel.login(it) } ?: run {
+                                            Toast.makeText(applicationContext, "Login failed!", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }else{
+                                        Toast.makeText(applicationContext, "Login failed!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    Log.d("FCM", msg)
+                                })
+
                         // ...
                     } else {
                         progressDialog.dismiss()

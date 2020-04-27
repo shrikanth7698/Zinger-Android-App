@@ -29,7 +29,7 @@ android {
             }
             ext.alwaysUpdateBuildId = false
             //buildConfigField "String", "CUSTOM_BASE_URL", '"https://food-backend-ssn.herokuapp.com/"'
-            buildConfigField "String", "CUSTOM_BASE_URL", '"https://11a7de50.ngrok.io/"'
+            buildConfigField "String", "CUSTOM_BASE_URL", '"https://e44db4c6.ngrok.io/"'
         }
         release {
             minifyEnabled false
@@ -75,6 +75,8 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

@@ -5,5 +5,7 @@ data class LoginRequest(
     @SerializedName("mobile")
     val mobile: String,
     @SerializedName("oauthId")
-    val oauthId: String
+    val oauthId: String,
+    @SerializedName("notificationToken")
+    val notificationToken: List<String>
 )
