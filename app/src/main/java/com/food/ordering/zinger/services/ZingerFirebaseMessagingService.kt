@@ -11,9 +11,15 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
+import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.ui.order.OrderDetailActivity
+import com.food.ordering.zinger.ui.webview.WebViewActivity
+import com.food.ordering.zinger.utils.AppConstants
+import com.food.ordering.zinger.utils.StatusHelper
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import org.koin.android.ext.android.inject
 
 class ZingerFirebaseMessagingService : FirebaseMessagingService() {
@@ -26,33 +32,117 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
         Log.d("FCM", "Content: ${remoteMessage?.data}")
         createNotificationChannel()
         remoteMessage.data.let {
-            val intent = Intent(this, OrderDetailActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-            val builder = NotificationCompat.Builder(this, "7698")
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setContentTitle("Out for delivery")
-                    .setContentText("Your order from sathyas is out for delivery")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
-            with(NotificationManagerCompat.from(applicationContext)) {
-                // TODO change id
-                notify(123, builder.build())
+            when(it["type"]){
+                AppConstants.NOTIFICATION_TYPE_URL -> {
+                    val intent = Intent(this, WebViewActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    val title = it["title"]
+                    val message = it["message"]
+                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    if(payload.has("url")){
+                        intent.putExtra(AppConstants.URL,payload.get("url").toString())
+                        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+                        sendNotificationWithPendingIntent(title,message,pendingIntent)
+                    }
+                }
+                AppConstants.NOTIFICATION_TYPE_ORDER_STATUS -> {
+                    //TODO navigate to specific order
+                    val intent = Intent(this, OrderDetailActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    var title = it["title"]
+                    var message = it["message"]
+                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    var status = ""
+                    var shopName = ""
+                    var orderId = ""
+                    if(payload.has("shopName")){
+                        shopName = payload.get("shopName").toString()
+                    }
+                    if(payload.has("orderId")){
+                        orderId = payload.get("orderId").toString()
+                    }
+                    if(payload.has("orderStatus")){
+                        status = payload.get("orderStatus").toString()
+                    }
+                    if(title.isNullOrEmpty()){
+                        if(payload.has("orderId")){
+                            title+= "#"+orderId+ " - "
+                        }
+                        if(payload.has("orderStatus")){
+                            title+= StatusHelper.getStatusMessage(status)
+                        }
+                    }
+                    if(message.isNullOrEmpty()){
+                        message+=shopName+": "
+                        message+=StatusHelper.getStatusDetailedMessage(status)
+                    }
+                    intent.putExtra(AppConstants.ORDER_ID, orderId)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+                    sendNotificationWithPendingIntent(title,message,pendingIntent)
+                }
+                AppConstants.NOTIFICATION_TYPE_NEW_ARRIVAL -> {
+                    //TODO navigate to specific shop
+                    val intent = Intent(this, HomeActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    var title = it["title"]
+                    var message = it["message"]
+                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    var shopName = ""
+                    var shopId = ""
+                    if(payload.has("shopName")){
+                        shopName = payload.get("shopName").toString()
+                    }
+                    if(payload.has("shopId")){
+                        shopId = payload.get("shopId").toString()
+                    }
+                    if(title.isNullOrEmpty()){
+                        title+="New Outlet in you place!"
+                    }
+                    if(message.isNullOrEmpty()){
+                        message+= shopName+" has arrived in your place. Try it out!"
+                    }
+                    intent.putExtra(AppConstants.SHOP_ID,shopId)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+                    sendNotificationWithPendingIntent(title,message,pendingIntent)
+                }
             }
         }.run{
             remoteMessage.notification?.let {
-                var builder = NotificationCompat.Builder(applicationContext, "7698")
-                        .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                        .setContentTitle(remoteMessage.notification!!.title)
-                        .setContentText(remoteMessage.notification!!.body)
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                with(NotificationManagerCompat.from(applicationContext)) {
-                    // TODO change id
-                    notify(123, builder.build())
-                }
+                sendNotification(it.title,it.body)
             }
+        }
+    }
+
+    private fun sendNotification(title: String?, message: String?){
+        val builder = NotificationCompat.Builder(applicationContext, "7698")
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle()
+                        .bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        with(NotificationManagerCompat.from(applicationContext)) {
+            // TODO change id
+            notify(123, builder.build())
+        }
+    }
+
+    private fun sendNotificationWithPendingIntent(title: String?, message: String?, pendingIntent: PendingIntent){
+        val builder = NotificationCompat.Builder(this, "7698")
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle()
+                        .bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        with(NotificationManagerCompat.from(applicationContext)) {
+            // TODO change id
+            notify(123, builder.build())
         }
     }
 

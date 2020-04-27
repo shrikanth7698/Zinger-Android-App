@@ -28,6 +28,7 @@ object AppConstants {
     const val ORDER_DETAIL = "order_detail"
     const val ORDER_ID = "order_id"
     const val TRANSACTION_TOKEN = "transaction_token"
+    const val URL = "URL"
 
     //ORDER STATUS
     const val ORDER_STATUS_PENDING = "PENDING"
@@ -42,5 +43,10 @@ object AppConstants {
     const val ORDER_STATUS_DELIVERED = "DELIVERED"
     const val ORDER_STATUS_REFUND_INITIATED = "REFUND_INITIATED"
     const val ORDER_STATUS_REFUND_COMPLETED= "REFUND_COMPLETED"
+
+    //NOTIFICATION TYPES
+    const val NOTIFICATION_TYPE_URL = "URL"
+    const val NOTIFICATION_TYPE_ORDER_STATUS = "ORDER_STATUS"
+    const val NOTIFICATION_TYPE_NEW_ARRIVAL = "NEW_ARRIVAL"
 
 }
