@@ -13,6 +13,7 @@ import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.ui.order.OrderDetailActivity
+import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.webview.WebViewActivity
 import com.food.ordering.zinger.utils.AppConstants
 import com.food.ordering.zinger.utils.StatusHelper
@@ -20,6 +21,8 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import org.json.JSONObject
 import org.koin.android.ext.android.inject
 
 class ZingerFirebaseMessagingService : FirebaseMessagingService() {
@@ -39,43 +42,43 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     }
                     val title = it["title"]
                     val message = it["message"]
-                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    val payload = JSONObject(it["payload"])
                     if(payload.has("url")){
-                        intent.putExtra(AppConstants.URL,payload.get("url").toString())
+                        intent.putExtra(AppConstants.URL,payload.getString("url").toString())
                         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
                         sendNotificationWithPendingIntent(title,message,pendingIntent)
                     }
                 }
                 AppConstants.NOTIFICATION_TYPE_ORDER_STATUS -> {
                     //TODO navigate to specific order
-                    val intent = Intent(this, OrderDetailActivity::class.java).apply {
+                    val intent = Intent(this, OrdersActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                     var title = it["title"]
                     var message = it["message"]
-                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    val payload = JSONObject(it["payload"])
                     var status = ""
                     var shopName = ""
                     var orderId = ""
                     if(payload.has("shopName")){
-                        shopName = payload.get("shopName").toString()
+                        shopName = payload.getString("shopName").toString()
                     }
                     if(payload.has("orderId")){
-                        orderId = payload.get("orderId").toString()
+                        orderId = payload.getString("orderId").toString()
                     }
                     if(payload.has("orderStatus")){
-                        status = payload.get("orderStatus").toString()
+                        status = payload.getString("orderStatus").toString()
                     }
                     if(title.isNullOrEmpty()){
                         if(payload.has("orderId")){
-                            title+= "#"+orderId+ " - "
+
+                            title+=shopName+": #"+orderId + " - "
                         }
                         if(payload.has("orderStatus")){
                             title+= StatusHelper.getStatusMessage(status)
                         }
                     }
                     if(message.isNullOrEmpty()){
-                        message+=shopName+": "
                         message+=StatusHelper.getStatusDetailedMessage(status)
                     }
                     intent.putExtra(AppConstants.ORDER_ID, orderId)
@@ -89,14 +92,14 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     }
                     var title = it["title"]
                     var message = it["message"]
-                    val payload = Gson().fromJson(it["payload"],JsonObject::class.java)
+                    val payload = JSONObject(it["payload"])
                     var shopName = ""
                     var shopId = ""
                     if(payload.has("shopName")){
-                        shopName = payload.get("shopName").toString()
+                        shopName = payload.getString("shopName").toString()
                     }
                     if(payload.has("shopId")){
-                        shopId = payload.get("shopId").toString()
+                        shopId = payload.getString("shopId").toString()
                     }
                     if(title.isNullOrEmpty()){
                         title+="New Outlet in you place!"
@@ -118,7 +121,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun sendNotification(title: String?, message: String?){
         val builder = NotificationCompat.Builder(applicationContext, "7698")
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_zinger_notification_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setStyle(NotificationCompat.BigTextStyle()
@@ -132,7 +135,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun sendNotificationWithPendingIntent(title: String?, message: String?, pendingIntent: PendingIntent){
         val builder = NotificationCompat.Builder(this, "7698")
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_zinger_notification_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setStyle(NotificationCompat.BigTextStyle()
