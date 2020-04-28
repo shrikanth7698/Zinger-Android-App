@@ -134,6 +134,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    //TODO add event bus
     private fun sendNotificationWithPendingIntent(title: String?, message: String?, pendingIntent: PendingIntent){
         val builder = NotificationCompat.Builder(this, "7698")
                 .setSmallIcon(R.drawable.ic_zinger_notification_icon)
@@ -170,7 +171,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         //handle token
         Log.d("FCM","FCM Token: "+token)
-        preferencesHelper.fcmToken = token
-        //TODO update the server about fcm token
+        //preferencesHelper.fcmToken = token
+        //No need to update the server about fcm token. because it's already happening in home activity
     }
 }

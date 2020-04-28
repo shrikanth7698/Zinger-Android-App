@@ -22,12 +22,15 @@ import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.MenuItemModel
 import com.food.ordering.zinger.data.model.ShopConfigurationModel
+import com.food.ordering.zinger.data.model.UpdateUserRequest
+import com.food.ordering.zinger.data.model.UserModel
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.login.LoginActivity
 import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
+import com.food.ordering.zinger.ui.profile.ProfileViewModel
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.AppConstants
@@ -52,6 +55,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModel()
+    private val profileViewModel: ProfileViewModel by viewModel()
     private val preferencesHelper: PreferencesHelper by inject()
     private lateinit var headerLayout: HeaderLayoutBinding
     private lateinit var drawer: Drawer
@@ -363,7 +367,24 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     // Get new Instance ID token
                     val token = task.result?.token
-                    preferencesHelper.fcmToken = token
+                    if(preferencesHelper.fcmToken!=token){
+                        preferencesHelper.fcmToken = token
+                        preferencesHelper.fcmToken?.let {
+                            val updateUserRequest = UpdateUserRequest(
+                                    placeModel = preferencesHelper.getPlace()!!,
+                                    userModel = UserModel(
+                                            preferencesHelper.userId,
+                                            preferencesHelper.email,
+                                            preferencesHelper.mobile,
+                                            preferencesHelper.name,
+                                            notificationToken = arrayListOf(it)
+                                    )
+                            )
+                            profileViewModel.updateUserDetails(updateUserRequest)
+                        }
+                    }else{
+                        //FCM token is same. No need to update
+                    }
                     val msg = "FCM TOKEN "+token
                     Log.d("FCM", msg)
                 })
