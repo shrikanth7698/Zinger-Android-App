@@ -48,7 +48,8 @@ class OrdersAdapter(private val orderList: List<OrderItemListModel>, private val
                 items += it.quantity.toString() + " X " + it.itemModel.name + "\n"
             }
             binding.textOrderItems.text = items
-            binding.textOrderStatus.text = StatusHelper.getStatusMessage(order.transactionModel.orderModel.orderStatus)
+            val orderStatus = order.orderStatusModel.lastOrNull()?.orderStatus
+            binding.textOrderStatus.text = StatusHelper.getStatusMessage(orderStatus)
             if (order.transactionModel.orderModel.rating == 0.0) {
                 binding.buttonTrackRate.visibility = View.VISIBLE
                 binding.textOrderRating.visibility = View.GONE
@@ -57,7 +58,7 @@ class OrdersAdapter(private val orderList: List<OrderItemListModel>, private val
                 binding.textOrderRating.visibility = View.VISIBLE
                 binding.textOrderRating.text = order.transactionModel.orderModel.rating.toString()
             }
-            when (order.transactionModel.orderModel.orderStatus) {
+            when (orderStatus) {
 
                 AppConstants.ORDER_STATUS_COMPLETED,
                 AppConstants.ORDER_STATUS_DELIVERED,

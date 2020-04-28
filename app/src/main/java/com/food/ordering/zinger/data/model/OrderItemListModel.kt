@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class OrderItemListModel(
     @SerializedName("orderItemsList")
     val orderItemsList: List<OrderItems>,
+    @SerializedName("orderStatusModel")
+    var orderStatusModel: List<OrderStatusModel>,
     @SerializedName("transactionModel")
     val transactionModel: TransactionModel
 )
@@ -75,8 +77,6 @@ data class OrderModel(
     val id: String,
     @SerializedName("lastStatusUpdatedTime")
     val lastStatusUpdatedTime: String?,
-    @SerializedName("orderStatus")
-    var orderStatus: String,
     @SerializedName("price")
     val price: Double,
     @SerializedName("rating")
@@ -87,4 +87,13 @@ data class OrderModel(
     val shopModel: ShopModel?,
     @SerializedName("userModel")
     val userModel: UserModel?
+)
+
+data class OrderStatusModel(
+    @SerializedName("orderId")
+    var orderId: String?,
+    @SerializedName("orderStatus")
+    var orderStatus: String,
+    @SerializedName("updatedTime")
+    var updatedTime: String?
 )

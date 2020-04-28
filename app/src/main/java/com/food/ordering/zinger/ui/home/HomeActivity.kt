@@ -31,6 +31,7 @@ import com.food.ordering.zinger.ui.profile.ProfileActivity
 import com.food.ordering.zinger.ui.restaurant.RestaurantActivity
 import com.food.ordering.zinger.ui.search.SearchActivity
 import com.food.ordering.zinger.utils.AppConstants
+import com.food.ordering.zinger.utils.FcmUtils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -77,6 +78,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 viewModel.getShops(placeId)
         }
         getFCMToken()
+        FcmUtils.subscribeToTopic(AppConstants.NOTIFICATION_TOPIC_GLOBAL)
     }
 
     private fun initView() {
@@ -366,4 +368,5 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     Log.d("FCM", msg)
                 })
     }
+
 }

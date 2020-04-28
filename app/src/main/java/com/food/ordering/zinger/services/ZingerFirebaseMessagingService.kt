@@ -50,6 +50,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     }
                 }
                 AppConstants.NOTIFICATION_TYPE_ORDER_STATUS -> {
+                    //TODO add secret key in notification "secretKey"
                     //TODO navigate to specific order
                     val intent = Intent(this, OrdersActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

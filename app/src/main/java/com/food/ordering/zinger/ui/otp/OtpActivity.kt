@@ -105,9 +105,9 @@ class OtpActivity : AppCompatActivity() {
                                             userId = userModel.userId,
                                             name = userModel.name,
                                             email = userModel.email,
-                                            mobile = userModel.mobile,
+                                            mobile = preferencesHelper.mobile,
                                             role = userModel.role,
-                                            oauthId = userModel.oauthId,
+                                            oauthId = preferencesHelper.oauthId,
                                             place = Gson().toJson(placeModel)
                                     )
                                 }
@@ -201,6 +201,8 @@ class OtpActivity : AppCompatActivity() {
                         preferencesHelper.oauthId = user?.uid
                         preferencesHelper.mobile = user?.phoneNumber?.substring(3)
                         preferencesHelper.role = "CUSTOMER"
+                        unloadKoinModules(networkModule)
+                        loadKoinModules(networkModule)
                         FirebaseInstanceId.getInstance().instanceId
                                 .addOnCompleteListener(OnCompleteListener { task ->
                                     if (!task.isSuccessful) {

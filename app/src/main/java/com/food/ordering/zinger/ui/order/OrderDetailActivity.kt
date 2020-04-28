@@ -125,7 +125,8 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             binding.layoutDeliveryCharge.visibility = View.GONE
         }
-        when (order.transactionModel.orderModel.orderStatus) {
+        val orderStatus = order.orderStatusModel.lastOrNull()?.orderStatus
+        when (orderStatus) {
             AppConstants.ORDER_STATUS_COMPLETED,
             AppConstants.ORDER_STATUS_DELIVERED -> {
                 binding.textRate.visibility = View.VISIBLE
@@ -159,7 +160,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 binding.textCancelReorder.visibility = View.GONE
             }
         }
-        when (order.transactionModel.orderModel.orderStatus) {
+        when (orderStatus) {
             AppConstants.ORDER_STATUS_READY,
             AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY -> {
                 binding.layoutSecretKey.visibility = View.VISIBLE
@@ -175,7 +176,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 binding.textRate.visibility = View.GONE
             }
         }
-        when (order.transactionModel.orderModel.orderStatus) {
+        when (orderStatus) {
             AppConstants.ORDER_STATUS_PENDING -> {
                 orderStatusList.clear()
                 orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PENDING)))
@@ -359,7 +360,11 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                     Resource.Status.SUCCESS -> {
                         progressDialog.dismiss()
                         errorSnackBar.dismiss()
-                        order.transactionModel.orderModel.orderStatus = AppConstants.ORDER_STATUS_CANCELLED_BY_USER
+                        //TODO do get order by id
+                        val orderStatusList:ArrayList<OrderStatusModel> = arrayListOf()
+                        orderStatusList.addAll(order.orderStatusModel)
+                        orderStatusList.add(OrderStatusModel(null,AppConstants.ORDER_STATUS_CANCELLED_BY_USER,null))
+                        order.orderStatusModel = orderStatusList
                         updateUI()
                     }
                     Resource.Status.OFFLINE_ERROR -> {

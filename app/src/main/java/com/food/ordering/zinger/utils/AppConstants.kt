@@ -49,4 +49,7 @@ object AppConstants {
     const val NOTIFICATION_TYPE_ORDER_STATUS = "ORDER_STATUS"
     const val NOTIFICATION_TYPE_NEW_ARRIVAL = "NEW_ARRIVAL"
 
+    //NOTIFICATION TOPICS
+    const val NOTIFICATION_TOPIC_GLOBAL = "global"
+
 }

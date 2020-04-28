@@ -29,7 +29,7 @@ android {
             }
             ext.alwaysUpdateBuildId = false
             //buildConfigField "String", "CUSTOM_BASE_URL", '"https://food-backend-ssn.herokuapp.com/"'
-            buildConfigField "String", "CUSTOM_BASE_URL", '"https://e44db4c6.ngrok.io/"'
+            buildConfigField "String", "CUSTOM_BASE_URL", '"https://c1844358.ngrok.io/"'
         }
         release {
             minifyEnabled false

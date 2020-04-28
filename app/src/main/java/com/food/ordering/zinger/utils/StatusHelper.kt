@@ -15,7 +15,7 @@ import com.food.ordering.zinger.utils.AppConstants.ORDER_STATUS_TXN_FAILURE
 
 object StatusHelper{
 
-    fun getMessageDetail(status: String): String{
+    fun getMessageDetail(status: String?): String{
         return when(status){
             "Pending" -> getStatusDetailedMessage(ORDER_STATUS_PENDING)
             "Transaction failed"  -> getStatusDetailedMessage(ORDER_STATUS_TXN_FAILURE)
@@ -29,10 +29,10 @@ object StatusHelper{
             "Delivered"  -> getStatusDetailedMessage(ORDER_STATUS_DELIVERED)
             "Refund initiated"  -> getStatusDetailedMessage(ORDER_STATUS_REFUND_INITIATED)
             "Refunded"  -> getStatusDetailedMessage(ORDER_STATUS_REFUND_COMPLETED)
-            else -> status
+            else -> status.toString()
         }
     }
-    fun getStatusMessage(status: String): String{
+    fun getStatusMessage(status: String?): String{
         return when(status){
             ORDER_STATUS_PENDING -> "Pending"
             ORDER_STATUS_TXN_FAILURE -> "Transaction failed"
@@ -46,7 +46,7 @@ object StatusHelper{
             ORDER_STATUS_DELIVERED -> "Delivered"
             ORDER_STATUS_REFUND_INITIATED -> "Refund initiated"
             ORDER_STATUS_REFUND_COMPLETED-> "Refunded"
-            else -> status
+            else -> status.toString()
         }
     }
     fun getStatusDetailedMessage(status: String): String{
