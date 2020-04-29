@@ -55,7 +55,6 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     }
                 }
                 AppConstants.NOTIFICATION_TYPE_ORDER_STATUS -> {
-                    //TODO add secret key in notification "secretKey"
                     val intent = Intent(this, OrderDetailActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
