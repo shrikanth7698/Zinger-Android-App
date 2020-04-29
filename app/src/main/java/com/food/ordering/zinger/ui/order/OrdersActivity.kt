@@ -19,17 +19,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.NotificationModel
 import com.food.ordering.zinger.data.model.OrderItemListModel
 import com.food.ordering.zinger.data.model.RatingRequest
 import com.food.ordering.zinger.data.model.RatingShopModel
 import com.food.ordering.zinger.databinding.ActivityOrdersBinding
 import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
 import com.food.ordering.zinger.utils.AppConstants
+import com.food.ordering.zinger.utils.EventBus
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.hsalf.smileyrating.SmileyRating
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -47,6 +54,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var errorSnackBar: Snackbar
     private var timer: Timer? = null
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -62,6 +70,7 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
             isLastPage = false
             getOrders()
         }
+        subscribeToOrderStatus()
     }
 
     private fun initView() {
@@ -336,6 +345,21 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
         isLoading = false
         isLastPage = false
         getOrders()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun subscribeToOrderStatus() {
+        val subscription = EventBus.asChannel<NotificationModel>()
+        CoroutineScope(Dispatchers.Main).launch {
+            subscription.consumeEach {
+                println("Received order status event")
+                page = 1
+                isFirstTime = true
+                isLoading = false
+                isLastPage = false
+                getOrders()
+            }
+        }
     }
 
 

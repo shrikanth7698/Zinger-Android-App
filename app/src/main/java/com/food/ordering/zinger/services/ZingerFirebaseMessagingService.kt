@@ -11,49 +11,53 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.food.ordering.zinger.R
 import com.food.ordering.zinger.data.local.PreferencesHelper
+import com.food.ordering.zinger.data.model.NotificationModel
 import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.ui.order.OrderDetailActivity
 import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.webview.WebViewActivity
 import com.food.ordering.zinger.utils.AppConstants
+import com.food.ordering.zinger.utils.EventBus
 import com.food.ordering.zinger.utils.StatusHelper
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class ZingerFirebaseMessagingService : FirebaseMessagingService() {
 
     private val preferencesHelper: PreferencesHelper by inject()
 
+    @ExperimentalCoroutinesApi
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d("FCM", "From: ${remoteMessage?.from}")
         Log.d("FCM", "Content: ${remoteMessage?.data}")
         createNotificationChannel()
         remoteMessage.data.let {
-            when(it["type"]){
+            when (it["type"]) {
                 AppConstants.NOTIFICATION_TYPE_URL -> {
                     val intent = Intent(this, WebViewActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     val title = it["title"]
                     val message = it["message"]
                     val payload = JSONObject(it["payload"])
-                    if(payload.has("url")){
-                        intent.putExtra(AppConstants.URL,payload.getString("url").toString())
-                        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-                        sendNotificationWithPendingIntent(title,message,pendingIntent)
+                    if (payload.has("url")) {
+                        intent.putExtra(AppConstants.URL, payload.getString("url").toString())
+                        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, Date().time.toInt(), intent, 0)
+                        sendNotificationWithPendingIntent(Date().time.toInt(), title, message, pendingIntent)
                     }
                 }
                 AppConstants.NOTIFICATION_TYPE_ORDER_STATUS -> {
                     //TODO add secret key in notification "secretKey"
-                    //TODO navigate to specific order
-                    val intent = Intent(this, OrdersActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    val intent = Intent(this, OrderDetailActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     var title = it["title"]
                     var message = it["message"]
@@ -61,65 +65,74 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     var status = ""
                     var shopName = ""
                     var orderId = ""
-                    if(payload.has("shopName")){
+                    if (payload.has("shopName")) {
                         shopName = payload.getString("shopName").toString()
                     }
-                    if(payload.has("orderId")){
+                    if (payload.has("orderId")) {
                         orderId = payload.getString("orderId").toString()
                     }
-                    if(payload.has("orderStatus")){
+                    if (payload.has("orderStatus")) {
                         status = payload.getString("orderStatus").toString()
                     }
-                    if(title.isNullOrEmpty()){
+                    if (title.isNullOrEmpty()) {
                         /*if(payload.has("orderId")){
                             title+=shopName+"Order "+orderId + " - "
                         }*/
-                        if(payload.has("orderStatus")){
-                            title+= "Order "+StatusHelper.getStatusMessage(status)+" - "+shopName
+                        if (payload.has("orderStatus")) {
+                            title += "Order " + StatusHelper.getStatusMessage(status) + " - " + shopName
                         }
                     }
-                    if(message.isNullOrEmpty()){
-                        message+=StatusHelper.getStatusDetailedMessage(status)
+                    if (message.isNullOrEmpty()) {
+                        message += StatusHelper.getStatusDetailedMessage(status)
+                        when (status) {
+                            AppConstants.ORDER_STATUS_READY, AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY -> {
+                                if(payload.has("secretKey")){
+                                    message+="\nSecret Key: "+payload.getString("secretKey").toString()
+                                }
+                            }
+                        }
                     }
                     intent.putExtra(AppConstants.ORDER_ID, orderId)
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-                    sendNotificationWithPendingIntent(title,message,pendingIntent)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, orderId.toInt(), intent, 0)
+                    sendNotificationWithPendingIntent(orderId.toInt(), title, message, pendingIntent)
+                    //Alerting the order detail activity
+                    EventBus.send(NotificationModel(it["type"],it["title"],it["message"],JSONObject(it["payload"])))
                 }
                 AppConstants.NOTIFICATION_TYPE_NEW_ARRIVAL -> {
                     //TODO navigate to specific shop
                     val intent = Intent(this, HomeActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     var title = it["title"]
                     var message = it["message"]
                     val payload = JSONObject(it["payload"])
                     var shopName = ""
                     var shopId = ""
-                    if(payload.has("shopName")){
+                    if (payload.has("shopName")) {
                         shopName = payload.getString("shopName").toString()
                     }
-                    if(payload.has("shopId")){
+                    if (payload.has("shopId")) {
                         shopId = payload.getString("shopId").toString()
                     }
-                    if(title.isNullOrEmpty()){
-                        title+="New Outlet in you place!"
+                    if (title.isNullOrEmpty()) {
+                        title += "New Outlet in you place!"
                     }
-                    if(message.isNullOrEmpty()){
-                        message+= shopName+" has arrived in your place. Try it out!"
+                    if (message.isNullOrEmpty()) {
+                        message += shopName + " has arrived in your place. Try it out!"
                     }
-                    intent.putExtra(AppConstants.SHOP_ID,shopId)
-                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-                    sendNotificationWithPendingIntent(title,message,pendingIntent)
+                    intent.putExtra(AppConstants.SHOP_ID, shopId)
+                    val pendingIntent: PendingIntent = PendingIntent.getActivity(this, shopId.toInt(), intent, 0)
+                    sendNotificationWithPendingIntent(shopId.toInt(), title, message, pendingIntent)
                 }
             }
-        }.run{
+        }.run {
             remoteMessage.notification?.let {
-                sendNotification(it.title,it.body)
+                sendNotification(Date().time.toInt(), it.title, it.body)
             }
         }
     }
 
-    private fun sendNotification(title: String?, message: String?){
+    private fun sendNotification(id: Int, title: String?, message: String?) {
         val builder = NotificationCompat.Builder(applicationContext, "7698")
                 .setSmallIcon(R.drawable.ic_zinger_notification_icon)
                 .setContentTitle(title)
@@ -128,13 +141,12 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                         .bigText(message))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(applicationContext)) {
-            // TODO change id
-            notify(123, builder.build())
+            notify(id, builder.build())
         }
     }
 
-    //TODO add event bus
-    private fun sendNotificationWithPendingIntent(title: String?, message: String?, pendingIntent: PendingIntent){
+
+    private fun sendNotificationWithPendingIntent(id: Int, title: String?, message: String?, pendingIntent: PendingIntent) {
         val builder = NotificationCompat.Builder(this, "7698")
                 .setSmallIcon(R.drawable.ic_zinger_notification_icon)
                 .setContentTitle(title)
@@ -145,8 +157,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
         with(NotificationManagerCompat.from(applicationContext)) {
-            // TODO change id
-            notify(123, builder.build())
+            notify(id, builder.build())
         }
     }
 
@@ -169,7 +180,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         //handle token
-        Log.d("FCM","FCM Token: "+token)
+        Log.d("FCM", "FCM Token: " + token)
         //preferencesHelper.fcmToken = token
         //No need to update the server about fcm token. because it's already happening in home activity
     }

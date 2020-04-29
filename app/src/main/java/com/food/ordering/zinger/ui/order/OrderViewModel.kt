@@ -10,6 +10,34 @@ import java.net.UnknownHostException
 
 class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
 
+    //get order detail by order id
+    private val orderByIdRequest = MutableLiveData<Resource<Response<OrderItemListModel>>>()
+    val orderByIdResponse: LiveData<Resource<Response<OrderItemListModel>>>
+        get() = orderByIdRequest
+
+    fun getOrderById(orderId: Int, isSilent: Boolean = false) {
+        viewModelScope.launch {
+            try {
+                if(!isSilent) {
+                    orderByIdRequest.value = Resource.loading()
+                }
+                val response = orderRepository.getOrderById(orderId)
+                if (response.code == 1)
+                    orderByIdRequest.value = Resource.success(response)
+                else {
+                    orderByIdRequest.value = Resource.error(message = response.message)
+                }
+
+            } catch (e: Exception) {
+                if (e is UnknownHostException) {
+                    orderByIdRequest.value = Resource.offlineError()
+                } else {
+                    orderByIdRequest.value = Resource.error(e)
+                }
+            }
+        }
+    }
+
     //fetch orders
     private val performFetchOrders = MutableLiveData<Resource<List<OrderItemListModel>>>()
     val performFetchOrdersStatus: LiveData<Resource<List<OrderItemListModel>>>
@@ -49,10 +77,10 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
                 rateOrder.value = Resource.loading()
                 val response = orderRepository.rateOrder(ratingRequest)
                 if (response != null) {
-                    if (response.data!=null) {
+                    if (response.data != null) {
                         rateOrder.value = Resource.success(response)
                     } else {
-                        rateOrder.value = Resource.error(null,response.message)
+                        rateOrder.value = Resource.error(null, response.message)
                     }
                 }
             } catch (e: Exception) {
@@ -77,10 +105,10 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
                 cancelOrder.value = Resource.loading()
                 val response = orderRepository.cancelOrder(orderStatusRequest)
                 if (response != null) {
-                    if (response.data!=null) {
+                    if (response.data != null) {
                         cancelOrder.value = Resource.success(response)
                     } else {
-                        cancelOrder.value = Resource.error(null,response.message)
+                        cancelOrder.value = Resource.error(null, response.message)
                     }
                 }
             } catch (e: Exception) {

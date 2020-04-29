@@ -21,6 +21,7 @@ import com.food.ordering.zinger.databinding.BottomSheetRateFoodBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
 import com.food.ordering.zinger.ui.home.HomeActivity
 import com.food.ordering.zinger.utils.AppConstants
+import com.food.ordering.zinger.utils.EventBus
 import com.food.ordering.zinger.utils.StatusHelper
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,6 +30,11 @@ import com.google.gson.Gson
 import com.hsalf.smileyrating.SmileyRating
 import com.squareup.picasso.Picasso
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.Exception
@@ -47,8 +53,10 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     private var orderList: ArrayList<OrderItems> = ArrayList()
     private lateinit var errorSnackBar: Snackbar
     private lateinit var order: OrderItemListModel
+    private var orderId: String? = null
     var isPickup = false
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getArgs()
@@ -58,10 +66,16 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         errorSnackBar.setAction("Try again") {
 
         }
+        subscribeToOrderStatus()
     }
 
     private fun getArgs() {
-        order = Gson().fromJson(intent.getStringExtra(AppConstants.ORDER_DETAIL), OrderItemListModel::class.java)
+        orderId = intent.getStringExtra(AppConstants.ORDER_ID)
+        if (orderId.isNullOrEmpty()) {
+            order = Gson().fromJson(intent.getStringExtra(AppConstants.ORDER_DETAIL), OrderItemListModel::class.java)
+        } else {
+            viewModel.getOrderById(orderId!!.toInt())
+        }
     }
 
     private fun initView() {
@@ -76,7 +90,9 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         snackButton.setTextColor(ContextCompat.getColor(applicationContext, R.color.accent))
         setupShopRecyclerView()
         setupOrderStatusRecyclerView()
-        updateUI()
+        if (orderId.isNullOrEmpty()) {
+            updateUI()
+        }
     }
 
     private fun updateUI() {
@@ -113,7 +129,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         }
         var itemTotal = 0.0
         order.orderItemsList.forEach {
-            itemTotal += it.price*it.quantity
+            itemTotal += it.price * it.quantity
         }
         binding.textItemTotalPrice.text = "₹" + itemTotal.toInt().toString()
         if (order.transactionModel.orderModel.deliveryPrice != null) {
@@ -174,7 +190,11 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 binding.layoutRating.visibility = View.VISIBLE
                 binding.textRating.text = order.transactionModel.orderModel.rating.toString()
                 binding.textRate.visibility = View.GONE
+            }else{
+                binding.layoutRating.visibility = View.GONE
             }
+        }else{
+            binding.layoutRating.visibility = View.GONE
         }
         when (orderStatus) {
             AppConstants.ORDER_STATUS_PENDING -> {
@@ -320,6 +340,43 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setObservers() {
+        viewModel.orderByIdResponse.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    Resource.Status.LOADING -> {
+                        binding.layoutContent.visibility = View.GONE
+                        binding.layoutShop.visibility = View.GONE
+                        progressDialog.setMessage("Please wait...")
+                        errorSnackBar.dismiss()
+                        progressDialog.show()
+                    }
+                    Resource.Status.SUCCESS -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.dismiss()
+                        it.data?.data?.let { orderItemListModel ->
+                            order = orderItemListModel
+                            updateUI()
+                            orderList.clear()
+                            orderList.addAll(order.orderItemsList)
+                            orderAdapter.notifyDataSetChanged()
+                        }
+                        binding.layoutContent.visibility = View.VISIBLE
+                        binding.layoutShop.visibility = View.VISIBLE
+                    }
+                    Resource.Status.OFFLINE_ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("No Internet Connection")
+                        errorSnackBar.show()
+
+                    }
+                    Resource.Status.ERROR -> {
+                        progressDialog.dismiss()
+                        errorSnackBar.setText("Something went wrong")
+                        errorSnackBar.show()
+                    }
+                }
+            }
+        })
         viewModel.rateOrderStatus.observe(this, Observer {
             if (it != null) {
                 when (it.status) {
@@ -361,9 +418,9 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                         progressDialog.dismiss()
                         errorSnackBar.dismiss()
                         //TODO do get order by id
-                        val orderStatusList:ArrayList<OrderStatusModel> = arrayListOf()
+                        val orderStatusList: ArrayList<OrderStatusModel> = arrayListOf()
                         orderStatusList.addAll(order.orderStatusModel)
-                        orderStatusList.add(OrderStatusModel(null,AppConstants.ORDER_STATUS_CANCELLED_BY_USER,null))
+                        orderStatusList.add(OrderStatusModel(null, AppConstants.ORDER_STATUS_CANCELLED_BY_USER, null))
                         order.orderStatusModel = orderStatusList
                         updateUI()
                     }
@@ -506,7 +563,10 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setupShopRecyclerView() {
-        orderList.addAll(order.orderItemsList)
+        if(orderId.isNullOrEmpty()){
+            orderList.clear()
+            orderList.addAll(order.orderItemsList)
+        }
         orderAdapter = OrderItemAdapter(applicationContext, orderList, object : OrderItemAdapter.OnItemClickListener {
             override fun onItemClick(item: OrderItems?, position: Int) {
                 //val intent = Intent(applicationContext, RestaurantActivity::class.java)
@@ -538,6 +598,23 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun subscribeToOrderStatus() {
+        val subscription = EventBus.asChannel<NotificationModel>()
+        CoroutineScope(Dispatchers.Main).launch {
+            subscription.consumeEach {
+                println("Received order status event")
+                val payload = it.payload
+                if (payload.has("orderId")) {
+                    val orderItemId = payload.getString("orderId").toString()
+                    if(order.transactionModel.orderModel.id.toInt()==orderItemId.toInt()){
+                        viewModel.getOrderById(orderItemId.toInt(),true)
+                    }
+                }
+            }
+        }
     }
 
 }

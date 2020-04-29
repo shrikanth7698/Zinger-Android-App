@@ -26,6 +26,8 @@ interface CustomApi {
     suspend fun getMenu(@Path("shopId") shopId: String): Response<List<MenuItemModel>>
 
     //ORDER REPO
+    @GET("/order/{orderId}")
+    suspend fun getOrderById(@Path("orderId") orderId: Int): Response<OrderItemListModel>
     @GET("/order/customer/{userId}/{pageNum}/{pageCount}")
     suspend fun getOrders(
             @Path("userId") id: String,
