@@ -211,7 +211,7 @@ class OtpActivity : AppCompatActivity() {
                                     }
                                     // Get new Instance ID token
                                     val token = task.result?.token
-                                    preferencesHelper.fcmToken = token
+                                    preferencesHelper.fcmToken = "token"
                                     val msg = "FCM TOKEN "+token
                                     if(!token.isNullOrEmpty()) {
                                         val loginRequest = user?.uid?.let {

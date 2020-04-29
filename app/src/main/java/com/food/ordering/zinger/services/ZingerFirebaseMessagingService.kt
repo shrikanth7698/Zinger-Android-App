@@ -71,12 +71,11 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                         status = payload.getString("orderStatus").toString()
                     }
                     if(title.isNullOrEmpty()){
-                        if(payload.has("orderId")){
-
-                            title+=shopName+": #"+orderId + " - "
-                        }
+                        /*if(payload.has("orderId")){
+                            title+=shopName+"Order "+orderId + " - "
+                        }*/
                         if(payload.has("orderStatus")){
-                            title+= StatusHelper.getStatusMessage(status)
+                            title+= "Order "+StatusHelper.getStatusMessage(status)+" - "+shopName
                         }
                     }
                     if(message.isNullOrEmpty()){
