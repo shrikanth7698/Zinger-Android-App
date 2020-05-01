@@ -57,6 +57,8 @@
                                 android:layout_height="1dp"
                                 android:layout_weight="1" />
 
+
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -77,12 +79,26 @@
                                 tools:text="Track your order" />
 
                             <ImageView
+                                android:id="@+id/image_refresh"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_refresh_white"
+                                android:tint="@android:color/white"
+                                android:visibility="visible" />
+
+
+                            <ImageView
                                 android:id="@+id/image_call"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:padding="8dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_call_white"/>
+
+
                         </LinearLayout>
 
 

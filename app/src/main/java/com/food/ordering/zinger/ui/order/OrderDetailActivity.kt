@@ -63,9 +63,6 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         initView()
         setListeners()
         setObservers()
-        errorSnackBar.setAction("Try again") {
-
-        }
         subscribeToOrderStatus()
     }
 
@@ -307,6 +304,12 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setListeners() {
+        errorSnackBar.setAction("Try again") {
+
+        }
+        binding.imageRefresh.setOnClickListener {
+            order.transactionModel.orderModel.id.toInt().let { it1 -> viewModel.getOrderById(it1) }
+        }
         binding.textCancelReorder.setOnClickListener {
             if (binding.textCancelReorder.text.toString().toUpperCase() != "REORDER") {
                 showCancelOrderDialog()
