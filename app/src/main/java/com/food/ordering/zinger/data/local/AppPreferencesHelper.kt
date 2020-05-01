@@ -16,6 +16,8 @@ interface AppPreferencesHelper {
     val cartDeliveryPref: String?
     val cartShopInfo: String?
     val cartDeliveryLocation: String?
+    val tempMobile: String?
+    val tempOauthId: String?
 
     fun saveUser(userId: Int?, name: String?, email: String?, mobile: String?, role: String?, oauthId: String?, place: String?)
 

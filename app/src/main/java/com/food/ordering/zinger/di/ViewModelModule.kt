@@ -20,7 +20,7 @@ val viewModelModule = module {
     viewModel { OtpViewModel(get()) }
     viewModel { RestaurantViewModel(get()) }
     viewModel { SignUpViewModel(get(), get()) }
-    viewModel { ProfileViewModel(get(), get()) }
+    viewModel { ProfileViewModel(get(), get(),get()) }
     viewModel { SearchViewModel(get(), get()) }
     viewModel { OrderViewModel(get()) }
     viewModel { CartViewModel(get()) }

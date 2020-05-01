@@ -29,6 +29,8 @@ object AppConstants {
     const val ORDER_ID = "order_id"
     const val TRANSACTION_TOKEN = "transaction_token"
     const val URL = "URL"
+    const val TEMP_MOBILE = "temp_mobile"
+    const val TEMP_OAUTHID = "temp_oauthid"
 
     //ORDER STATUS
     const val ORDER_STATUS_PENDING = "PENDING"

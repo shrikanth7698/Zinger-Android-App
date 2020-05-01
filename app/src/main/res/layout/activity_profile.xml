@@ -152,6 +152,40 @@
 					android:textSize="16sp" />
 			</LinearLayout>
 
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top"
+				android:fontFamily="@font/poppins_semibold"
+				android:gravity="center|start"
+				android:text="Mobile"
+				android:layout_marginTop="16dp"
+				android:textColor="@color/accent"
+				android:textSize="12sp" />
+
+			<LinearLayout
+				android:id="@+id/layout_mobile"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="#f2f2f2"
+				android:orientation="vertical">
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="top"
+					android:drawablePadding="8dp"
+					android:drawableEnd="@drawable/ic_edit"
+					android:fontFamily="@font/poppins_semibold"
+					android:gravity="center|start"
+					android:paddingStart="8dp"
+					android:paddingTop="8dp"
+					android:id="@+id/text_mobile"
+					android:paddingEnd="8dp"
+					android:paddingBottom="8dp"
+					tools:text="9840024137"
+					android:textSize="16sp" />
+			</LinearLayout>
+
 
 			<TextView
 				android:layout_width="match_parent"
