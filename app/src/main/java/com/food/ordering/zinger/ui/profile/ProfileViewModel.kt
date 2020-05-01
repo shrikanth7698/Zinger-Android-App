@@ -1,18 +1,23 @@
 package com.food.ordering.zinger.ui.profile
 
+import android.content.Context
 import androidx.lifecycle.*
+import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.Response
 import com.food.ordering.zinger.data.model.UpdateUserRequest
 import com.food.ordering.zinger.data.retrofit.PlaceRepository
 import com.food.ordering.zinger.data.retrofit.UserRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
 import kotlinx.coroutines.launch
 
 import java.net.UnknownHostException
 
 
-class ProfileViewModel(private val userRepository: UserRepository, private val placeRepository: PlaceRepository) : ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository, private val placeRepository: PlaceRepository,
+                       private val preferencesHelper: PreferencesHelper) : ViewModel() {
 
     //Fetch places list
     private val performFetchPlacesList = MutableLiveData<Resource<Response<List<PlaceModel>>>>()
@@ -94,5 +99,34 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
             }
         }
     }
+
+
+    private val verifyOtp = MutableLiveData<Resource<String>>()
+    val verifyOtpStatus: LiveData<Resource<String>>
+        get() = verifyOtp
+
+    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, context: Context) {
+
+        var auth = FirebaseAuth.getInstance()
+        verifyOtp.value = Resource.loading()
+
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+
+                    viewModelScope.launch {
+                        if(task.isSuccessful){
+                            val user = task.result?.user
+                            preferencesHelper.tempOauthId = user?.uid
+                            preferencesHelper.tempMobile = user?.phoneNumber?.substring(3)
+                            verifyOtp.value = Resource.success("")
+                        }else{
+                            verifyOtp.value = Resource.error(message = "")
+                        }
+                    }
+
+                }
+
+    }
+
 
 }
