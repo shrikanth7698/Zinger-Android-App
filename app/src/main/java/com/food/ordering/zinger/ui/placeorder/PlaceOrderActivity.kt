@@ -13,6 +13,7 @@ import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
 import com.food.ordering.zinger.databinding.ActivityPlaceOrderBinding
 import com.food.ordering.zinger.ui.home.HomeActivity
+import com.food.ordering.zinger.ui.order.OrderDetailActivity
 import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.otp.OtpActivity
 import com.food.ordering.zinger.ui.payment.PaymentViewModel
@@ -62,7 +63,8 @@ class PlaceOrderActivity : AppCompatActivity() {
             val i = Intent(applicationContext, HomeActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(i)
-            val j = Intent(applicationContext, OrdersActivity::class.java)
+            val j = Intent(applicationContext, OrderDetailActivity::class.java)
+            j.putExtra(AppConstants.ORDER_ID,orderId)
             j.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(j)
         }

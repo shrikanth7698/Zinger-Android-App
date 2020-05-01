@@ -59,15 +59,35 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/text_status"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="Accepted" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/text_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:layout_marginEnd="16dp"
+                        android:textStyle="bold"
+                        tools:text="Accepted" />
+                    <TextView
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textColor="@android:color/tab_indicator_text"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        tools:text="12:30 AM" />
+                </LinearLayout>
                 <TextView
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -76,23 +96,26 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="@android:color/tab_indicator_text"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     tools:text="Accepted" />
 
+<!--
+                <TextView
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:id="@+id/text_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@android:color/tab_indicator_text"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    tools:text="12:30 AM" />
+-->
+
+
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/image_status"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone"
-                tools:src="@drawable/ic_status_cooking"
-                tools:visibility="visible" />
-
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -63,9 +63,6 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         initView()
         setListeners()
         setObservers()
-        errorSnackBar.setAction("Try again") {
-
-        }
         subscribeToOrderStatus()
     }
 
@@ -142,6 +139,7 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
             binding.layoutDeliveryCharge.visibility = View.GONE
         }
         val orderStatus = order.orderStatusModel.lastOrNull()?.orderStatus
+        val orderStatusModel = order.orderStatusModel.lastOrNull()
         when (orderStatus) {
             AppConstants.ORDER_STATUS_COMPLETED,
             AppConstants.ORDER_STATUS_DELIVERED -> {
@@ -199,113 +197,119 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         when (orderStatus) {
             AppConstants.ORDER_STATUS_PENDING -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PENDING)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PENDING),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
                 if (isPickup) {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED),orderStatusList = order.orderStatusModel))
                 } else {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED),orderStatusList = order.orderStatusModel))
                 }
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_CANCELLED_BY_USER -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_USER)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_USER),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
 
             AppConstants.ORDER_STATUS_PLACED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
                 if (isPickup) {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED),orderStatusList = order.orderStatusModel))
                 } else {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED),orderStatusList = order.orderStatusModel))
                 }
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_ACCEPTED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
                 if (isPickup) {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED),orderStatusList = order.orderStatusModel))
                 } else {
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY)))
-                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED)))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY),orderStatusList = order.orderStatusModel))
+                    orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED),orderStatusList = order.orderStatusModel))
                 }
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_READY -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_COMPLETED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_READY),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_DELIVERED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_ACCEPTED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_OUT_FOR_DELIVERY),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_DELIVERED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_REFUND_INITIATED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_USER)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_USER),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
             AppConstants.ORDER_STATUS_REFUND_COMPLETED -> {
                 orderStatusList.clear()
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER)))
-                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED)))
-                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED)))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_PLACED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_CANCELLED_BY_SELLER),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = false, isDone = true, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_INITIATED),orderStatusList = order.orderStatusModel))
+                orderStatusList.add(OrderStatus(isCurrent = true, isDone = false, name = StatusHelper.getStatusMessage(AppConstants.ORDER_STATUS_REFUND_COMPLETED),orderStatusList = order.orderStatusModel))
                 orderTimelineAdapter.notifyDataSetChanged()
             }
         }
     }
 
     private fun setListeners() {
+        errorSnackBar.setAction("Try again") {
+
+        }
+        binding.imageRefresh.setOnClickListener {
+            order.transactionModel.orderModel.id.toInt().let { it1 -> viewModel.getOrderById(it1) }
+        }
         binding.textCancelReorder.setOnClickListener {
             if (binding.textCancelReorder.text.toString().toUpperCase() != "REORDER") {
                 showCancelOrderDialog()
@@ -472,10 +476,12 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
             }
             val orderId = order?.transactionModel?.orderModel?.id
             val shopId = order?.transactionModel?.orderModel?.shopModel?.id
+            val feedback = dialogBinding.editFeedback.text.toString()
             viewModel.rateOrder(
                     RatingRequest(
                             orderId?.toInt(),
                             rating,
+                            feedback,
                             RatingShopModel(shopId?.toInt())
 
                     )

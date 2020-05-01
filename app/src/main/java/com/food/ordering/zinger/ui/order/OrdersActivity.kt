@@ -304,10 +304,12 @@ class OrdersActivity : AppCompatActivity(), View.OnClickListener {
             }
             val orderId = orderData?.transactionModel?.orderModel?.id
             val shopId = orderData?.transactionModel?.orderModel?.shopModel?.id
+            val feedback = dialogBinding.editFeedback.text.toString()
             viewModel.rateOrder(
                     RatingRequest(
                             orderId?.toInt(),
                             rating,
+                            feedback,
                             RatingShopModel(shopId?.toInt())
 
                     )

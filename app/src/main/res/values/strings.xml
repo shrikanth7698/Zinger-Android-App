@@ -17,4 +17,5 @@
     <string name="label_veg_only">Veg only</string>
     <string name="label_search_outlets_or_dish">Search Outlets or Dish</string>
 	<string name="label_outlets">Outlets</string>
+    <string name="hint_feedback_optional">Feedback (Optional)</string>
 </resources>
