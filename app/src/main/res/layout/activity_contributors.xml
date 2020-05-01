@@ -257,7 +257,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_medium"
-                            android:text="Backend Developer"
+                            android:text="Backend Development"
                             android:textColor="@android:color/tab_indicator_text"
                             android:textSize="12sp" />
                     </LinearLayout>

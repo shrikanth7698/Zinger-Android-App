@@ -40,7 +40,7 @@ class ContributorViewModel() : ViewModel() {
         contributorList.add(
                 ContributorModel(
                         "Logesh Dinakaran",
-                        "Backend Developer",
+                        "Backend Development",
                         "https://github.com/ddlogesh",
                         "https://www.linkedin.com/in/logesh-dinakaran",
                         "ddlogesh@gmail.com",
