@@ -238,7 +238,7 @@ class OtpActivity : AppCompatActivity() {
                                     if (!token.isNullOrEmpty()) {
                                         val loginRequest = user?.uid?.let {
                                             user.phoneNumber?.let { it1 ->
-                                                LoginRequest(oauthId = it, mobile = it1.substring(3), notificationToken = arrayListOf(token))
+                                                LoginRequest(oauthId = it, mobile = it1.substring(3))
                                             }
                                         }
                                         loginRequest?.let { viewModel.login(it) } ?: run {

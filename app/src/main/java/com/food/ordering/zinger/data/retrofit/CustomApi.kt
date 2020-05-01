@@ -10,6 +10,8 @@ interface CustomApi {
     suspend fun login(@Body loginRequest: LoginRequest): Response<UserPlaceModel>
     @PATCH("/user/place") //This can be used for both sign-up and updating profile
     suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Response<String>
+    @PATCH("/user/notif")
+    suspend fun updateFcmToken(@Body notificationTokenUpdateModel: NotificationTokenUpdate): Response<String>
 
     //SHOP REPO
     @GET("/shop/place/{placeId}")

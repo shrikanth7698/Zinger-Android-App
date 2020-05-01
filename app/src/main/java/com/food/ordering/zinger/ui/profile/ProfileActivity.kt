@@ -80,8 +80,7 @@ class ProfileActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListene
                                         binding.editEmail.text.toString(),
                                         preferencesHelper.mobile,
                                         binding.editName.text.toString(),
-                                        preferencesHelper.oauthId,
-                                        notificationToken = arrayListOf(token)
+                                        preferencesHelper.oauthId
                                 )
                         )
                         viewModel.updateUserDetails(updateUserRequest)
@@ -255,8 +254,7 @@ class ProfileActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListene
                                         binding.editEmail.text.toString(),
                                         preferencesHelper.tempMobile,
                                         binding.editName.text.toString(),
-                                        preferencesHelper.tempOauthId,
-                                        notificationToken = arrayListOf(token)
+                                        preferencesHelper.tempOauthId
                                 )
                         )
                         viewModel.updateUserDetails(updateUserRequest)
@@ -331,7 +329,11 @@ class ProfileActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListene
                 dialogBinding.layoutOtp.visibility = View.VISIBLE
                 dialogBinding.buttonVerify.text = "Verify OTP"
                 dialogBinding.editMobile.isEnabled = false
-                sendOtp(dialogBinding.editMobile.text.toString())
+                if(dialogBinding.editMobile.text.toString()!=preferencesHelper.mobile) {
+                    sendOtp(dialogBinding.editMobile.text.toString())
+                }else{
+                    Toast.makeText(applicationContext,"Mobile number is same!",Toast.LENGTH_SHORT).show()
+                }
             } else {
                 verifyOtpRequest(dialogBinding)
             }

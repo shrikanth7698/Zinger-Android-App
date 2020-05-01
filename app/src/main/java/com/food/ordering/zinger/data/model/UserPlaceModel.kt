@@ -33,7 +33,5 @@ data class UserModel(
         @SerializedName("oauthId")
         var oauthId: String? = null,
         @SerializedName("role")
-        val role: String? = null,
-        @SerializedName("notificationToken")
-        val notificationToken: List<String> = ArrayList()
+        val role: String? = null
 )

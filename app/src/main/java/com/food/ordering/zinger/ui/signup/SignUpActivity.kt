@@ -76,7 +76,7 @@ class SignUpActivity : AppCompatActivity(), PlacePickerDialog.PlaceClickListener
                                         binding.editEmail.text.toString(),
                                         number,
                                         binding.editName.text.toString(),
-                                        notificationToken = arrayListOf(token)
+                                        preferencesHelper.oauthId
                                 )
                         )
                         viewModel.signUp(updateUserRequest)

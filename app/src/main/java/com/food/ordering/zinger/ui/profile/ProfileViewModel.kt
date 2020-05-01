@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.food.ordering.zinger.data.local.PreferencesHelper
 import com.food.ordering.zinger.data.local.Resource
+import com.food.ordering.zinger.data.model.NotificationTokenUpdate
 import com.food.ordering.zinger.data.model.PlaceModel
 import com.food.ordering.zinger.data.model.Response
 import com.food.ordering.zinger.data.model.UpdateUserRequest
@@ -95,6 +96,36 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
                     performUpdate.value = Resource.offlineError()
                 } else {
                     performUpdate.value = Resource.error(e)
+                }
+            }
+        }
+    }
+
+    //Update User FCM token
+    private val performNotificationTokenUpdate = MutableLiveData<Resource<Response<String>>>()
+    val performNotificationTokenUpdateStatus: LiveData<Resource<Response<String>>>
+        get() = performNotificationTokenUpdate
+
+    fun updateFcmToken(notificationTokenUpdate: NotificationTokenUpdate) {
+        viewModelScope.launch {
+            try {
+                performNotificationTokenUpdate.value = Resource.loading()
+                val response = userRepository.updateFcmToken(notificationTokenUpdate)
+                if(response.code==1) {
+                    if (response.data!=null) {
+                        performNotificationTokenUpdate.value = Resource.success(response)
+                    } else {
+                        performNotificationTokenUpdate.value = Resource.error(null, message = "Something went wrong")
+                    }
+                }else{
+                    performNotificationTokenUpdate.value = Resource.error(null, message = response.message)
+                }
+            } catch (e: Exception) {
+                println("update fcm token failed ${e.message}")
+                if (e is UnknownHostException) {
+                    performNotificationTokenUpdate.value = Resource.offlineError()
+                } else {
+                    performNotificationTokenUpdate.value = Resource.error(e)
                 }
             }
         }

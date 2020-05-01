@@ -39,6 +39,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -421,10 +422,12 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                     Resource.Status.SUCCESS -> {
                         progressDialog.dismiss()
                         errorSnackBar.dismiss()
-                        //TODO do get order by id
                         val orderStatusList: ArrayList<OrderStatusModel> = arrayListOf()
                         orderStatusList.addAll(order.orderStatusModel)
-                        orderStatusList.add(OrderStatusModel(null, AppConstants.ORDER_STATUS_CANCELLED_BY_USER, null))
+                        val apiDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                        val date = Date()
+                        val dateString = apiDateFormat.format(date)
+                        orderStatusList.add(OrderStatusModel(null, AppConstants.ORDER_STATUS_CANCELLED_BY_USER, dateString))
                         order.orderStatusModel = orderStatusList
                         updateUI()
                     }

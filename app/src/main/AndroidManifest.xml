@@ -16,6 +16,7 @@
 		android:theme="@style/AppTheme"
 		android:usesCleartextTraffic="true"
 		tools:ignore="GoogleAppIndexingWarning">
+		<activity android:name=".ui.contributors.ContributorsActivity" />
 		<activity android:name=".ui.contactus.ContactUsActivity" />
 		<activity android:name=".ui.webview.WebViewActivity" />
 		<activity android:name=".ui.payment.PaymentActivity" />
@@ -44,6 +45,7 @@
 		<activity android:name=".ui.cart.CartActivity" />
 		<activity android:name=".ui.restaurant.RestaurantActivity" />
 		<activity android:name=".ui.home.HomeActivity" />
+		<activity android:name=".ui.contributors.ContributorDetailActivity" />
 
 		<meta-data
 			android:name="preloaded_fonts"
