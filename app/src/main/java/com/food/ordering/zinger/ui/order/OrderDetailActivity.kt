@@ -195,6 +195,14 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
         }else{
             binding.layoutRating.visibility = View.GONE
         }
+       if(!order.transactionModel.orderModel.feedback.isNullOrEmpty()){
+           binding.textRatingFeedback.visibility = View.VISIBLE
+           order.transactionModel.orderModel.feedback?.let{
+               binding.textRatingFeedback.text = it
+           }
+       }else{
+           binding.textRatingFeedback.visibility = View.GONE
+       }
         when (orderStatus) {
             AppConstants.ORDER_STATUS_PENDING -> {
                 orderStatusList.clear()
@@ -617,9 +625,9 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                 println("Received order status event")
                 val payload = it.payload
                 if (payload.has("orderId")) {
-                    val orderItemId = payload.getString("orderId").toString()
-                    if(order.transactionModel.orderModel.id.toInt()==orderItemId.toInt()){
-                        viewModel.getOrderById(orderItemId.toInt(),true)
+                    val orderItemId = payload.getInt("orderId")
+                    if(order.transactionModel.orderModel.id.toInt()== orderItemId){
+                        viewModel.getOrderById(orderItemId,true)
                     }
                 }
             }

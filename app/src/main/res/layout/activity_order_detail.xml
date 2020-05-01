@@ -58,7 +58,6 @@
                                 android:layout_weight="1" />
 
 
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -66,6 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/title_order_status"
                                 android:layout_width="0dp"
@@ -83,8 +83,8 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="center"
-                                android:scaleType="fitCenter"
                                 android:layout_marginEnd="16dp"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/ic_refresh_white"
                                 android:tint="@android:color/white"
                                 android:visibility="visible" />
@@ -94,9 +94,9 @@
                                 android:id="@+id/image_call"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:padding="8dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_call_white"/>
+                                android:padding="8dp"
+                                android:src="@drawable/ic_call_white" />
 
 
                         </LinearLayout>
@@ -114,10 +114,10 @@
                 android:background="#F2F2F2" />
 
             <LinearLayout
+                android:id="@+id/layout_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/layout_shop"
                 android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
@@ -241,9 +241,9 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
+                android:id="@+id/layout_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -282,7 +282,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            tools:text="ask123ns" />
+                            tools:text="#154" />
                     </LinearLayout>
 
                     <View
@@ -320,10 +320,11 @@
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            tools:text="ask123ns" />
+                            tools:text="#124" />
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -333,10 +334,10 @@
                     android:id="@+id/recycler_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    tools:itemCount="3"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:overScrollMode="never"
+                    tools:itemCount="3"
                     tools:listitem="@layout/item_order_status" />
 
 
@@ -556,6 +557,26 @@
                     android:gravity="center|start"
                     android:padding="16dp"
                     android:textStyle="bold"
+                    tools:text="Boys Hostel" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EAEAEA" />
+
+                <TextView
+                    android:id="@+id/text_rating_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#F7F7F7"
+                    android:drawableStart="@drawable/ic_star_24dp"
+                    android:drawablePadding="16dp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:gravity="center|start"
+                    android:padding="16dp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
                     tools:text="Boys Hostel" />
 
 

@@ -83,6 +83,8 @@ data class OrderModel(
     val rating: Double?,
     @SerializedName("secretKey")
     val secretKey: String?,
+    @SerializedName("feedback")
+    val feedback: String?,
     @SerializedName("shopModel")
     val shopModel: ShopModel?,
     @SerializedName("userModel")
