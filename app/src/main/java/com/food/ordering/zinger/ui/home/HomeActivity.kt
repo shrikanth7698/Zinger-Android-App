@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -27,6 +26,7 @@ import com.food.ordering.zinger.data.model.UserModel
 import com.food.ordering.zinger.databinding.ActivityHomeBinding
 import com.food.ordering.zinger.databinding.HeaderLayoutBinding
 import com.food.ordering.zinger.ui.cart.CartActivity
+import com.food.ordering.zinger.ui.contactus.ContactUsActivity
 import com.food.ordering.zinger.ui.login.LoginActivity
 import com.food.ordering.zinger.ui.order.OrdersActivity
 import com.food.ordering.zinger.ui.profile.ProfileActivity
@@ -39,7 +39,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
@@ -141,7 +140,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 .withIcon(R.drawable.ic_drawer_mail)
         val signOutItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("Sign out")
                 .withIcon(R.drawable.ic_drawer_log_out)
-        val helpcenter = PrimaryDrawerItem().withIdentifier(++identifier).withName("Help Center")
+        val contributorsItem = PrimaryDrawerItem().withIdentifier(++identifier).withName("Contributors")
                 .withIcon(R.drawable.ic_drawer_info)
         drawer = DrawerBuilder()
                 .withActivity(this)
@@ -153,8 +152,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                 .addDrawerItems(
                         profileItem,
                         ordersItem,
-                        helpcenter,
                         contactUsItem,
+                        contributorsItem,
                         DividerDrawerItem(),
                         signOutItem
                 )
@@ -165,9 +164,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     if (ordersItem.identifier == drawerItem.identifier) {
                         startActivity(Intent(applicationContext, OrdersActivity::class.java))
                     }
-                    if (helpcenter.identifier == drawerItem.identifier) { //TODO open help activity
+                    if (contributorsItem.identifier == drawerItem.identifier) {
+                        //TODO open contributors activity
                     }
-                    if (contactUsItem.identifier == drawerItem.identifier) { //TODO open contact us activity
+                    if (contactUsItem.identifier == drawerItem.identifier) {
+                        startActivity(Intent(applicationContext, ContactUsActivity::class.java))
                     }
                     if (signOutItem.identifier == drawerItem.identifier) {
                         MaterialAlertDialogBuilder(this@HomeActivity)
