@@ -7,6 +7,8 @@ data class RatingRequest(
     val id: Int?,
     @SerializedName("rating")
     val rating: Double,
+    @SerializedName("feedback")
+    val feedback: String?,
     @SerializedName("shopModel")
     val shopModel: RatingShopModel?
 )
