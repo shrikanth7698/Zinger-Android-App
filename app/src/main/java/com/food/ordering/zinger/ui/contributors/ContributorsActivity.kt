@@ -38,6 +38,21 @@ class ContributorsActivity : AppCompatActivity() {
         binding.imageClose.setOnClickListener {
             onBackPressed()
         }
+        binding.layoutShrikanth.setOnClickListener {
+            val intent = Intent(applicationContext,ContributorDetailActivity::class.java)
+            intent.putExtra("contributor_id",0)
+            startActivity(intent)
+        }
+        binding.layoutHarsha.setOnClickListener {
+            val intent = Intent(applicationContext,ContributorDetailActivity::class.java)
+            intent.putExtra("contributor_id",1)
+            startActivity(intent)
+        }
+        binding.layoutLogesh.setOnClickListener {
+            val intent = Intent(applicationContext,ContributorDetailActivity::class.java)
+            intent.putExtra("contributor_id",2)
+            startActivity(intent)
+        }
     }
 
 }

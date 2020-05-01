@@ -1,6 +1,7 @@
 package com.food.ordering.zinger.di
 
 import com.food.ordering.zinger.ui.cart.CartViewModel
+import com.food.ordering.zinger.ui.contributors.ContributorViewModel
 import com.food.ordering.zinger.ui.home.HomeViewModel
 import com.food.ordering.zinger.ui.login.LoginViewModel
 import com.food.ordering.zinger.ui.order.OrderViewModel
@@ -26,4 +27,5 @@ val viewModelModule = module {
     viewModel { CartViewModel(get()) }
     viewModel { PlaceOrderViewModel(get()) }
     viewModel { PaymentViewModel(get()) }
+    viewModel { ContributorViewModel() }
 }
