@@ -22,8 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initView()
         setListener()
-        //TODO check mobile and user id too
-        if (!preferencesHelper.oauthId.isNullOrEmpty()) {
+        if (!preferencesHelper.oauthId.isNullOrEmpty()&&preferencesHelper.userId!=-1) {
             startActivity(Intent(applicationContext, HomeActivity::class.java))
             finish()
         }
@@ -35,13 +34,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setListener() {
         binding.buttonLogin.setOnClickListener {
-            if (binding.editPhone.text.toString().isNotEmpty()) {
-                //TODO Phone number validation
+            val phoneNo = binding.editPhone.text.toString()
+            if (phoneNo.isNotEmpty( ) && phoneNo.length==10) {
                 val intent = Intent(applicationContext, OtpActivity::class.java)
-                intent.putExtra(AppConstants.CUSTOMER_MOBILE, "+91"+binding.editPhone.text.toString())
+                intent.putExtra(AppConstants.CUSTOMER_MOBILE, "+91$phoneNo")
                 startActivity(intent)
             } else {
-                Toast.makeText(applicationContext, "Phone number is blank!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Invalid Phone Number!", Toast.LENGTH_SHORT).show()
             }
         }
     }

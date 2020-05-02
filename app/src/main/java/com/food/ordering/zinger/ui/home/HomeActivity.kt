@@ -36,6 +36,7 @@ import com.food.ordering.zinger.utils.FcmUtils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.mikepenz.materialdrawer.Drawer
@@ -172,7 +173,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         MaterialAlertDialogBuilder(this@HomeActivity)
                                 .setTitle("Confirm Sign Out")
                                 .setMessage("Are you sure want to sign out?")
-                                .setPositiveButton("Yes") { dialog, which ->
+                                .setPositiveButton("Yes") { _, _ ->
+                                    FcmUtils.unsubscribeFromTopic(AppConstants.NOTIFICATION_TOPIC_GLOBAL)
+                                    FirebaseAuth.getInstance().signOut()
                                     preferencesHelper.clearPreferences()
                                     startActivity(Intent(applicationContext, LoginActivity::class.java))
                                     finish()
