@@ -34,8 +34,8 @@
             <ImageView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:layout_marginStart="16dp"
                 android:layout_gravity="start"
+                android:layout_marginStart="16dp"
                 android:src="@drawable/ic_contributors" />
 
             <TextView
@@ -93,10 +93,10 @@
                         app:cardElevation="8dp">
 
                         <ImageView
+                            android:id="@+id/image_shrikanth"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/shrikanth" />
+                            android:scaleType="centerCrop" />
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -136,11 +136,11 @@
                 android:id="@+id/layout_harsha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:clipChildren="false"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:clipChildren="false"
                 android:focusable="true"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp">
@@ -160,10 +160,10 @@
                         app:cardElevation="8dp">
 
                         <ImageView
+                            android:id="@+id/image_harsha"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/harsha" />
+                            android:scaleType="centerCrop" />
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -227,10 +227,10 @@
                         app:cardElevation="8dp">
 
                         <ImageView
+                            android:id="@+id/image_logesh"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/logesh" />
+                            android:scaleType="centerCrop" />
 
                     </com.google.android.material.card.MaterialCardView>
 

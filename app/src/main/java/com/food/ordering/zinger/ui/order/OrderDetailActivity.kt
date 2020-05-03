@@ -546,7 +546,8 @@ class OrderDetailActivity : AppCompatActivity(), View.OnClickListener {
                             shopModel = it.itemModel.shopModel,
                             quantity = it.quantity,
                             shopId = order.transactionModel.orderModel.shopModel?.id,
-                            shopName = order.transactionModel.orderModel.shopModel?.name
+                            shopName = order.transactionModel.orderModel.shopModel?.name,
+                            isDish = true
                     )
             )
         }

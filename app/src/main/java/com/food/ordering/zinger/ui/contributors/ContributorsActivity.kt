@@ -15,6 +15,7 @@ import com.food.ordering.zinger.databinding.ActivityPaymentBinding
 import com.food.ordering.zinger.ui.placeorder.PlaceOrderActivity
 import com.food.ordering.zinger.utils.AppConstants
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -22,6 +23,7 @@ class ContributorsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityContributorsBinding
     private val preferencesHelper: PreferencesHelper by inject()
+    private val viewModel: ContributorViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,9 @@ class ContributorsActivity : AppCompatActivity() {
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contributors)
         binding.layoutContent.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        Picasso.get().load(viewModel.getContributor(0).image).into(binding.imageShrikanth)
+        Picasso.get().load(viewModel.getContributor(1).image).into(binding.imageHarsha)
+        Picasso.get().load(viewModel.getContributor(2).image).into(binding.imageLogesh)
     }
 
     private fun setListener(){

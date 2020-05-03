@@ -34,26 +34,23 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="200dp"
                         android:layout_height="20dp"
-                        android:layout_gravity="center"
                         android:layout_marginEnd="64dp"
                         android:ellipsize="marquee"
                         android:fontFamily="@font/poppins_semibold"
-                        android:foreground="@color/shimmerColor"
+                        android:background="@color/shimmerColor"
                         android:singleLine="true"
-                        android:text="Sathyas Main Canteen"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/open_sans_semibold"
-                        android:foreground="@color/shimmerColor"
-                        android:text="March 17, 6:20 PM"
+                        android:background="@color/shimmerColor"
                         android:textColor="@android:color/tab_indicator_text"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -65,26 +62,24 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
                         android:fontFamily="@font/open_sans_bold"
-                        android:foreground="@color/shimmerColor"
+                        android:background="@color/shimmerColor"
                         android:gravity="end"
-                        android:text="AMOasdUNT"
                         android:textColor="@android:color/tab_indicator_text"
                         android:textSize="10sp" />
 
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/open_sans_bold"
-                        android:foreground="@color/shimmerColor"
+                        android:background="@color/shimmerColor"
                         android:gravity="end"
-                        android:text="$5a0"
                         android:textColor="@color/colorAccentLight"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -92,13 +87,12 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/open_sans_bold"
-                android:foreground="@color/shimmerColor"
-                android:text="ITEMS"
+                android:background="@color/shimmerColor"
                 android:textColor="@android:color/tab_indicator_text"
                 android:textSize="10sp" />
 
@@ -109,9 +103,8 @@
                 android:layout_height="20dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/open_sans_bold"
-                android:foreground="@color/shimmerColor"
+                android:background="@color/shimmerColor"
                 android:maxLines="2"
-                android:text="1 X Chicken noodles\n2 X Lemon Juice"
                 android:textColor="@color/colorAccentLight"
                 android:textSize="12sp" />
 
@@ -133,15 +126,12 @@
 
                 <TextView
                     android:id="@+id/text_order_status"
-                    android:layout_width="wrap_content"
+                    android:layout_width="80dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:drawableStart="@drawable/ic_pending"
-                    android:drawablePadding="4dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:foreground="@color/shimmerColor"
+                    android:background="@color/shimmerColor"
                     android:gravity="center"
-                    android:text="Pending"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -159,7 +149,6 @@
                     android:layout_marginEnd="16dp"
                     android:drawableStart="@drawable/ic_star_white"
                     android:drawablePadding="4dp"
-                    android:drawableTint="@color/colorAccent"
                     android:fontFamily="@font/open_sans_bold"
                     android:gravity="right"
                     android:text=" 4.5"

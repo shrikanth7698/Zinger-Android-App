@@ -24,36 +24,31 @@
             android:layout_marginBottom="16dp"
             android:orientation="vertical">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="20dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:foreground="@color/shimmerColor"
-                android:text="Sathyas Main Canteen" />
+                android:background="@color/shimmerColor" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="20dp"
                 android:fontFamily="@font/poppins_medium"
                 android:textColor="@android:color/tab_indicator_text"
                 android:textSize="12sp"
                 android:layout_marginTop="8dp"
-                android:foreground="@color/shimmerColor"
-                android:text="Opens at 7AM" />
+                android:background="@color/shimmerColor" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_star"
-                android:drawablePadding="4dp"
                 android:fontFamily="@font/open_sans_semibold"
                 android:gravity="center"
-                android:text=" 4.5"
-                android:foreground="@color/shimmerColor"
+                android:background="@color/shimmerColor"
                 android:textColor="@android:color/tab_indicator_text"
                 android:textSize="11dp"
                 android:textStyle="bold" />

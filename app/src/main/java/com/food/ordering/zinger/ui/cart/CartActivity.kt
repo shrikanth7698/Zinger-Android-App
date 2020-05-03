@@ -369,6 +369,7 @@ class CartActivity : AppCompatActivity() {
     private fun showOrderConfirmation(){
         MaterialAlertDialogBuilder(this@CartActivity)
                 .setTitle("Place order")
+                .setCancelable(false)
                 .setMessage("Are you sure want to place this order?")
                 .setPositiveButton("Yes") { _, _ ->
                     verifyOrder()

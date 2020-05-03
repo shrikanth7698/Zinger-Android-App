@@ -233,6 +233,9 @@
                     android:text="@string/label_enter_delivery_location"
                     android:textStyle="bold" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
