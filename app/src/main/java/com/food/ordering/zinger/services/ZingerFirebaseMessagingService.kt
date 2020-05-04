@@ -50,6 +50,7 @@ class ZingerFirebaseMessagingService : FirebaseMessagingService() {
                     val payload = JSONObject(it["payload"])
                     if (payload.has("url")) {
                         intent.putExtra(AppConstants.URL, payload.getString("url").toString())
+                        intent.putExtra(AppConstants.NOTIFICATION_TITLE, title)
                         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, Date().time.toInt(), intent, 0)
                         sendNotificationWithPendingIntent(Date().time.toInt(), title, message, pendingIntent)
                     }

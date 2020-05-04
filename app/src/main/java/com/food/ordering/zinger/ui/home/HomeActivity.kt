@@ -241,6 +241,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         binding.animationView.playAnimation()
                         //progressDialog.dismiss()
                         errorSnackbar.setText("No Internet Connection")
+                        shopList.clear()
+                        shopAdapter.notifyDataSetChanged()
                         Handler().postDelayed({errorSnackbar.show()},500)
                     }
                     Resource.Status.ERROR -> {
@@ -253,6 +255,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                         binding.animationView.setAnimation("order_failed_animation.json")
                         binding.animationView.playAnimation()
                         errorSnackbar.setText("Something went wrong")
+                        shopList.clear()
+                        shopAdapter.notifyDataSetChanged()
                         Handler().postDelayed({errorSnackbar.show()},500)
                     }
                 }

@@ -16,6 +16,7 @@ class WebViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWebViewBinding
     private val preferencesHelper: PreferencesHelper by inject()
     private var url:String? = null
+    private var title:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,18 +27,19 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun getArgs(){
         url = intent.getStringExtra(AppConstants.URL)
+        title = intent.getStringExtra(AppConstants.NOTIFICATION_TITLE)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_web_view)
-        binding.webView.getSettings().setJavaScriptEnabled(true)
-        url?.let{
-            binding.webView.loadUrl(it)
-        }?.run {
-            binding.webView.loadUrl("https://shrikanthravi.me")
+        binding.textTitle.text = title
+        binding.webView.settings.javaScriptEnabled = true
+        if(!url.isNullOrEmpty()){
+            binding.webView.loadUrl(url)
+        }else{
+            binding.webView.loadUrl("https://zinger.tech")
         }
-
     }
 
     private fun setListener() {
