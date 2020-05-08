@@ -11,10 +11,10 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square"></a>
-  <a href="https://docs.kodi.tv/"><img alt="Documentation" src="https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat-square"></a>
-  <a href="https://github.com/xbmc/xbmc/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
-  <a href="#how-to-contribute"><img alt="Contributions Welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green"></a>
+  <a href="https://zinger.pw/app/docs"><img alt="Documentation" src="https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat-square"></a>
+  <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
+  <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="Contributions Welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
 
 </p>
 
@@ -25,6 +25,8 @@
 This is an open source food ordering application developed to showcase the capabilities of <a href="https://zinger.pw" target="_blank">Zinger Framework</a>. This app helps in ordering foods from multiple outlets located in an office, college campus, or food courts in malls. Customers can save themselves a lot of burden from waiting in line to place an order and picking up the order later. They can browse the entire catalog of food items available to them through the app and seamlessly order food from any restaurant of their choice. The app supports both pickup and delivery orders.
 
 This android app uses <a href="https://zinger.pw" target="_blank">Zinger Framework</a> to handle customer side food ordering request. 
+
+This Android Application is written in **Kotlin** with **MVVM Architecture** using **Koin**, **ViewModel**, **LiveData**, **Coroutines** and **Retrofit**.
 
 ## Key app features
 *  Search for restaurants, cuisines, or even a dish
@@ -46,9 +48,9 @@ We encourage you to participate in this open source project. We love Pull Reques
 
 1. Clone or Download the repository:
 
-  ```shell
-  git clone https://github.com/shrikanth7698/Zinger-Android-App.git
-  ```
+    ```shell
+    git clone https://github.com/shrikanth7698/Zinger-Android-App.git
+    ```
 
 2. Import the project into Android Studio
 
@@ -56,12 +58,12 @@ We encourage you to participate in this open source project. We love Pull Reques
 
 4. Change the base url in **build.gradle (app level)** to point to the server that you setup in previous step.
 
-```gradle
-debug {
-     //...
-     buildConfigField "String", "CUSTOM_BASE_URL", '"YOUR_BASE_URL"'
-}
-```
+    ```gradle
+    debug {
+        //...
+        buildConfigField "String", "CUSTOM_BASE_URL", '"YOUR_BASE_URL"'
+    }
+    ```
 
 5. Create a firebase project, add this android app to that project:
 <a href="https://firebase.google.com/docs/android/setup" target="_blank">Firebase setup</a>
@@ -74,7 +76,8 @@ debug {
 
    * On the **Sign-in Method** page, enable the **Phone Number** sign-in method.
    
-   
+8. Run the project into an emulator or a physical device. 
+
 ## License
 ```
 MIT License
