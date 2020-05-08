@@ -1,11 +1,20 @@
 ![Cover Image](zinger_app_cover_with_text.jpg)
 
+<h1 align="center">
+  Zinger Android App
+</h1>
+
 <p align="center">
+  Join our active, engaged community: <br>
   <strong>
     <a href="https://zinger.pw/app">website</a>
-    •
+    |
+    <a href="https://zinger.pw">slack</a>
+    |
+    <a href="https://zinger.pw">discord</a>
+    |
     <a href="https://zinger.pw/app/docs">docs</a>
-    •
+    |
     <a href="https://zinger.pw">framework</a>
   </strong>
 </p>
@@ -15,12 +24,7 @@
   <a href="https://zinger.pw/app/docs"><img alt="Documentation" src="https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat-square"></a>
   <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
   <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="Contributions Welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
-
 </p>
-
-<h1 align="center">
-  Zinger Android App
-</h1>
 
 This is an open source food ordering application developed to showcase the capabilities of <a href="https://zinger.pw" target="_blank">Zinger Framework</a>. This app helps in ordering foods from multiple outlets located in an office, college campus, or food courts in malls. Customers can save themselves a lot of burden from waiting in line to place an order and picking up the order later. They can browse the entire catalog of food items available to them through the app and seamlessly order food from any restaurant of their choice. The app supports both pickup and delivery orders.
 
