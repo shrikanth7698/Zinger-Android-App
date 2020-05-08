@@ -9,9 +9,9 @@
   <strong>
     <a href="https://zinger.pw/app">website</a>
     |
-    <a href="https://zinger.pw">slack</a>
+    <a href="https://zinger-workspace.slack.com/join/shared_invite/zt-e6xt0gc2-nBEy85RhEy7NZv3gWCt6Dg/">slack</a>
     |
-    <a href="https://zinger.pw">discord</a>
+    <a href="https://discord.gg/TqADaXV">discord</a>
     |
     <a href="https://zinger.pw/app/docs">docs</a>
     |
