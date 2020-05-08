@@ -1,4 +1,4 @@
-![Cover Image](zinger_app_cover_with_text.jpg)
+![Cover Image](zinger_app_cover_without_text.jpg)
 
 <h1 align="center">
   Zinger Android App
