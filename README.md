@@ -97,6 +97,11 @@ We encourage you to participate in this open source project. We love Pull Reques
 * <a href="https://github.com/harshavardhan98/Zinger-Seller-App" target="_blank">Zinger Partner App Repo</a>
 * <a href="https://zinger.pw" target="_blank">Zinger Framework</a>
 
+## Contributors
+
+* **Shrikanth Ravi** - Android Developer and UI Designer - <a href="https://github.com/shrikanth7698" target="_blank">Github Profile</a>
+* **Harshavardhan P** - Android Developer - <a href="https://github.com/harshavardhan98" target="_blank">Github Profile</a>
+
 ## License
 ```
 MIT License
