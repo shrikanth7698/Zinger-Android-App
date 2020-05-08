@@ -87,6 +87,16 @@ We encourage you to participate in this open source project. We love Pull Reques
    
 8. Run the project into an emulator or a physical device. 
 
+## Downloads
+
+* Download the Zinger <a href="https://drive.google.com/open?id=14D8b8t7Au3oz_TEp609Qyb3dvR5Vk7Xe" target="_blank">apk</a>
+* Download the Zinger Partner <a href="https://drive.google.com/open?id=1dJ2R8eqsz2vc54rB4lZ8E6EN_oB1AuOD" target="_blank">apk</a>
+
+## Checkout
+
+* <a href="https://github.com/harshavardhan98/Zinger-Seller-App" target="_blank">Zinger Partner App Repo</a>
+* <a href="https://zinger.pw" target="_blank">Zinger Framework</a>
+
 ## License
 ```
 MIT License
