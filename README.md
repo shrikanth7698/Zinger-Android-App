@@ -26,7 +26,13 @@ This is an open source food ordering application developed to showcase the capab
 
 This android app uses <a href="https://zinger.pw" target="_blank">Zinger Framework</a> to handle customer side food ordering request. 
 
-This Android Application is written in **Kotlin** with **MVVM Architecture** using **Koin**, **ViewModel**, **LiveData**, **Coroutines** and **Retrofit**.
+## Major libraries used
+This Android Application is written in **Kotlin** with **MVVM Architecture** using the following libraries
+- Android Architecture Components (ViewModel, LiveData)
+- Koin
+- Coroutines
+- Retrofit
+- Picasso
 
 ## Key app features
 *  Search for restaurants, cuisines, or even a dish
@@ -37,11 +43,14 @@ This Android Application is written in **Kotlin** with **MVVM Architecture** usi
 ## Getting involved
 We encourage you to participate in this open source project. We love Pull Requests, Bug Reports, ideas, (security) code reviews or any other kind of positive contribution.
 
+* [View the Docs](https://zinger.pw/app/docs).
+
 * [View current Issues](https://github.com/shrikanth7698/Zinger-Android-App/issues), [view current Pull Requests](https://github.com/shrikanth7698/Zinger-Android-App/pulls).
 
 * [Opt-in](https://join.slack.com/t/zinger-workspace/shared_invite/zt-e6xt0gc2-nBEy85RhEy7NZv3gWCt6Dg) to our slack channel for discussions.
 
-* [View the Docs](https://zinger.pw/app/docs).
+* [Join](https://discord.gg/TqADaXV) our discord channel
+
 
 ## Build Instructions
 
