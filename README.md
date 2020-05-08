@@ -67,7 +67,7 @@ We encourage you to participate in this open source project. We love Pull Reques
 
 2. Import the project into Android Studio
 
-3. Before running the project, you need to setup the <a href="https://zinger.pw" target="_blank">Zinger Backend Server</a>. Follow the intructions mentioned in this <a href="https://zinger.pw" target="_blank">Link</a> to setup the backend for this android app. 
+3. Before running the project, you need to setup the <a href="https://zinger.pw/docs/installation-guide/fork" target="_blank">Zinger Backend Server</a>. Follow the intructions mentioned in this <a href="https://zinger.pw/docs/installation-guide/fork" target="_blank">Link</a> to setup the backend for this android app. 
 
 4. Change the base url in **build.gradle (app level)** to point to the server that you setup in previous step.
 
