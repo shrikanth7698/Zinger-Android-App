@@ -102,6 +102,24 @@ We encourage you to participate in this open source project. We love Pull Reques
 * **Shrikanth Ravi** - Android Developer and UI Designer - <a href="https://github.com/shrikanth7698" target="_blank">Github Profile</a>
 * **Harshavardhan P** - Android Developer - <a href="https://github.com/harshavardhan98" target="_blank">Github Profile</a>
 
+## Contact Us
+
+* #### StackoverFlow
+
+    You can ask programming-related questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/zinger). Use the `zinger` tag to tag your questions.
+
+* #### Slack
+
+    Join our [Slack](https://zinger-workspace.slack.com/join/shared_invite/zt-e6xt0gc2-nBEy85RhEy7NZv3gWCt6Dg/) group to start collaborating!
+
+* #### Discord
+
+    Chat with our contributors in [Discord](https://discord.gg/TqADaXV) community.
+
+* #### Email
+
+    Send an email to support@zinger.pw with a brief description.
+
 ## License
 ```
 MIT License
