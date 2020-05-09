@@ -28,8 +28,8 @@ android {
                 preDexLibraries = true
             }
             ext.alwaysUpdateBuildId = false
-            //buildConfigField "String", "CUSTOM_BASE_URL", '"https://food-backend-ssn.herokuapp.com/"'
-            buildConfigField "String", "CUSTOM_BASE_URL", '"https://3d4954ea.ngrok.io/"'
+            buildConfigField "String", "CUSTOM_BASE_URL", '"https://food-backend-ssn.herokuapp.com/"'
+            //buildConfigField "String", "CUSTOM_BASE_URL", '"https://3d4954ea.ngrok.io/"'
         }
         release {
             minifyEnabled false
