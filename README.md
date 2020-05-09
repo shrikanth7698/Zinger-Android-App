@@ -1,11 +1,20 @@
-![Cover Image](zinger_app_cover_with_text.jpg)
+![Cover Image](zinger_app_cover_without_text.jpg)
+
+<h1 align="center">
+  Zinger Android App
+</h1>
 
 <p align="center">
+  Join our active, engaged community: <br>
   <strong>
     <a href="https://zinger.pw/app">website</a>
-    •
+    |
+    <a href="https://zinger-workspace.slack.com/join/shared_invite/zt-e6xt0gc2-nBEy85RhEy7NZv3gWCt6Dg/">slack</a>
+    |
+    <a href="https://discord.gg/TqADaXV">discord</a>
+    |
     <a href="https://zinger.pw/app/docs">docs</a>
-    •
+    |
     <a href="https://zinger.pw">framework</a>
   </strong>
 </p>
@@ -15,12 +24,7 @@
   <a href="https://zinger.pw/app/docs"><img alt="Documentation" src="https://img.shields.io/badge/code-documented-brightgreen.svg?style=flat-square"></a>
   <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square"></a>
   <a href="https://github.com/shrikanth7698/Zinger-Android-App/pulls"><img alt="Contributions Welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square"></a>
-
 </p>
-
-<h1 align="center">
-  Welcome to Zinger Android App
-</h1>
 
 This is an open source food ordering application developed to showcase the capabilities of <a href="https://zinger.pw" target="_blank">Zinger Framework</a>. This app helps in ordering foods from multiple outlets located in an office, college campus, or food courts in malls. Customers can save themselves a lot of burden from waiting in line to place an order and picking up the order later. They can browse the entire catalog of food items available to them through the app and seamlessly order food from any restaurant of their choice. The app supports both pickup and delivery orders.
 
@@ -63,7 +67,7 @@ We encourage you to participate in this open source project. We love Pull Reques
 
 2. Import the project into Android Studio
 
-3. Before running the project, you need to setup the <a href="https://zinger.pw" target="_blank">Zinger Backend Server</a>. Follow the intructions mentioned in this <a href="https://zinger.pw" target="_blank">Link</a> to setup the backend for this android app. 
+3. Before running the project, you need to setup the <a href="https://zinger.pw/docs/installation-guide/fork" target="_blank">Zinger Backend Server</a>. Follow the intructions mentioned in this <a href="https://zinger.pw/docs/installation-guide/fork" target="_blank">Link</a> to setup the backend for this android app. 
 
 4. Change the base url in **build.gradle (app level)** to point to the server that you setup in previous step.
 
@@ -86,6 +90,39 @@ We encourage you to participate in this open source project. We love Pull Reques
    * On the **Sign-in Method** page, enable the **Phone Number** sign-in method.
    
 8. Run the project into an emulator or a physical device. 
+
+## Downloads
+
+* Download the Zinger <a href="https://drive.google.com/open?id=14D8b8t7Au3oz_TEp609Qyb3dvR5Vk7Xe" target="_blank">apk</a>
+* Download the Zinger Partner <a href="https://drive.google.com/open?id=1dJ2R8eqsz2vc54rB4lZ8E6EN_oB1AuOD" target="_blank">apk</a>
+
+## Checkout
+
+* <a href="https://github.com/harshavardhan98/Zinger-Seller-App" target="_blank">Zinger Partner App Repo</a>
+* <a href="https://zinger.pw" target="_blank">Zinger Framework</a>
+
+## Contributors
+
+* **Shrikanth Ravi** - Android Developer and UI Designer - <a href="https://github.com/shrikanth7698" target="_blank">Github Profile</a>
+* **Harshavardhan P** - Android Developer - <a href="https://github.com/harshavardhan98" target="_blank">Github Profile</a>
+
+## Contact Us
+
+* #### StackoverFlow
+
+    You can ask programming-related questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/zinger). Use the `zinger` tag to tag your questions.
+
+* #### Slack
+
+    Join our [Slack](https://zinger-workspace.slack.com/join/shared_invite/zt-e6xt0gc2-nBEy85RhEy7NZv3gWCt6Dg/) group to start collaborating!
+
+* #### Discord
+
+    Chat with our contributors in [Discord](https://discord.gg/TqADaXV) community.
+
+* #### Email
+
+    Send an email to support@zinger.pw with a brief description.
 
 ## License
 ```
